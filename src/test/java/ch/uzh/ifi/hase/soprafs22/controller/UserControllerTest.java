@@ -16,9 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.*;
 
-import java.util.Collections;
-import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -47,15 +46,17 @@ public class UserControllerTest {
   public void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
     // given
     User user = new User();
-    user.setPassword("Firstpassword Lastpassword");
+    user.setPassword("testpassword");
     user.setUsername("firstpassword@lastpassword");
-    user.setStatus(UserStatus.OFFLINE);
+    user.setLogged_in(true);
 
     List<User> allUsers = Collections.singletonList(user);
 
     // this mocks the UserService -> we define above what the userService should
     // return when getUsers() is called
     given(userService.getUsers()).willReturn(allUsers);
+  
+
 
     // when
     MockHttpServletRequestBuilder getRequest = get("/users").contentType(MediaType.APPLICATION_JSON);
@@ -65,37 +66,42 @@ public class UserControllerTest {
         .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].password", is(user.getPassword())))
         .andExpect(jsonPath("$[0].username", is(user.getUsername())))
-        .andExpect(jsonPath("$[0].status", is(user.getStatus().toString())));
+        .andExpect(jsonPath("$[0].logged_in", is(user.getLogged_in())));
   }
 
   @Test
   public void createUser_validInput_userCreated() throws Exception {
     // given
     User user = new User();
-    user.setId(1L);
-    user.setPassword("Test User");
-    user.setUsername("testUsername");
-    user.setToken("1");
+    user.setPassword("testpassword");
+    user.setUsername("testUsername5");
+    user.setToken(UUID.randomUUID().toString());
+    user.setLogged_in(true);
+    user.setCreation_date(new Date());
     user.setStatus(UserStatus.ONLINE);
 
     UserPostDTO userPostDTO = new UserPostDTO();
-    userPostDTO.setPassword("Test User");
-    userPostDTO.setUsername("testUsername");
+    userPostDTO.setPassword("testpassword");
+    userPostDTO.setUsername("testUsername5");
 
     given(userService.createUser(Mockito.any())).willReturn(user);
 
     // when/then -> do the request + validate the result
-    MockHttpServletRequestBuilder postRequest = post("/users")
+    MockHttpServletRequestBuilder postRequest = post("/users/")
         .contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(userPostDTO));
 
     // then
+    System.out.println(       "start");
+
+    System.out.println(        postRequest.contentType(MediaType.APPLICATION_JSON));
+
     mockMvc.perform(postRequest)
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.id", is(user.getId().intValue())))
         .andExpect(jsonPath("$.password", is(user.getPassword())))
         .andExpect(jsonPath("$.username", is(user.getUsername())))
-        .andExpect(jsonPath("$.status", is(user.getStatus().toString())));
+        .andExpect(jsonPath("$.logged_in", is(user.getLogged_in())));
   }
 
   /**

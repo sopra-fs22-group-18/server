@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.*;
+
 @DataJpaTest
 public class UserRepositoryIntegrationTest {
 
@@ -20,19 +22,22 @@ public class UserRepositoryIntegrationTest {
   private UserRepository userRepository;
 
   @Test
-  public void findByPassword_success() {
+  public void findByUsername_success() {
     // given
     User user = new User();
-    user.setPassword("Firstpassword Lastpassword");
-    user.setUsername("firstpassword@lastpassword");
-    user.setStatus(UserStatus.OFFLINE);
+    user.setUsername("Max");
+    user.setPassword("123");
+    user.setStatus(UserStatus.ONLINE);
+    user.setLogged_in(true);
+    user.setCreation_date(new Date());
+
     user.setToken("1");
 
     entityManager.persist(user);
     entityManager.flush();
 
     // when
-    User found = userRepository.findByPassword(user.getPassword());
+    User found = userRepository.findByUsername(user.getUsername());
 
     // then
     assertNotNull(found.getId());

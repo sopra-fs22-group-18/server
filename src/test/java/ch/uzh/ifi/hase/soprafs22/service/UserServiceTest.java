@@ -1,5 +1,4 @@
 package ch.uzh.ifi.hase.soprafs22.service;
-
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
@@ -29,7 +28,6 @@ public class UserServiceTest {
 
     // given
     testUser = new User();
-    testUser.setId(1L);
     testUser.setPassword("testPassword");
     testUser.setUsername("testUsername");
 
@@ -51,17 +49,17 @@ public class UserServiceTest {
     assertEquals(testUser.getPassword(), createdUser.getPassword());
     assertEquals(testUser.getUsername(), createdUser.getUsername());
     assertNotNull(createdUser.getToken());
-    assertEquals(UserStatus.OFFLINE, createdUser.getStatus());
+    assertEquals(UserStatus.ONLINE, createdUser.getStatus());
   }
 
   @Test
-  public void createUser_duplicatePassword_throwsException() {
+  public void createUser_duplicateUsername_throwsException() {
     // given -> a first user has already been created
     userService.createUser(testUser);
 
     // when -> setup additional mocks for UserRepository
-    Mockito.when(userRepository.findByPassword(Mockito.any())).thenReturn(testUser);
-    Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(null);
+    //Mockito.when(userRepository.findByPassword(Mockito.any())).thenReturn(testUser);
+    Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
 
     // then -> attempt to create second user with same user -> check that an error
     // is thrown

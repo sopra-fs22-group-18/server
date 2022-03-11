@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
 import org.junit.jupiter.api.Test;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,7 +19,7 @@ public class DTOMapperTest {
   public void testCreateUser_fromUserPostDTO_toUser_success() {
     // create UserPostDTO
     UserPostDTO userPostDTO = new UserPostDTO();
-    userPostDTO.setPassword("password");
+    userPostDTO.setPassword("name");
     userPostDTO.setUsername("username");
 
     // MAP -> Create user
@@ -33,18 +34,20 @@ public class DTOMapperTest {
   public void testGetUser_fromUser_toUserGetDTO_success() {
     // create User
     User user = new User();
-    user.setPassword("Firstpassword Lastpassword");
-    user.setUsername("firstpassword@lastpassword");
-    user.setStatus(UserStatus.OFFLINE);
-    user.setToken("1");
+    user.setId(2L);
+    user.setUsername("firstname@lastname");
+    user.setCreation_date(new Date());
+    user.setLogged_in(true);
+    user.setBirthday(null);
+
+
+
 
     // MAP -> Create UserGetDTO
     UserGetDTO userGetDTO = DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
 
     // check content
     assertEquals(user.getId(), userGetDTO.getId());
-    assertEquals(user.getPassword(), userGetDTO.getPassword());
     assertEquals(user.getUsername(), userGetDTO.getUsername());
-    assertEquals(user.getStatus(), userGetDTO.getStatus());
   }
 }
