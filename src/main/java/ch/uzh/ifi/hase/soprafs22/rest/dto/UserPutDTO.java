@@ -1,12 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import java.util.Date;
 
 public class UserPutDTO {
     private Long id;
     private String username;
     private Date birthday;
-    private String password;
     
     public Long getId() {
       return id;
