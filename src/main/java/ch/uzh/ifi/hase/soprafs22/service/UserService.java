@@ -42,8 +42,8 @@ public class UserService {
         if(optionalUser.isPresent()){
             return optionalUser.get();
         }
-        //throw error if no user found for this id in the repository
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", id));    }
+        else{//throw error if no user found for this id in the repository
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", id));    }}
 
         public User checkingUser(User tocheckuser) {
             User foundUser = userRepository.findByUsername(tocheckuser.getUsername());

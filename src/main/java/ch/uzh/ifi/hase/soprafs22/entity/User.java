@@ -42,7 +42,7 @@ public class User implements Serializable {
     private Date birthday;
 
   @Column(nullable = false)
-  @JsonIgnore
+ 
   private String password;
 
   

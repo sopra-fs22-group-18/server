@@ -2,12 +2,14 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 //import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
-//import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 //import org.springframework.web.server.ResponseStatusException;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
 
@@ -22,9 +24,14 @@ import java.util.List;
 @RestController
 public class UserController {
     private final UserService userService;
+    private final UserRepository userRepository;
 
-    UserController(UserService userService) {
+
+    UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
+
+
     }
 
     //registration of user
@@ -61,6 +68,7 @@ public class UserController {
     @ResponseBody
     public UserGetDTO getUser(@PathVariable Long id) {
         // fetch user
+
         User foundUser = userService.getUser(id);
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(foundUser);} 
     
@@ -83,14 +91,46 @@ public class UserController {
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     @ResponseBody
-    public void updateUser(@RequestBody UserPutDTO updatedUserpUTdto) {
+    public void updateUser(@RequestBody UserPutDTO updatedUserpUTdto, @PathVariable Long id) {
+        System.out.println("bitte hier anfang");
+        System.out.println(updatedUserpUTdto.getUsername());
+        System.out.println(updatedUserpUTdto.getBirthday());
+        updatedUserpUTdto.setId(id);
         User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(updatedUserpUTdto);
+
         System.out.println("bitte hier schau");
-        System.out.println(userInput.getId());
+        System.out.println(userInput.getUsername());
         userService.updateUser(userInput);
 
 }
 
+//Update existing user
+@PutMapping("/logout")
+@ResponseStatus(HttpStatus.OK)
+@ResponseBody
+public void logoutUser(@PathVariable Long id) {
+    // convert API user to internal representation
+    // update user
+    System.out.print("Logout wird erreicht");
+    userService.getUser(id).setLogged_in(false);
+    userService.getUser(id).setStatus(UserStatus.OFFLINE);
+}
+@PostMapping ("/users/editRights/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void checkingRights(@PathVariable("userId") Long userId, @RequestBody tokensDTO tokensDTO)  {
 
+        //System.out.println("hallo");
+
+        User bUser = userRepository.getOne(userId); //getting id
+
+//checking if tokens match for editing. if match then no error is thrown so we continue in front end
+        if(!bUser.getToken().equals(tokensDTO.getToken())){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, String.format("FeelsBadMan you're not the same person"));
+        }
+
+    }
 
 }
+
+
