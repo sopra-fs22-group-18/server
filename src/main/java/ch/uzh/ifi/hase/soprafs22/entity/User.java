@@ -1,8 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -23,14 +20,12 @@ public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @Id
-
-
-  @GeneratedValue
+  @Id //primary key part1
+  @GeneratedValue //auto incrementing id for each new user
   private Long id;
 
   @Column(nullable = false, unique = true)
-  private String username;
+  private String username;//primary key part2
 
   @Column(nullable = false)
   private Date creation_date;
@@ -38,88 +33,66 @@ public class User implements Serializable {
   @Column(nullable = false)
   private boolean logged_in;
 
-  @Column()
+  @Column(nullable = true)
     private Date birthday;
 
   @Column(nullable = false)
- 
-  private String password;
+    private String password;
 
   
-
   @Column(nullable = false, unique = true)
-  @JsonIgnore
-  private String token;
-
-
-
+    private String token;
 
   @Column(nullable = false)
-  @JsonIgnore
   private UserStatus status;
 
+
   public Long getId() {
-    return id;
-  }
+    return id;}
 
   public void setId(Long id) {
-    this.id = id;
-  }
+    this.id = id;}
 
   public String getPassword() {
-    return password;
-  }
+    return password;}
 
   public void setPassword(String password) {
-    this.password = password;
-  }
+    this.password = password;}
 
   public String getUsername() {
-    return username;
-  }
+    return username;}
 
   public void setUsername(String username) {
-    this.username = username;
-  }
+    this.username = username;}
 
   public String getToken() {
-    return token;
-  }
+    return token;}
 
   public void setToken(String token) {
-    this.token = token;
-  }
+    this.token = token;}
 
   public boolean getLogged_in() {
-    return logged_in;
-  }
+    return logged_in;}
 
   public void setLogged_in(boolean logged_in) {
-    this.logged_in = logged_in;
-  }
+    this.logged_in = logged_in;}
 
   public Date getCreation_date() {
-    return creation_date;
-  }
+    return creation_date;}
 
   public void setCreation_date(Date creation_date) {
-    this.creation_date = creation_date;
-  }
+    this.creation_date = creation_date;}
 
   public Date getBirthday() {
-    return birthday;
-}
+    return birthday;}
 
 public void setBirthday(Date birthday) {
-    this.birthday = birthday;
-}
+    this.birthday = birthday;}
 
 public UserStatus getStatus() {
-  return status;
-}
+  return status;}
 
 public void setStatus(UserStatus status) {
-  this.status = status;
-}
+  this.status = status;}
 }
 
