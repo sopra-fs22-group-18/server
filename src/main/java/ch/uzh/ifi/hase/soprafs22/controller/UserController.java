@@ -62,6 +62,8 @@ public class UserController {
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(checkuser);
     }
 
+
+
    //Get specific user
     @GetMapping ("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -104,17 +106,22 @@ public class UserController {
 
 }
 
-//Update existing user
-@PutMapping("/logout")
-@ResponseStatus(HttpStatus.OK)
-@ResponseBody
-public void logoutUser(@PathVariable Long id) {
-    // convert API user to internal representation
-    // update user
-    System.out.print("Logout wird erreicht");
-    userService.getUser(id).setLogged_in(false);
-    userService.getUser(id).setStatus(UserStatus.OFFLINE);
+
+ // update user 
+ @PutMapping("/setOffline/{id}")
+ @ResponseStatus(HttpStatus.OK)
+ @ResponseBody
+ public UserGetDTO setOffline(@PathVariable Long id){
+    User userOffline=userService.getUserById(id);
+    userService.setUserOffline(userOffline);
+    userOffline.setLoggedin(false);
+    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(userOffline);
+
 }
+
+
+
+/*
 @PostMapping ("/users/editRights/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -129,7 +136,7 @@ public void logoutUser(@PathVariable Long id) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, String.format("FeelsBadMan you're not the same person"));
         }
 
-    }
+    }*/
 
 }
 

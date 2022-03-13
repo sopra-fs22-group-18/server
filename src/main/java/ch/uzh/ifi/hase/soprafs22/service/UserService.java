@@ -144,15 +144,8 @@ public class UserService {
 
     
 
-    public void logoutUser(User logoutUser) {
-        //Maybe remove token or something like that?
-
-        //set status to offline
-        logoutUser.setLogged_in(false);
-        logoutUser.setStatus(UserStatus.OFFLINE);
-
-        log.debug("Logged out User: {}", logoutUser);
-    }
+    public void setUserOffline(User userOffline){userOffline.setStatus(UserStatus.OFFLINE);userOffline.setLogged_in(false);}
+        
 
 
 
