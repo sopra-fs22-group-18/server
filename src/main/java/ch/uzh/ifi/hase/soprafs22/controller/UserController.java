@@ -2,13 +2,13 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 //import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
-import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+//import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+//import org.springframework.web.server.ResponseStatusException;
 
 //import org.springframework.web.server.ResponseStatusException;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
@@ -24,12 +24,12 @@ import java.util.List;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final UserRepository userRepository;
+    //private final UserRepository userRepository;
 
 
-    UserController(UserService userService, UserRepository userRepository) {
+    UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
+        //this.userRepository = userRepository;
 
 
     }
@@ -114,7 +114,7 @@ public class UserController {
  public UserGetDTO setOffline(@PathVariable Long id){
     User userOffline=userService.getUserById(id);
     userService.setUserOffline(userOffline);
-    userOffline.setLoggedin(false);
+    userOffline.setLogged_in(false);
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(userOffline);
 
 }
