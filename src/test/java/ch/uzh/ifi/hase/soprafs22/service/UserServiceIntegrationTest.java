@@ -1,12 +1,17 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+import javassist.NotFoundException;
+import org.hibernate.annotations.NotFound;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,4 +76,56 @@ public class UserServiceIntegrationTest {
     // check that an error is thrown
     assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser2));
   }
+
+    @Test
+    public void put_fails_id_not_eixsting() {
+
+        User testUser = new User();
+        testUser.setUsername("marko");
+        testUser.setPassword("123");
+        testUser.setId(1L);
+        testUser.setBirthday(null);
+        //User createdUser = userService.createUser(testUser);
+
+        // attempt to create second user with same username
+        User testUser2 = new User();
+        testUser2.setId(1L);
+        testUser2.setUsername("marko");
+        testUser2.setBirthday(null);
+        try{userService.updateUser(testUser2);System.out.print("Test fehlgeschlagen");}
+        catch(Exception e){}
+    }
+
+    @Test
+    public void username_already_exists() {
+
+        User testUser = new User();
+        testUser.setUsername("marko");
+        testUser.setPassword("123");
+        testUser.setId(1L);
+        //User createdUser = userService.createUser(testUser);
+
+        // attempt to create second user with same username
+        User testUser2 = new User();
+        testUser2.setId(2L);
+        testUser2.setUsername("marko");
+        testUser2.setBirthday(null);
+        try{userService.createUser(testUser2);System.out.print("Test fehlgeschlagen");}
+        catch(Exception e){}
+    }
+    @Test
+    public void userid_not_existing() {
+
+        User testUser = new User();
+        testUser.setUsername("marko");
+        testUser.setPassword("123");
+        testUser.setId(1L);
+        //User createdUser = userService.createUser(testUser);
+
+        // attempt to create second user with same username
+
+        try{userService.getUser(2L); System.out.print("Test fehlgeschlagen");}
+        catch(Exception e){
+        }
+    }
 }
