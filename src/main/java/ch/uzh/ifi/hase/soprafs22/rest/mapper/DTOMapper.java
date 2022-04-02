@@ -1,6 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
 import org.mapstruct.*;
@@ -26,9 +29,27 @@ public interface DTOMapper {
   @Mapping(source = "username", target = "username")
   User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
 
-  @Mapping(source = "id", target = "id")
+  @Mapping(source = "userId", target = "userId")
   @Mapping(source = "name", target = "name")
   @Mapping(source = "username", target = "username")
   @Mapping(source = "status", target = "status")
   UserGetDTO convertEntityToUserGetDTO(User user);
+
+  @Mapping(source = "host", target = "host")
+  @Mapping(source = "winner", target = "winner")
+  @Mapping(source = "participants", target = "participants")
+  @Mapping(source = "maxParticipants", target = "maxParticipants")
+  @Mapping(source = "status", target = "status")
+  @Mapping(source = "title", target = "title")
+  Session convertSessionPostDTOtoEntity(SessionPostDTO sessionPostDTO);
+
+  @Mapping(source = "id", target = "id")
+  @Mapping(source = "host", target = "host")
+  @Mapping(source = "winner", target = "winner")
+  @Mapping(source = "participants", target = "participants")
+  @Mapping(source = "maxParticipants", target = "maxParticipants")
+  @Mapping(source = "status", target = "status")
+  @Mapping(source = "title", target = "title")
+  SessionGetDTO convertEntityToSessionGetDTO(Session session);
+
 }
