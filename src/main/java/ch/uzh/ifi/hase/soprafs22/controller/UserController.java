@@ -78,6 +78,9 @@ public class UserController {
     @ResponseBody
     public void updateUser(@RequestBody UserPutDTO updatedUserpUTdto, @PathVariable Long id) {
         //set id, to be able to identify user after username change
+        if(updatedUserpUTdto.getId()!=id){
+
+        }
         updatedUserpUTdto.setId(id);
         // convert API user to internal representation and update user
         User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(updatedUserpUTdto);

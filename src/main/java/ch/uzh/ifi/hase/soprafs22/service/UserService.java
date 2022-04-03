@@ -3,6 +3,8 @@ import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -97,6 +99,12 @@ public class UserService {
         String baseErrorMessage = "add User failed because username already exists";
         if(userByUsername != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "username", "is"));}
+    }
+
+    public void checkAuthorization(UserPutDTO updatedUserpUTdto, Long id) {
+        if(updatedUserpUTdto.getId()!=id){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, String.format( "not authorized"));
+        }
     }
     
 }
