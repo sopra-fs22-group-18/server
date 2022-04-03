@@ -30,17 +30,12 @@ public interface DTOMapper {
   User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
   
   //mapping internal representation of  User to UserGetDTO
-  @Mapping(source = "id", target = "id")
+  @Mapping(source = "userId", target = "userId")
   @Mapping(source = "username", target = "username")
-  @Mapping(source = "logged_in", target = "logged_in")
-  @Mapping(source = "creation_date", target = "creation_date")
-  @Mapping(source = "birthday", target = "birthday")
   UserGetDTO convertEntityToUserGetDTO(User user);
 
   //mapping internal representation of  User to UserPutDTO
-  @Mapping(source = "id", target = "id")
   @Mapping(source = "username", target = "username")
-  @Mapping(source = "birthday", target = "birthday")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
  
 }

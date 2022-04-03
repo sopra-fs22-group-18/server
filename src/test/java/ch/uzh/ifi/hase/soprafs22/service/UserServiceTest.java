@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.service;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.constant.Status;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,11 +45,11 @@ public class UserServiceTest {
     // then
     Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
 
-    assertEquals(testUser.getId(), createdUser.getId());
+    assertEquals(testUser.getUserId(), createdUser.getUserId());
     assertEquals(testUser.getPassword(), createdUser.getPassword());
     assertEquals(testUser.getUsername(), createdUser.getUsername());
     assertNotNull(createdUser.getToken());
-    assertEquals(UserStatus.ONLINE, createdUser.getStatus());
+    assertEquals(Status.ONLINE, createdUser.getStatus());
   }
 
   @Test

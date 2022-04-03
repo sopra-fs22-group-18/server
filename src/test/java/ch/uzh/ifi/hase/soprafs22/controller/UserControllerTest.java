@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.constant.Status;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
@@ -48,12 +48,12 @@ public class UserControllerTest {
   public void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
     // given
     User user = new User();
-    user.setId(1L);
+    user.setUserId(1L);
     user.setUsername("firstname@lastname");
     user.setPassword("test");
-    user.setCreation_date(new Date());
-    user.setLogged_in(true);
-    user.setBirthday(null);
+    //user.setCreation_date(new Date());
+    //user.setLogged_in(true);
+    //user.setBirthday(null);
     List<User> allUsers = Collections.singletonList(user);
 
       given(userService.getUsers()).willReturn(allUsers);
@@ -93,12 +93,12 @@ public class UserControllerTest {
   public void createUser_validInput_userCreated() throws Exception {
     // given
     User user = new User();
-    user.setId(1L);
+    user.setUserId(1L);
     user.setUsername("firstname@lastname");
     user.setPassword("test");
-    user.setLogged_in(true);
-    user.setCreation_date(new Date());
-    user.setStatus(UserStatus.ONLINE);
+    //user.setLogged_in(true);
+    //user.setCreation_date(new Date());
+    user.setStatus(Status.ONLINE);
 
     UserPostDTO userPostDTO = new UserPostDTO();
     userPostDTO.setUsername("testUsername");
@@ -114,9 +114,9 @@ public class UserControllerTest {
     // then
       mockMvc.perform(postRequest)
               .andExpect(status().isCreated())
-              .andExpect(jsonPath("$.id", is(user.getId().intValue())))
-              .andExpect(jsonPath("$.username", is(user.getUsername())))
-              .andExpect(jsonPath("$.logged_in", is(user.getLogged_in())));
+              .andExpect(jsonPath("$.id", is(user.getUserId().intValue())))
+              .andExpect(jsonPath("$.username", is(user.getUsername())));
+              //.andExpect(jsonPath("$.logged_in", is(user.getLogged_in())));
               //.andExpect(jsonPath("$.creation_date", is(getFormatedDate(user.getCreation_date()))))
               //.andExpect(jsonPath("$.status", is(user.getStatus().toString())));
 
@@ -173,11 +173,11 @@ public class UserControllerTest {
   public void test_Put_working() throws Exception {
       // given
       User user = new User();
-      user.setId(1L);
+      user.setUserId(1L);
       user.setUsername("testUsername");
       user.setPassword("testPassword");
-      user.setCreation_date(new Date());
-      user.setStatus(UserStatus.ONLINE);
+      //user.setCreation_date(new Date());
+      user.setStatus(Status.ONLINE);
 
       given(userService.updateUser(user)).willReturn(user);
 
@@ -186,7 +186,7 @@ public class UserControllerTest {
       userPutDTO.setId(1L);
 
       // when/then -> do the request + validate the result
-      MockHttpServletRequestBuilder postRequest = put("/users/" + user.getId())
+      MockHttpServletRequestBuilder postRequest = put("/users/" + user.getUserId())
               .contentType(MediaType.APPLICATION_JSON)
               .content(asJsonString(userPutDTO));
 

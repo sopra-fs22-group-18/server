@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
-
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.constant.Status;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,9 @@ public class UserRepositoryIntegrationTest {
     User user = new User();
     user.setUsername("Max");
     user.setPassword("123");
-    user.setStatus(UserStatus.ONLINE);
-    user.setLogged_in(true);
-    user.setCreation_date(new Date());
+    user.setStatus(Status.ONLINE);
+    //user.setLogged_in(true);
+    //user.setCreation_date(new Date());
 
     user.setToken("1");
 
@@ -40,7 +39,7 @@ public class UserRepositoryIntegrationTest {
     User found = userRepository.findByUsername(user.getUsername());
 
     // then
-    assertNotNull(found.getId());
+    assertNotNull(found.getUserId());
     assertEquals(found.getPassword(), user.getPassword());
     assertEquals(found.getUsername(), user.getUsername());
     assertEquals(found.getToken(), user.getToken());
