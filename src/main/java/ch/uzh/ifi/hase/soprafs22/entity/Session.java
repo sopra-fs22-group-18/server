@@ -25,9 +25,6 @@ public class Session implements Serializable {
     private User host;
 
     @Column(nullable = false)
-    private Post post;
-
-    @Column(nullable = false)
     private ArrayList<User> participants;
 
     @Column(nullable = false)
@@ -53,14 +50,6 @@ public class Session implements Serializable {
 
     public void setHost(User host) {
         this.host = host;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
     }
 
     public ArrayList<User> getParticipants() {

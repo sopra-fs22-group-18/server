@@ -19,27 +19,15 @@ public class Comment implements Serializable {
     @GeneratedValue
     private Long commentId;
 
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "commentId")
     private User user;
-
-    @Column(nullable = false)
-    private Post post;
-
-    @Column(nullable = false)
-    private int totalUpvotes;
-
-    @Column(nullable = false)
-    private int totalDownvotes;
 
     @Column(nullable = false)
     private String commentText;
 
     @Column(nullable = false)
-    private Date createdDate;
-
-    @Column(nullable = false)
-    private int upDownDifference;
-
+    private Date createdDate = new Date();
 
 
     public Long getCommentId() {
@@ -58,30 +46,6 @@ public class Comment implements Serializable {
         this.user = user;
     }
 
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public int getTotalUpvotes() {
-        return totalUpvotes;
-    }
-
-    public void setTotalUpvotes(int totalUpvotes) {
-        this.totalUpvotes = totalUpvotes;
-    }
-
-    public int getTotalDownvotes() {
-        return totalDownvotes;
-    }
-
-    public void setTotalDownvotes(int totalDownvotes) {
-        this.totalDownvotes = totalDownvotes;
-    }
-
     public String getCommentText() {
         return commentText;
     }
@@ -98,12 +62,5 @@ public class Comment implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public int getUpDownDifference() {
-        return upDownDifference;
-    }
-
-    public void setUpDownDifference(int upDownDifference) {
-        this.upDownDifference = upDownDifference;
-    }
 
 }

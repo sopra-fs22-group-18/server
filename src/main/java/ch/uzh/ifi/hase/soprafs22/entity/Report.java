@@ -27,9 +27,6 @@ public class Report implements Serializable {
     private Session session;
 
     @Column(nullable = false)
-    private Post post;
-
-    @Column(nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -60,14 +57,6 @@ public class Report implements Serializable {
 
     public void setSession(Session session) {
         this.session = session;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
     }
 
     public User getUser() {
