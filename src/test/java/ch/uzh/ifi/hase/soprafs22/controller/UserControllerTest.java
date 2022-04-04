@@ -92,7 +92,7 @@ public class UserControllerTest {
     // then
     mockMvc.perform(postRequest)
         .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.id", is(user.getUserId().intValue())))
+        .andExpect(jsonPath("$.userId", is(user.getUserId().intValue())))
         .andExpect(jsonPath("$.name", is(user.getName())))
         .andExpect(jsonPath("$.username", is(user.getUsername())))
         .andExpect(jsonPath("$.status", is(user.getStatus().toString())));

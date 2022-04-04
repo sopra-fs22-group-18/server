@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.SessionRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.slf4j.Logger;
@@ -31,10 +32,12 @@ public class SessionService {
   private final Logger log = LoggerFactory.getLogger(SessionService.class);
 
   private final SessionRepository sessionRepository;
+  private final UserRepository userRepository;
 
   @Autowired
-  public SessionService(@Qualifier("sessionRepository") SessionRepository sessionRepository) {
+  public SessionService(@Qualifier("sessionRepository") SessionRepository sessionRepository, @Qualifier("userRepository") UserRepository userRepository) {
     this.sessionRepository = sessionRepository;
+    this.userRepository = userRepository;
   }
 
   public List<Session> getActiveSessions() {
@@ -43,8 +46,21 @@ public class SessionService {
 
 
   public Session createSession(Session newSession) {
-    newSession = sessionRepository.save(newSession);
+    // update Session status
     newSession.setStatus(SessionStatus.CREATED);
+
+    // find host
+    String baseErrorMessage = "Host with id %x was not found";
+    Long hostId = newSession.getHost().getUserId();
+    User host = userRepository.findById(hostId).orElseThrow(() ->
+      new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,hostId))
+      );
+
+    // set host to user in DB
+    newSession.setHost(host);
+
+    // save to repo and flush
+    newSession = sessionRepository.save(newSession);
     sessionRepository.flush();
 
     log.debug("Created Information for Session: {}", newSession);

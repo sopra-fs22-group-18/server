@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class SessionGetDTO {
 
-  private Long id;
+  private Long sessionId;
   private User host;
   private User winner;
   private Set<User> participants;
@@ -17,12 +17,12 @@ public class SessionGetDTO {
   private String title;
 
 
-    public Long getId() {
-        return id;
+    public Long getSessionId() {
+        return sessionId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 
     public User getHost() {

@@ -1,16 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 /**
- * DTOMapper
+ * UserDTOMapper
  * This class is responsible for generating classes that will automatically
  * transform/map the internal representation
  * of an entity (e.g., the User) to the external/API representation (e.g.,
@@ -21,9 +18,9 @@ import org.mapstruct.factory.Mappers;
  * creating information (POST).
  */
 @Mapper
-public interface DTOMapper {
+public interface UserDTOMapper {
 
-  DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
+  UserDTOMapper INSTANCE = Mappers.getMapper(UserDTOMapper.class);
 
   @Mapping(source = "name", target = "name")
   @Mapping(source = "username", target = "username")
@@ -35,21 +32,5 @@ public interface DTOMapper {
   @Mapping(source = "status", target = "status")
   UserGetDTO convertEntityToUserGetDTO(User user);
 
-  @Mapping(source = "host", target = "host")
-  @Mapping(source = "winner", target = "winner")
-  @Mapping(source = "participants", target = "participants")
-  @Mapping(source = "maxParticipants", target = "maxParticipants")
-  @Mapping(source = "status", target = "status")
-  @Mapping(source = "title", target = "title")
-  Session convertSessionPostDTOtoEntity(SessionPostDTO sessionPostDTO);
-
-  @Mapping(source = "id", target = "id")
-  @Mapping(source = "host", target = "host")
-  @Mapping(source = "winner", target = "winner")
-  @Mapping(source = "participants", target = "participants")
-  @Mapping(source = "maxParticipants", target = "maxParticipants")
-  @Mapping(source = "status", target = "status")
-  @Mapping(source = "title", target = "title")
-  SessionGetDTO convertEntityToSessionGetDTO(Session session);
 
 }

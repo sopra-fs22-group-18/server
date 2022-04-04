@@ -16,14 +16,14 @@ public class Session implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long sessionId;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "hostId")
     private User host;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "winnerId")
     private User winner;
 
     @ManyToMany
@@ -42,8 +42,12 @@ public class Session implements Serializable {
     private String title;
 
 
-    public Long getId() {
-        return id;
+    public Long getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 
     public User getHost() {

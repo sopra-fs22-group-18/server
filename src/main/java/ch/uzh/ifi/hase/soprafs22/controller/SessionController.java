@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs22.rest.mapper.SessionDTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.SessionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +18,7 @@ import java.util.List;
  * The controller will receive the request and delegate the execution to the
  * SessionService and finally return the result.
  */
+
 @RestController
 public class SessionController {
 
@@ -37,7 +38,7 @@ public class SessionController {
 
     // convert each session to the API representation
     for (Session session : activeSessions) {
-      sessionGetDTOs.add(DTOMapper.INSTANCE.convertEntityToSessionGetDTO(session));
+      sessionGetDTOs.add(SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session));
     }
     return sessionGetDTOs;
   }
@@ -46,13 +47,13 @@ public class SessionController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public SessionGetDTO createSession(@RequestBody SessionPostDTO sessionPostDTO) {
-    // convert API session to internal representation
-    Session sessionInput = DTOMapper.INSTANCE.convertSessionPostDTOtoEntity(sessionPostDTO);
+      // convert API session to internal representation
+    Session sessionInput = SessionDTOMapper.INSTANCE.convertSessionPostDTOtoEntity(sessionPostDTO);
 
     // create Session
     Session createdSession = sessionService.createSession(sessionInput);
 
     // convert internal representation of session back to API
-    return DTOMapper.INSTANCE.convertEntityToSessionGetDTO(createdSession);
+    return SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(createdSession);
   }
 }
