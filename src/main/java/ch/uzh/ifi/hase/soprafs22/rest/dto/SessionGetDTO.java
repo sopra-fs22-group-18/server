@@ -1,45 +1,20 @@
-package ch.uzh.ifi.hase.soprafs22.entity;
+package ch.uzh.ifi.hase.soprafs22.rest.dto;
+
 
 import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "SESSION")
-public class Session implements Serializable {
+public class SessionGetDTO {
 
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue
-    private Long sessionId;
-
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "hostId")
-    private User host;
-
-    @ManyToOne
-    @JoinColumn(name = "winnerId")
-    private User winner;
-
-    @ManyToMany
-    private Set<User> participants = new HashSet<>();
-
-    @Column(nullable = false)
-    private int maxParticipants = 2;
-
-    @Column(nullable = false)
-    private Date createdDate = new Date();
-
-    @Enumerated(EnumType.STRING)
-    private SessionStatus status;
-
-    @Column(nullable = false)
-    private String title;
+  private Long sessionId;
+  private User host;
+  private User winner;
+  private Set<User> participants;
+  private int maxParticipants;
+  private SessionStatus status;
+  private String title;
 
 
     public Long getSessionId() {
@@ -80,14 +55,6 @@ public class Session implements Serializable {
 
     public void setMaxParticipants(int maxParticipants) {
         this.maxParticipants = maxParticipants;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public SessionStatus getStatus() {

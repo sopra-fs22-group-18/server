@@ -7,7 +7,7 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 /**
- * DTOMapper
+ * UserDTOMapper
  * This class is responsible for generating classes that will automatically
  * transform/map the internal representation
  * of an entity (e.g., the User) to the external/API representation (e.g.,
@@ -18,17 +18,19 @@ import org.mapstruct.factory.Mappers;
  * creating information (POST).
  */
 @Mapper
-public interface DTOMapper {
+public interface UserDTOMapper {
 
-  DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
+  UserDTOMapper INSTANCE = Mappers.getMapper(UserDTOMapper.class);
 
   @Mapping(source = "name", target = "name")
   @Mapping(source = "username", target = "username")
   User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
 
-  @Mapping(source = "id", target = "id")
+  @Mapping(source = "userId", target = "userId")
   @Mapping(source = "name", target = "name")
   @Mapping(source = "username", target = "username")
   @Mapping(source = "status", target = "status")
   UserGetDTO convertEntityToUserGetDTO(User user);
+
+
 }
