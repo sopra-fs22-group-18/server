@@ -22,13 +22,7 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.server.ServerEndpoint;
 
-/**
- * User Service
- * This class is the "worker" and responsible for all functionality related to
- * the user
- * (e.g., it creates, modifies, deletes, finds). The result will be passed back
- * to the caller.
- */
+/*
 @ServerEndpoint(value = "/chat/{sessionId}")
 public class ChatEndpoint {
 
@@ -51,4 +45,4 @@ public class ChatEndpoint {
     public void onError(Session session, Throwable throwable) {
         // Do error handling here
     }
-}
+} */
