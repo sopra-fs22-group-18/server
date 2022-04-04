@@ -27,11 +27,13 @@ public interface CommentDTOMapper {
     CommentDTOMapper INSTANCE = Mappers.getMapper(CommentDTOMapper.class);
 
     @Mapping(source = "user", target = "user")
+    @Mapping(source = "session", target = "session")
     @Mapping(source = "commentText", target = "commentText")
     @Mapping(source = "createdDate", target = "createdDate")
     Comment convertCommentPostDTOtoEntity(CommentPostDTO commentPostDTO);
 
     @Mapping(source = "commentId", target = "commentId")
+    @Mapping(source = "session", target = "session")
     @Mapping(source = "user", target = "user")
     @Mapping(source = "commentText", target = "commentText")
     @Mapping(source = "createdDate", target = "createdDate")

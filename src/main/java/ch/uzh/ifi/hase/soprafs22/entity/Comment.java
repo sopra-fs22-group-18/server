@@ -20,6 +20,10 @@ public class Comment implements Serializable {
     private Long commentId;
 
     @ManyToOne
+    @JoinColumn(name = "sessionId")
+    private Session session;
+
+    @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 
@@ -37,6 +41,10 @@ public class Comment implements Serializable {
     public void setCommentId(Long commentId) {
         this.commentId = commentId;
     }
+
+    public Session getSession() { return session; }
+
+    public void setSession(Session session) { this.session = session; }
 
     public User getUser() {
         return user;
