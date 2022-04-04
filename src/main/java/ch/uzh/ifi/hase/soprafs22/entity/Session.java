@@ -18,7 +18,7 @@ public class Session implements Serializable {
     @GeneratedValue
     private Long sessionId;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "hostId")
     private User host;
 

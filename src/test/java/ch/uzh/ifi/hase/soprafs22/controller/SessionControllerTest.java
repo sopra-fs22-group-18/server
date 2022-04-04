@@ -18,6 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
@@ -41,44 +44,37 @@ public class SessionControllerTest {
   @MockBean
   private SessionService sessionService;
 
-//  @Test
-//  public void givenSessions_whenGetSessions_thenReturnJsonArray() throws Exception {
-//    // given
-//    User host = new User();
-//    host.setUsername("host");
-//    host.setUserId(1L);
-//
-////    User participant1 = new User();
-////    participant1.setUsername("participant1");
-////    User participant2 = new User();
-////    participant2.setUsername("participant2");
-////    Set<User> participants = new HashSet<>(Arrays.asList(participant1, participant2));
-//
-//    Session session = new Session();
-//    session.setHost(host);
-//    session.setMaxParticipants(2);
-//    session.setTitle("testSession");
-//    session.setStatus(SessionStatus.CREATED);
-//
-//
-//    List<Session> allSessions = Collections.singletonList(session);
-//
-//    // this mocks the SessionService -> we define above what the sessionService should
-//    // return when getActiveSessions() is called
-//    given(sessionService.getActiveSessions()).willReturn(allSessions);
-//
-//    // when
-//    MockHttpServletRequestBuilder getRequest = get("/sessions").contentType(MediaType.APPLICATION_JSON);
-//
-//    // then
-//    mockMvc.perform(getRequest).andExpect(status().isOk())
-//        .andExpect(jsonPath("$", hasSize(1)))
-//        .andExpect(jsonPath("$[0].host", is(session.getHost())))
-//        .andExpect(jsonPath("$[0].participants", is(session.getParticipants().toString())))
-//        .andExpect(jsonPath("$[0].maxParticipants", is(session.getMaxParticipants())))
-//        .andExpect(jsonPath("$[0].title", is(session.getTitle())))
-//        .andExpect(jsonPath("$[0].status", is(session.getStatus().toString())));
-//  }
+  @Test
+  public void givenSessions_whenGetSessions_thenReturnJsonArray() throws Exception {
+    // given
+    User host = new User();
+    host.setUsername("host");
+    host.setUserId(1L);
+
+    Session session = new Session();
+    session.setHost(host);
+    session.setMaxParticipants(2);
+    session.setTitle("testSession");
+    session.setStatus(SessionStatus.CREATED);
+
+
+    List<Session> allSessions = Collections.singletonList(session);
+
+    // this mocks the SessionService -> we define above what the sessionService should
+    // return when getActiveSessions() is called
+    given(sessionService.getActiveSessions()).willReturn(allSessions);
+
+    // when
+    MockHttpServletRequestBuilder getRequest = get("/sessions").contentType(MediaType.APPLICATION_JSON);
+
+    // then
+    mockMvc.perform(getRequest).andExpect(status().isOk())
+        .andExpect(jsonPath("$", hasSize(1)))
+        .andExpect(jsonPath("$[0].host.userId", is(session.getHost().getUserId().intValue())))
+        .andExpect(jsonPath("$[0].maxParticipants", is(session.getMaxParticipants())))
+        .andExpect(jsonPath("$[0].title", is(session.getTitle())))
+        .andExpect(jsonPath("$[0].status", is(session.getStatus().toString())));
+  }
 
   @Test
   public void createSession_validInput_sessionCreated() throws Exception {

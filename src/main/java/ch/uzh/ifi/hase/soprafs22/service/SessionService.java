@@ -41,7 +41,9 @@ public class SessionService {
   }
 
   public List<Session> getActiveSessions() {
-      return this.sessionRepository.findByStatus(SessionStatus.CREATED);
+      List<Session> activeSessions = this.sessionRepository.findByStatus(SessionStatus.CREATED);
+
+      return activeSessions;
   }
 
 
@@ -56,7 +58,7 @@ public class SessionService {
       new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,hostId))
       );
 
-    // set host to user in DB
+    // set host to user
     newSession.setHost(host);
 
     // save to repo and flush
