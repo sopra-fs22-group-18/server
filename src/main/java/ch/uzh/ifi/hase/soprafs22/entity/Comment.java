@@ -20,7 +20,7 @@ public class Comment implements Serializable {
     private Long commentId;
 
     @ManyToOne
-    @JoinColumn(name = "commentId")
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column(nullable = false)
