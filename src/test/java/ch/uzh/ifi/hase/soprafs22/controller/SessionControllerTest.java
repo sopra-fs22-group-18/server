@@ -111,7 +111,7 @@ public class SessionControllerTest {
     mockMvc.perform(postRequest)
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.sessionId", is(session.getSessionId().intValue())))
-        //.andExpect(jsonPath("$.host", is())) -- need to figure this part out for the GET DTO
+        .andExpect(jsonPath("$.host.userId", is(host.getUserId().intValue())))
         .andExpect(jsonPath("$.maxParticipants", is(session.getMaxParticipants())))
         .andExpect(jsonPath("$.title", is(session.getTitle())))
         .andExpect(jsonPath("$.status", is(SessionStatus.CREATED.toString())));
