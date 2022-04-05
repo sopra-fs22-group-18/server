@@ -33,7 +33,7 @@ public class UserServiceIntegrationTest {
   public void setup() {
     userRepository.deleteAll();
   }
-  /* Caused by: java.sql.SQLException: Field 'id' doesn't have a default value TODO: Fix the error in the UserServiceIntegrationTest
+  /* Caused by: java.sql.SQLException: Field 'id' doesn't have a default value - TODO: There is an error in the tests in UserServiceIntegrationTest
   @Test
   public void createUser_validInputs_success() {
     // given

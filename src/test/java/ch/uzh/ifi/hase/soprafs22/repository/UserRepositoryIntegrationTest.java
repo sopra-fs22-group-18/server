@@ -4,13 +4,11 @@ import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 
 @DataJpaTest
 public class UserRepositoryIntegrationTest {
@@ -20,8 +18,10 @@ public class UserRepositoryIntegrationTest {
 
   @Autowired
   private UserRepository userRepository;
-
-  /* @Test
+  /* Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "HIBERNATE_SEQUENCE" not found; SQL statement:
+     select next_val as id_val from hibernate_sequence for update [42102-200]
+     TODO: There is an error in the tests in UserRepositoryIntegrationTest
+  @Test
   public void findByName_success() {
     // given
     User user = new User();
@@ -34,7 +34,7 @@ public class UserRepositoryIntegrationTest {
     entityManager.flush();
 
     // when
-    User found = userRepository.findByName("testName");
+    User found = userRepository.findByName(user.getName());
 
     // then
     assertNotNull(found.getUserId());
@@ -42,5 +42,7 @@ public class UserRepositoryIntegrationTest {
     assertEquals(found.getUsername(), user.getUsername());
     assertEquals(found.getToken(), user.getToken());
     assertEquals(found.getStatus(), user.getStatus());
-  } */
+  }
+
+   */
 }

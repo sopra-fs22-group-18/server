@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * works.
  */
 
-class UserDTOMapperTest {
+public class UserDTOMapperTest {
   @Test
-  void testCreateUser_fromUserPostDTO_toUser_success() {
+  public void testCreateUser_fromUserPostDTO_toUser_success() {
     // create UserPostDTO
     UserPostDTO userPostDTO = new UserPostDTO();
     userPostDTO.setName("name");
@@ -31,7 +31,7 @@ class UserDTOMapperTest {
   }
 
   @Test
-  void testGetUser_fromUser_toUserGetDTO_success() {
+  public void testGetUser_fromUser_toUserGetDTO_success() {
     // create User
     User user = new User();
     user.setName("Firstname Lastname");
