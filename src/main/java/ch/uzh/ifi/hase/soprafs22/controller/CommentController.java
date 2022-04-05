@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
-import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.CommentDTOMapper;
@@ -13,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Session Controller
+ * Comment Controller
  * This class is responsible for handling all REST request that are related to
  * the session.
  * The controller will receive the request and delegate the execution to the
- * SessionService and finally return the result.
+ * CommentService and finally return the result.
  */
 
 @RestController
@@ -60,21 +59,4 @@ public class CommentController {
         return CommentDTOMapper.INSTANCE.convertEntityToCommentGetDTO(createdSessionComment);
     }
 
-    /*
-
-
-    @PostMapping("/sessions")
-    @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
-    public SessionGetDTO createSession(@RequestBody SessionPostDTO sessionPostDTO) {
-        // convert API session to internal representation
-        Session sessionInput = SessionDTOMapper.INSTANCE.convertSessionPostDTOtoEntity(sessionPostDTO);
-
-        // create Session
-        Session createdSession = sessionService.createSession(sessionInput);
-
-        // convert internal representation of session back to API
-        return SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(createdSession);
-    }
-    */
 }

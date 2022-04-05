@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This tests if the CommentController works.
  */
 @WebMvcTest(CommentController.class)
-public class CommentControllerTest {
+class CommentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,7 +49,7 @@ public class CommentControllerTest {
 
 /* The test returns an error 400
     @Test
-    public void givenSessionComment_whenGetSessionComments_thenReturnJsonArray() throws Exception {
+    void givenSessionComment_whenGetSessionComments_thenReturnJsonArray() throws Exception {
         // given
         User host = new User();
         host.setUsername("host");
@@ -98,7 +98,7 @@ public class CommentControllerTest {
     }
 */
     @Test
-    public void createSessionComment_validInput_sessionCommentCreated() throws Exception {
+    void createSessionComment_validInput_sessionCommentCreated() throws Exception {
         // given
         User host = new User();
         host.setUsername("host");

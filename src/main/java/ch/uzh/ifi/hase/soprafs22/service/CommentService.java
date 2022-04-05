@@ -33,16 +33,13 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final SessionRepository sessionRepository;
-    private final UserRepository userRepository;
 
     @Autowired
     public CommentService(@Qualifier("commentRepository") CommentRepository commentRepository,
-                          @Qualifier("sessionRepository") SessionRepository sessionRepository,
-                          @Qualifier("userRepository") UserRepository userRepository) {
+                          @Qualifier("sessionRepository") SessionRepository sessionRepository) {
 
         this.commentRepository = commentRepository;
         this.sessionRepository = sessionRepository;
-        this.userRepository = userRepository;
     }
 
 

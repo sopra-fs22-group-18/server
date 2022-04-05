@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This tests if the SessionController works.
  */
 @WebMvcTest(SessionController.class)
-public class SessionControllerTest {
+class SessionControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -45,7 +45,7 @@ public class SessionControllerTest {
   private SessionService sessionService;
 
   @Test
-  public void givenSessions_whenGetSessions_thenReturnJsonArray() throws Exception {
+  void givenSessions_whenGetSessions_thenReturnJsonArray() throws Exception {
     // given
     User host = new User();
     host.setUsername("host");
@@ -77,7 +77,7 @@ public class SessionControllerTest {
   }
 
   @Test
-  public void createSession_validInput_sessionCreated() throws Exception {
+  void createSession_validInput_sessionCreated() throws Exception {
     // given
     User host = new User();
     host.setUsername("host");
