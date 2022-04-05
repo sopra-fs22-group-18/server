@@ -90,7 +90,7 @@ public class CommentControllerTest {
         MockHttpServletRequestBuilder getRequest = get("/sessions/1L/comments")
                 .contentType(MediaType.APPLICATION_JSON);
         // then
-        mockMvc.perform(getRequest).andExpect(status().isOk())
+
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].participant1.userId", is(comment.getUser().getUserId().intValue())))
                 .andExpect(jsonPath("$[0].session.sessionId", is(session.getSessionId().intValue())))
