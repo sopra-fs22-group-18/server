@@ -2,7 +2,10 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.entity.Message;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+
+import org.apache.logging.log4j.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -24,30 +30,64 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 
-@ServerEndpoint(value = "/chat/{sessionId}")
+@ServerEndpoint(value="/chat/{username}")
 public class ChatEndpoint {
-
-    private Session session;
+ 
+    /* private Session session;
+    private static Set<ChatEndpoint> chatEndpoints 
+      = new CopyOnWriteArraySet<>();
+    private static HashMap<String, String> users = new HashMap<>();
 
     @OnOpen
-    public void onOpen(Session session) throws IOException {
-        // Get session and WebSocket connection
-        // open session and save the sessionId to the database
+    public void onOpen(
+      Session session, 
+      @PathParam("username") String username) throws IOException {
+ 
+        this.session = session;
+        chatEndpoints.add(this);
+        users.put(session.getId(), username);
+
+        Message message = new Message();
+        message.setFrom(username);
+        message.setContent("Connected!");
+        broadcast(message);
     }
 
     @OnMessage
-    public void onMessage(Session session, Message message) throws IOException {
-        // Handle new messages
+    public void onMessage(Session session, Message message) 
+      throws IOException {
+ 
+        message.setFrom(users.get(session.getId()));
+        broadcast(message);
     }
 
     @OnClose
     public void onClose(Session session) throws IOException {
-        // WebSocket connection closes
+ 
+        chatEndpoints.remove(this);
+        Message message = new Message();
+        message.setFrom(users.get(session.getId()));
+        message.setContent("Disconnected!");
+        broadcast(message);
     }
 
     @OnError
     public void onError(Session session, Throwable throwable) {
         // Do error handling here
-        // open session and delete the sessionId from the database
     }
+
+    private static void broadcast(Message message) 
+      throws IOException, EncodeException {
+ 
+        chatEndpoints.forEach(endpoint -> {
+            synchronized (endpoint) {
+                try {
+                    endpoint.session.getBasicRemote().
+                      sendObject(message);
+                } catch (IOException | EncodeException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    } */
 }
