@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Session Service
@@ -54,6 +53,7 @@ public class SessionService {
     // find host
     String baseErrorMessage = "Host with id %x was not found";
     Long hostId = newSession.getHost().getUserId();
+
     User host = userRepository.findById(hostId).orElseThrow(() ->
       new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,hostId))
       );

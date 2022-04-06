@@ -3,11 +3,14 @@ package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
+
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
+
 /**
- * UserDTOMapper
+ * DTOMapper
  * This class is responsible for generating classes that will automatically
  * transform/map the internal representation
  * of an entity (e.g., the User) to the external/API representation (e.g.,
@@ -21,16 +24,23 @@ import org.mapstruct.factory.Mappers;
 public interface UserDTOMapper {
 
   UserDTOMapper INSTANCE = Mappers.getMapper(UserDTOMapper.class);
-
-  @Mapping(source = "name", target = "name")
+  //converting UserPostDTO to Entity
+  @Mapping(source = "password", target = "password")
   @Mapping(source = "username", target = "username")
   User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
-
+  
+  //mapping internal representation of  User to UserGetDTO
   @Mapping(source = "userId", target = "userId")
-  @Mapping(source = "name", target = "name")
   @Mapping(source = "username", target = "username")
-  @Mapping(source = "status", target = "status")
+  @Mapping(source = "logged_in", target = "logged_in")
+  @Mapping(source = "creation_date", target = "creation_date")
+  @Mapping(source = "birthday", target = "birthday")
   UserGetDTO convertEntityToUserGetDTO(User user);
 
-
+  //mapping internal representation of  User to UserPutDTO
+  @Mapping(source = "userId", target = "userId")
+  @Mapping(source = "username", target = "username")
+  @Mapping(source = "birthday", target = "birthday")
+  User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
+ 
 }

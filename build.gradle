@@ -86,8 +86,8 @@ File secretPropsFile = file('./local.properties')
 if (secretPropsFile.exists()) {
     Properties p = new Properties()
     p.load(new FileInputStream(secretPropsFile))
-    p.each { name, value ->
-        ext[name] = value
+    p.each { password, value ->
+        ext[password] = value
     }
 }
 

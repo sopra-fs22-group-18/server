@@ -46,8 +46,7 @@ class CommentControllerTest {
 
     @MockBean
     private CommentService commentService;
-
-/* The test returns an error 400
+    /* TODO: Fix this test givenSessions_whenGetSessions_thenReturnJsonArray()
     @Test
     void givenSessionComment_whenGetSessionComments_thenReturnJsonArray() throws Exception {
         // given
@@ -90,13 +89,14 @@ class CommentControllerTest {
         MockHttpServletRequestBuilder getRequest = get("/sessions/1L/comments")
                 .contentType(MediaType.APPLICATION_JSON);
         // then
-
+        mockMvc.perform(getRequest).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].participant1.userId", is(comment.getUser().getUserId().intValue())))
                 .andExpect(jsonPath("$[0].session.sessionId", is(session.getSessionId().intValue())))
                 .andExpect(jsonPath("$[0].commentText", is(comment.getCommentText())));
     }
-*/
+    */
+
     @Test
     void createSessionComment_validInput_sessionCommentCreated() throws Exception {
         // given

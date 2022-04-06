@@ -4,7 +4,6 @@ import ch.uzh.ifi.hase.soprafs22.entity.Comment;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.repository.CommentRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.SessionRepository;
-import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
