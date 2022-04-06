@@ -1,5 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import javax.websocket.DecodeException;
+import javax.websocket.Decoder;
+import javax.websocket.EndpointConfig;
+
+import com.google.gson.Gson;
+
+import ch.uzh.ifi.hase.soprafs22.entity.Message;
+
 public class MessageDecoder implements Decoder.Text<Message> {
 
     private static Gson gson = new Gson();

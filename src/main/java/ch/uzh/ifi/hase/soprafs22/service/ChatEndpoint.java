@@ -1,11 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.entity.Message;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 
-import org.apache.logging.log4j.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +21,23 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 
-@ServerEndpoint(value="/chat/{username}")
+@ServerEndpoint( 
+  value="/chat/{username}", 
+  decoders = MessageDecoder.class, 
+  encoders = MessageEncoder.class )
 public class ChatEndpoint {
  
-    /* private Session session;
+    private Session session;
     private static Set<ChatEndpoint> chatEndpoints 
       = new CopyOnWriteArraySet<>();
     private static HashMap<String, String> users = new HashMap<>();
@@ -41,7 +45,7 @@ public class ChatEndpoint {
     @OnOpen
     public void onOpen(
       Session session, 
-      @PathParam("username") String username) throws IOException {
+      @PathParam("username") String username) throws IOException, EncodeException {
  
         this.session = session;
         chatEndpoints.add(this);
@@ -55,14 +59,14 @@ public class ChatEndpoint {
 
     @OnMessage
     public void onMessage(Session session, Message message) 
-      throws IOException {
+      throws IOException, EncodeException {
  
         message.setFrom(users.get(session.getId()));
         broadcast(message);
     }
 
     @OnClose
-    public void onClose(Session session) throws IOException {
+    public void onClose(Session session) throws IOException, EncodeException {
  
         chatEndpoints.remove(this);
         Message message = new Message();
@@ -89,5 +93,5 @@ public class ChatEndpoint {
                 }
             }
         });
-    } */
+    }
 }
