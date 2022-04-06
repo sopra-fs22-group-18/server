@@ -20,15 +20,19 @@ import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-/*
+
 @ServerEndpoint(value = "/chat/{sessionId}")
 public class ChatEndpoint {
+
+    private Session session;
 
     @OnOpen
     public void onOpen(Session session) throws IOException {
         // Get session and WebSocket connection
+        // open session and save the sessionId to the database
     }
 
     @OnMessage
@@ -44,5 +48,6 @@ public class ChatEndpoint {
     @OnError
     public void onError(Session session, Throwable throwable) {
         // Do error handling here
+        // open session and delete the sessionId from the database
     }
-} */
+}
