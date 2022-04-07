@@ -6,8 +6,6 @@ import javax.websocket.EndpointConfig;
 
 import com.google.gson.Gson;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Message;
-
 public class MessageEncoder implements Encoder.Text<String> {
 
     @Override
