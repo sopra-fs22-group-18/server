@@ -8,13 +8,11 @@ import com.google.gson.Gson;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Message;
 
-public class MessageDecoder implements Decoder.Text<Message> {
-
-    private static Gson gson = new Gson();
+public class MessageDecoder implements Decoder.Text<String> {
 
     @Override
-    public Message decode(String s) throws DecodeException {
-        return gson.fromJson(s, Message.class);
+    public String decode(String s) throws DecodeException {
+        return s;
     }
 
     @Override
@@ -29,6 +27,6 @@ public class MessageDecoder implements Decoder.Text<Message> {
 
     @Override
     public void destroy() {
-        // Close resources
+        // Close resources (if any used)
     }
 }

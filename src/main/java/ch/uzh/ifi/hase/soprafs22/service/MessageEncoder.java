@@ -8,23 +8,19 @@ import com.google.gson.Gson;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Message;
 
-public class MessageEncoder implements Encoder.Text<Message> {
-
-    private static Gson gson = new Gson();
+public class MessageEncoder implements Encoder.Text<String> {
 
     @Override
-    public String encode(Message message) throws EncodeException {
-        return gson.toJson(message);
+    public String encode(String message) throws EncodeException {
+        return message;
     }
 
     @Override
     public void init(EndpointConfig endpointConfig) {
-        // Custom initialization logic
     }
 
     @Override
     public void destroy() {
-        // Close resources
+        // Close resources (if any used)
     }
-
 }
