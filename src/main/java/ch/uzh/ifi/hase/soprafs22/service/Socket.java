@@ -34,7 +34,7 @@ import javax.websocket.server.ServerEndpoint;
 
 
 @Component
-@ServerEndpoint(value = "/webSocket/{socketId}", 
+@ServerEndpoint(value = "/webSocket/{sessionId}", 
                 encoders = MessageEncoder.class,
                  decoders = MessageDecoder.class)
 public class Socket {
@@ -42,10 +42,10 @@ public class Socket {
     public static Set<Socket> listeners = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathVariable int socketId) {
+    public void onOpen(Session session, @PathVariable Long sessionId) {
         this.session = session;
         listeners.add(this);
-        broadcast("Welcome to session: " + socketId);
+        broadcast("Welcome to session: " + sessionId);
     }
 
     @OnMessage //Allows the client to send message to the socket.
