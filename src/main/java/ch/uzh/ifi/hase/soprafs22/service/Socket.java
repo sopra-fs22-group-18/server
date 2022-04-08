@@ -33,28 +33,33 @@ import javax.websocket.server.ServerEndpoint;
 
 
 @Component
-@ServerEndpoint(value = "/websocket/{chatroom}/{sessionid}", 
+@ServerEndpoint(value = "/websocket/{username}/{sessionid}", 
                 encoders = MessageEncoder.class,
                  decoders = MessageDecoder.class)
 public class Socket {
     private Session session;
-    public static Set<Socket> listeners = new CopyOnWriteArraySet<>();
+    private ChatUser chatUser;
+    public static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) {
+    public void onOpen(Session session, @PathParam("username") String username, @PathParam("sessionid") Long sessionId) {  
         this.session = session;
-        listeners.add(this);
-        broadcast("Welcome to the session " + username);
+        chatUser.socket = this;
+        chatUser.name = username;
+        chatUser.sessionId = sessionId;
+
+        chatListeners.add(chatUser);
+        broadcast("Welcome to the session " + sessionId + ", " + username, sessionId);
     }
 
     @OnMessage //Allows the client to send message to the socket.
-    public void onMessage(String message) {
-        broadcast(message);
+    public void onMessage(String message, @PathParam("sessionid") Long sessionId) {
+        broadcast(message, sessionId);
     }
 
     @OnClose
     public void onClose(Session session) {
-        listeners.remove(this);
+        //chatListeners.remove(chatUser);
     }
 
     @OnError
@@ -62,9 +67,12 @@ public class Socket {
         //Error
     }
 
-    public static void broadcast(String message) {
-        for (Socket listener : listeners) {
-            listener.sendMessage(message);
+    public static void broadcast(String message, long sessionId) {
+        // good for now but not scalable I guess
+        for (ChatUser chatListener: chatListeners) {
+            if (chatListener.sessionId == sessionId) {
+                chatListener.socket.sendMessage(message);
+            }
         }
     }
 
