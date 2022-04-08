@@ -38,11 +38,12 @@ import javax.websocket.server.ServerEndpoint;
                  decoders = MessageDecoder.class)
 public class Socket {
     private Session session;
-    private ChatUser chatUser;
+    //private ChatUser chatUser;
     public static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
 
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username, @PathParam("sessionid") Long sessionId) {  
+        ChatUser chatUser = new ChatUser();
         this.session = session;
         chatUser.socket = this;
         chatUser.name = username;
