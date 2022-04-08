@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Internal User Representation
@@ -23,13 +24,23 @@ public class User implements Serializable {
 
   @Id
   @GeneratedValue
-  private Long id;
-
-  @Column(nullable = false)
-  private String name;
+  private Long userId;
 
   @Column(nullable = false, unique = true)
-  private String username;
+  private String username;//primary key part2
+
+  @Column(nullable = false)
+  private Date creation_date;
+
+  @Column(nullable = false)
+  private boolean logged_in;
+
+  @Column(nullable = true)
+    private Date birthday;
+
+  @Column(nullable = false)
+    private String password;
+
 
   @Column(nullable = false, unique = true)
   private String token;
@@ -37,43 +48,54 @@ public class User implements Serializable {
   @Column(nullable = false)
   private UserStatus status;
 
-  public Long getId() {
-    return id;
+  public Long getUserId() {
+    return userId;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
-  public String getName() {
-    return name;
-  }
+  public String getPassword() {
+    return password;}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+  public void setPassword(String password) {
+    this.password = password;}
 
   public String getUsername() {
-    return username;
-  }
+    return username;}
 
   public void setUsername(String username) {
-    this.username = username;
-  }
+    this.username = username;}
 
   public String getToken() {
-    return token;
-  }
+    return token;}
 
   public void setToken(String token) {
-    this.token = token;
-  }
+    this.token = token;}
 
-  public UserStatus getStatus() {
-    return status;
-  }
+  public boolean getLogged_in() {
+    return logged_in;}
 
-  public void setStatus(UserStatus status) {
-    this.status = status;
-  }
+  public void setLogged_in(boolean logged_in) {
+    this.logged_in = logged_in;}
+
+  public Date getCreation_date() {
+    return creation_date;}
+
+  public void setCreation_date(Date creation_date) {
+    this.creation_date = creation_date;}
+
+  public Date getBirthday() {
+    return birthday;}
+
+public void setBirthday(Date birthday) {
+    this.birthday = birthday;}
+
+public UserStatus getStatus() {
+  return status;}
+
+public void setStatus(UserStatus status) {
+  this.status = status;}
 }
+
