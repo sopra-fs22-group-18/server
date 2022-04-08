@@ -33,7 +33,9 @@ springBoot {
 
 dependencies {
     implementation "mysql:mysql-connector-java:5.1.13"
-    
+    implementation 'org.java-websocket:Java-WebSocket:1.3.0'
+
+
     implementation 'org.mapstruct:mapstruct:1.3.1.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.1.Final'
     testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.3.1.Final'
@@ -84,8 +86,8 @@ File secretPropsFile = file('./local.properties')
 if (secretPropsFile.exists()) {
     Properties p = new Properties()
     p.load(new FileInputStream(secretPropsFile))
-    p.each { name, value ->
-        ext[name] = value
+    p.each { password, value ->
+        ext[password] = value
     }
 }
 

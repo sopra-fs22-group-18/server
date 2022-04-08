@@ -10,4 +10,6 @@ import java.util.List;
 @Repository("sessionRepository")
 public interface SessionRepository extends JpaRepository<Session, Long> {
     List<Session> findByStatus(SessionStatus status);
+
+    Session findBySessionId(Long sessionId);
 }

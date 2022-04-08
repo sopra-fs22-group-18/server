@@ -76,6 +76,8 @@ public class SessionControllerTest {
         .andExpect(jsonPath("$[0].status", is(session.getStatus().toString())));
   }
 
+
+
   @Test
   public void createSession_validInput_sessionCreated() throws Exception {
     // given
