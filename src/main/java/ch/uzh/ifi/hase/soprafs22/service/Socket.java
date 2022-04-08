@@ -33,7 +33,7 @@ import javax.websocket.server.ServerEndpoint;
 
 
 @Component
-@ServerEndpoint(value = "/webSocket/{id}", 
+@ServerEndpoint(value = "/websocket/{chatroom}/{sessionid}", 
                 encoders = MessageEncoder.class,
                  decoders = MessageDecoder.class)
 public class Socket {
@@ -41,10 +41,10 @@ public class Socket {
     public static Set<Socket> listeners = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("id") String id) {
+    public void onOpen(Session session, @PathParam("username") String username) {
         this.session = session;
         listeners.add(this);
-        broadcast("Welcome to session: " + id);
+        broadcast("Welcome to the session " + username);
     }
 
     @OnMessage //Allows the client to send message to the socket.
