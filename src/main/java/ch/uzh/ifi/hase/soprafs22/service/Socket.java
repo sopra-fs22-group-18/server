@@ -59,8 +59,14 @@ public class Socket {
     }
 
     @OnClose
-    public void onClose(Session session) {
+    public void onClose(Session session, @PathParam("username") String username) {
         //chatListeners.remove(chatUser);
+        //bandaid fix for now =)
+        for (ChatUser chatListener: chatListeners) {
+            if (chatListener.name == username) {
+                chatListeners.remove(chatListener);
+            }
+        }
     }
 
     @OnError
