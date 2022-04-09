@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
+import ch.uzh.ifi.hase.soprafs22.service.TextApi;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,6 +66,19 @@ public class UserServiceTest {
     // is thrown
     assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
   }
+
+  @Test
+  public void text_api_insult() {
+    // given -> a first user has already been created
+    String expected="insult";
+    String actual=TextApi.checkComment("bitch");
+    assertEquals(expected, actual);
+  }
+
+
+
+
+
 
   @Test
   public void createUser_duplicateInputs_throwsException() {
