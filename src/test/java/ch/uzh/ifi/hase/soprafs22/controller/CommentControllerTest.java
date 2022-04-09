@@ -6,7 +6,6 @@ import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.CommentService;
-import ch.uzh.ifi.hase.soprafs22.service.SessionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -20,13 +19,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.*;
 import java.util.*;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,7 +41,7 @@ class CommentControllerTest {
 
     @MockBean
     private CommentService commentService;
-    /* TODO: Fix this test givenSessions_whenGetSessions_thenReturnJsonArray()
+    /* : Fix this test givenSessions_whenGetSessions_thenReturnJsonArray()
     @Test
     void givenSessionComment_whenGetSessionComments_thenReturnJsonArray() throws Exception {
         // given

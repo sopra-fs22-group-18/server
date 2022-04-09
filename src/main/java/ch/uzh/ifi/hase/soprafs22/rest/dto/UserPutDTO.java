@@ -1,5 +1,4 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
-import java.util.Date;
 
 public class UserPutDTO {
     private Long userId;

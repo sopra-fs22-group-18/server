@@ -1,13 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
-import ch.uzh.ifi.hase.soprafs22.entity.Session;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.*;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Date;
 
 /**
  * DTOMapper
@@ -30,6 +27,8 @@ public interface CommentDTOMapper {
     @Mapping(source = "session", target = "session")
     @Mapping(source = "commentText", target = "commentText")
     @Mapping(source = "createdDate", target = "createdDate")
+    @Mapping(target = "commentId", ignore = true)
+
     Comment convertCommentPostDTOtoEntity(CommentPostDTO commentPostDTO);
 
     @Mapping(source = "commentId", target = "commentId")

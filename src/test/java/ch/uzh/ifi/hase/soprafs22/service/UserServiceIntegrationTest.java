@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.server.ResponseStatusException;
-
-import static org.junit.jupiter.api.Assertions.*;
 /*
 /**
  * Test class for the UserResource REST resource.
@@ -32,7 +29,7 @@ public class UserServiceIntegrationTest {
     userRepository.deleteAll();
   }
 
-  /* Field 'id' doesn't have a default value TODO: fix the createUser_validInputs_success() test!
+  /* Field 'id' doesn't have a default value : fix the createUser_validInputs_success() test!
   @Test
   public void createUser_validInputs_success() {
     // given
@@ -53,7 +50,7 @@ public class UserServiceIntegrationTest {
     //assertEquals(true, createdUser.getLogged_in());
   }
   */
-  /* Field 'id' doesn't have a default value TODO: fix the createUser_duplicateUsername_throwsException() test!
+  /* Field 'id' doesn't have a default value : fix the createUser_duplicateUsername_throwsException() test!
   @Test
   public void createUser_duplicateUsername_throwsException() {
     assertNull(userRepository.findByUsername("testUsername"));
