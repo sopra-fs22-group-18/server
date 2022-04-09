@@ -7,10 +7,13 @@ import java.util.Date;
 public class UserGetDTO {
   private Long userId;
   private String username;
+<<<<<<< HEAD
+=======
   private Date creation_date;
   private boolean logged_in;
   private Date birthday;
   private UserStatus status;
+>>>>>>> origin/master
 
   public Long getUserId() {return userId;}
 
@@ -20,8 +23,9 @@ public class UserGetDTO {
 
   public void setUsername(String username) {this.username = username;}
 
-  public Date getCreation_date() {return creation_date;}
 
+<<<<<<< HEAD
+=======
   public void setCreation_date(Date creation_date) {this.creation_date = creation_date;}
 
   public boolean getLogged_in() {return logged_in;}
@@ -43,4 +47,5 @@ public class UserGetDTO {
     public void setStatus(UserStatus status) {
         this.status = status;
     }
+>>>>>>> origin/master
 }

@@ -1,6 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.constant.Status;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
@@ -35,8 +35,8 @@ public class UserDTOMapperTest {
     // create User
     User user = new User();
     user.setUsername("firstname@lastname");
-    user.setStatus(UserStatus.OFFLINE);
-    user.setCreation_date(new Date());
+    user.setStatus(Status.OFFLINE);
+   //user.setCreation_date(new Date());
 
     // MAP -> Create UserGetDTO
     UserGetDTO userGetDTO = UserDTOMapper.INSTANCE.convertEntityToUserGetDTO(user);

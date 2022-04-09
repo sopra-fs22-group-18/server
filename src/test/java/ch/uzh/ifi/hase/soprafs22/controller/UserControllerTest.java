@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.constant.Status;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
@@ -51,9 +51,9 @@ public class UserControllerTest {
     user.setUserId(1L);
     user.setUsername("firstname@lastname");
     user.setPassword("test");
-    user.setCreation_date(new Date());
-    user.setLogged_in(true);
-    user.setBirthday(null);
+    //user.setCreation_date(new Date());
+    //user.setLogged_in(true);
+    //user.setBirthday(null);
     List<User> allUsers = Collections.singletonList(user);
 
       given(userService.getUsers()).willReturn(allUsers);
@@ -91,6 +91,16 @@ public class UserControllerTest {
 
   @Test
   public void createUser_validInput_userCreated() throws Exception {
+<<<<<<< HEAD
+    // given
+    User user = new User();
+    user.setUserId(1L);
+    user.setUsername("firstname@lastname");
+    user.setPassword("test");
+    //user.setLogged_in(true);
+    //user.setCreation_date(new Date());
+    user.setStatus(Status.ONLINE);
+=======
       // given
       User user = new User();
       user.setUserId(1L);
@@ -99,6 +109,7 @@ public class UserControllerTest {
       user.setLogged_in(true);
       user.setCreation_date(new Date());
       user.setStatus(UserStatus.ONLINE);
+>>>>>>> origin/master
 
       UserPostDTO userPostDTO = new UserPostDTO();
       userPostDTO.setUsername("testUsername");
@@ -114,11 +125,19 @@ public class UserControllerTest {
       // then
       mockMvc.perform(postRequest)
               .andExpect(status().isCreated())
+<<<<<<< HEAD
+              .andExpect(jsonPath("$.id", is(user.getUserId().intValue())))
+              .andExpect(jsonPath("$.username", is(user.getUsername())));
+              //.andExpect(jsonPath("$.logged_in", is(user.getLogged_in())));
+              //.andExpect(jsonPath("$.creation_date", is(getFormatedDate(user.getCreation_date()))))
+              //.andExpect(jsonPath("$.status", is(user.getStatus().toString())));
+=======
               .andExpect(jsonPath("$.userId", is(user.getUserId().intValue())))
               .andExpect(jsonPath("$.username", is(user.getUsername())))
               .andExpect(jsonPath("$.logged_in", is(user.getLogged_in())));
       //.andExpect(jsonPath("$.creation_date", is(getFormatedDate(user.getCreation_date()))))
       //.andExpect(jsonPath("$.status", is(user.getStatus().toString())));
+>>>>>>> origin/master
 
   }
 
@@ -176,8 +195,8 @@ public class UserControllerTest {
       user.setUserId(1L);
       user.setUsername("testUsername");
       user.setPassword("testPassword");
-      user.setCreation_date(new Date());
-      user.setStatus(UserStatus.ONLINE);
+      //user.setCreation_date(new Date());
+      user.setStatus(Status.ONLINE);
 
       given(userService.updateUser(user)).willReturn(user);
 

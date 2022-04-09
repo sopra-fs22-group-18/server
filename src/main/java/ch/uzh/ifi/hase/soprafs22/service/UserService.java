@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.service;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.constant.Status;
 
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
@@ -32,7 +32,7 @@ public class UserService {
     //create a user
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
-        newUser.setCreation_date(new Date());
+        //newUser.setCreation_date(new Date());
         setUserOnlineandLoggedin(newUser);
         checkIfUserExists(newUser);
         // save user and make it persistent
@@ -69,6 +69,19 @@ public class UserService {
         return foundUser;}
 
     //update user
+<<<<<<< HEAD
+    public User updateUser(User userInputed) {
+        Optional<User> foundUser = userRepository.findById(userInputed.getUserId());
+        //check if the user that should be editet exists
+        if (!foundUser.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", userInputed.getUserId()));}    
+        //if user that should be editet exists, get user and update it
+        User databaseuser=getUser(userInputed.getUserId());
+        if (userRepository.findByUsername(userInputed.getUsername())!=null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", userInputed.getUsername()));}
+        databaseuser.setUsername(userInputed.getUsername());
+        //databaseuser.setBirthday(userInputed.getBirthday());
+=======
     public User updateUser(User inputUser) {
         Optional<User> foundUser = userRepository.findById(inputUser.getUserId());
         //check if the user that should be editet exists
@@ -80,19 +93,20 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", inputUser.getUsername()));}
         databaseuser.setUsername(inputUser.getUsername());
         databaseuser.setBirthday(inputUser.getBirthday());
+>>>>>>> origin/master
         User upgedateUser=userRepository.save(databaseuser);
         return upgedateUser;}
 
     
     //set user offline and loggedin false
     public void setUserOfflineandLoggedout(User usertobelogedoutandsetofflien){
-        usertobelogedoutandsetofflien.setStatus(UserStatus.OFFLINE);
-        usertobelogedoutandsetofflien.setLogged_in(false);}
+        usertobelogedoutandsetofflien.setStatus(Status.OFFLINE);}
+        //usertobelogedoutandsetofflien.setLogged_in(false);}
     
     //set user online and loggedin true
     public void setUserOnlineandLoggedin(User usertobesetonlineandloggedin){
-        usertobesetonlineandloggedin.setStatus(UserStatus.ONLINE);
-        usertobesetonlineandloggedin.setLogged_in(true);}
+        usertobesetonlineandloggedin.setStatus(Status.ONLINE);}
+        //usertobesetonlineandloggedin.setLogged_in(true);}
 
     //check if username already in use, if so throw error
     private void checkIfUserExists(User userToBeCreated) {

@@ -5,7 +5,10 @@ import ch.uzh.ifi.hase.soprafs22.entity.Comment;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentPostDTO;
+<<<<<<< HEAD
+=======
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
+>>>>>>> origin/master
 import ch.uzh.ifi.hase.soprafs22.service.CommentService;
 import ch.uzh.ifi.hase.soprafs22.service.SessionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
