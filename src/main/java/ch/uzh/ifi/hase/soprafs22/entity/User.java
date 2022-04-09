@@ -1,14 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-<<<<<<< HEAD
 import ch.uzh.ifi.hase.soprafs22.constant.Status;
-import ch.uzh.ifi.hase.soprafs22.constant.UserType;
-=======
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
->>>>>>> origin/master
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Internal User Representation
@@ -31,45 +27,53 @@ public class User implements Serializable {
   private Long userId;
 
   @Column(nullable = false, unique = true)
-  private String username;
+  private String username;//primary key part2
+
+
 
   @Column(nullable = false)
-  private String password;
+    private String password;
 
-  @Column(nullable = true, unique = true)
-  private UserType type;
-
-  @Column(nullable = false)
-  private   Status status;
-
+  @Transient
   @Column(nullable = false, unique = true)
   private String token;
+
+  @Transient
+  @Column(nullable = false)
+  private Status status;
 
   public Long getUserId() {
     return userId;
   }
 
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
+  public String getPassword() {
+    return password;}
 
-  public void setUserId(Long userId) {this.userId = userId;}
+  public void setPassword(String password) {
+    this.password = password;}
 
-  public String getUsername() {return username; }
+  public String getUsername() {
+    return username;}
 
-  public void setUsername(String username) {this.username = username;}
+  public void setUsername(String username) {
+    this.username = username;}
 
-  public String getPassword() {return password; }
-  public void setPassword(String password) {this.password = password;}
+  public String getToken() {
+    return token;}
 
-  public String getToken() {return token;}
+  public void setToken(String token) {
+    this.token = token;}
 
-  public void setToken(String token) {this.token = token;}
+  
 
-  public UserType getUserType() {return type;}
+public Status getStatus() {
+  return status;}
 
-  public void setUserType(UserType type) {this.type = type;}
-
-  public Status getStatus() {return status;}
-
-  public void setStatus(Status status) {this.status = status;}
-
+public void setStatus(Status status) {
+  this.status = status;}
 }
+
