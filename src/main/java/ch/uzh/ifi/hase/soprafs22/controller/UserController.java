@@ -9,7 +9,7 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-./gradlew bootRun
+
 /**
  * User Controller
  * This class is responsible for handling all REST request that are related to the user.
