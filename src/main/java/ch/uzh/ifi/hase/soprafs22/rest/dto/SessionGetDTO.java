@@ -57,6 +57,7 @@ public class SessionGetDTO {
         this.maxParticipants = maxParticipants;
     }
 
+
     public SessionStatus getUserStatus() {
         return status;
     }

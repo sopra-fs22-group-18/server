@@ -21,9 +21,9 @@ import org.mapstruct.factory.Mappers;
  * creating information (POST).
  */
 @Mapper
-public interface DTOMapper {
+public interface UserDTOMapper {
 
-  DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
+  UserDTOMapper INSTANCE = Mappers.getMapper(UserDTOMapper.class);
   //converting UserPostDTO to Entity
   @Mapping(source = "password", target = "password")
   @Mapping(source = "username", target = "username")
@@ -35,6 +35,7 @@ public interface DTOMapper {
   UserGetDTO convertEntityToUserGetDTO(User user);
 
   //mapping internal representation of  User to UserPutDTO
+  @Mapping(source = "userId", target = "userId")
   @Mapping(source = "username", target = "username")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
  

@@ -95,6 +95,7 @@ public class Session implements Serializable {
     }
 
     public void setUserStatus(SessionStatus status) {
+
         this.status = status;
     }
 
