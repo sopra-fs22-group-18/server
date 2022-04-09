@@ -1,19 +1,14 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
-<<<<<<< HEAD
-=======
+
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
->>>>>>> origin/master
 import ch.uzh.ifi.hase.soprafs22.rest.dto.*;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-<<<<<<< HEAD
-=======
 import java.util.Date;
->>>>>>> origin/master
 
 /**
  * DTOMapper

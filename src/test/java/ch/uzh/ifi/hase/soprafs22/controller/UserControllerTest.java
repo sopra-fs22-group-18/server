@@ -91,7 +91,6 @@ public class UserControllerTest {
 
   @Test
   public void createUser_validInput_userCreated() throws Exception {
-<<<<<<< HEAD
     // given
     User user = new User();
     user.setUserId(1L);
@@ -100,16 +99,6 @@ public class UserControllerTest {
     //user.setLogged_in(true);
     //user.setCreation_date(new Date());
     user.setStatus(Status.ONLINE);
-=======
-      // given
-      User user = new User();
-      user.setUserId(1L);
-      user.setUsername("firstname@lastname");
-      user.setPassword("test");
-      user.setLogged_in(true);
-      user.setCreation_date(new Date());
-      user.setStatus(UserStatus.ONLINE);
->>>>>>> origin/master
 
       UserPostDTO userPostDTO = new UserPostDTO();
       userPostDTO.setUsername("testUsername");
@@ -125,19 +114,12 @@ public class UserControllerTest {
       // then
       mockMvc.perform(postRequest)
               .andExpect(status().isCreated())
-<<<<<<< HEAD
-              .andExpect(jsonPath("$.id", is(user.getUserId().intValue())))
+              .andExpect(jsonPath("$.userId", is(user.getUserId().intValue())))
               .andExpect(jsonPath("$.username", is(user.getUsername())));
               //.andExpect(jsonPath("$.logged_in", is(user.getLogged_in())));
               //.andExpect(jsonPath("$.creation_date", is(getFormatedDate(user.getCreation_date()))))
               //.andExpect(jsonPath("$.status", is(user.getStatus().toString())));
-=======
-              .andExpect(jsonPath("$.userId", is(user.getUserId().intValue())))
-              .andExpect(jsonPath("$.username", is(user.getUsername())))
-              .andExpect(jsonPath("$.logged_in", is(user.getLogged_in())));
-      //.andExpect(jsonPath("$.creation_date", is(getFormatedDate(user.getCreation_date()))))
-      //.andExpect(jsonPath("$.status", is(user.getStatus().toString())));
->>>>>>> origin/master
+
 
   }
 

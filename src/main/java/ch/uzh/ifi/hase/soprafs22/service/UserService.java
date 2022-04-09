@@ -69,19 +69,6 @@ public class UserService {
         return foundUser;}
 
     //update user
-<<<<<<< HEAD
-    public User updateUser(User userInputed) {
-        Optional<User> foundUser = userRepository.findById(userInputed.getUserId());
-        //check if the user that should be editet exists
-        if (!foundUser.isPresent()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", userInputed.getUserId()));}    
-        //if user that should be editet exists, get user and update it
-        User databaseuser=getUser(userInputed.getUserId());
-        if (userRepository.findByUsername(userInputed.getUsername())!=null){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", userInputed.getUsername()));}
-        databaseuser.setUsername(userInputed.getUsername());
-        //databaseuser.setBirthday(userInputed.getBirthday());
-=======
     public User updateUser(User inputUser) {
         Optional<User> foundUser = userRepository.findById(inputUser.getUserId());
         //check if the user that should be editet exists
@@ -93,7 +80,6 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", inputUser.getUsername()));}
         databaseuser.setUsername(inputUser.getUsername());
         databaseuser.setBirthday(inputUser.getBirthday());
->>>>>>> origin/master
         User upgedateUser=userRepository.save(databaseuser);
         return upgedateUser;}
 

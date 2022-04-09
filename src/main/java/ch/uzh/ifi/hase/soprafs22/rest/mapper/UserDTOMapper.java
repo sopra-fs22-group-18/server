@@ -35,10 +35,7 @@ public interface UserDTOMapper {
   UserGetDTO convertEntityToUserGetDTO(User user);
 
   //mapping internal representation of  User to UserPutDTO
-<<<<<<< HEAD:src/main/java/ch/uzh/ifi/hase/soprafs22/rest/mapper/DTOMapper.java
-=======
   @Mapping(source = "userId", target = "userId")
->>>>>>> origin/master:src/main/java/ch/uzh/ifi/hase/soprafs22/rest/mapper/UserDTOMapper.java
   @Mapping(source = "username", target = "username")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
  
