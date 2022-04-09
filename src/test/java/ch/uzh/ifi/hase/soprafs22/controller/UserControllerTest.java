@@ -100,18 +100,18 @@ public class UserControllerTest {
     //user.setCreation_date(new Date());
     user.setStatus(Status.ONLINE);
 
-    UserPostDTO userPostDTO = new UserPostDTO();
-    userPostDTO.setUsername("testUsername");
-    userPostDTO.setPassword("testPassword");
+      UserPostDTO userPostDTO = new UserPostDTO();
+      userPostDTO.setUsername("testUsername");
+      userPostDTO.setPassword("testPassword");
 
-    given(userService.createUser(Mockito.any())).willReturn(user);
+      given(userService.createUser(Mockito.any())).willReturn(user);
 
-    // when/then -> do the request + validate the result
-    MockHttpServletRequestBuilder postRequest = post("/users")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(asJsonString(userPostDTO));
+      // when/then -> do the request + validate the result
+      MockHttpServletRequestBuilder postRequest = post("/users")
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(asJsonString(userPostDTO));
 
-    // then
+      // then
       mockMvc.perform(postRequest)
               .andExpect(status().isCreated())
               .andExpect(jsonPath("$.id", is(user.getUserId().intValue())))
@@ -127,7 +127,7 @@ public class UserControllerTest {
     public void testtwousers() throws Exception {
         // given
         User user = new User();
-        user.setId(1L);
+        user.setUserId(1L);
         user.setUsername("testUsername");
         user.setPassword("testPassword");
         user.setLogged_in(true);
@@ -149,7 +149,7 @@ public class UserControllerTest {
           // then
           mockMvc.perform(postRequest)
                   .andExpect(status().isCreated())
-                  .andExpect(jsonPath("$.id", is(user.getId().intValue())))
+                  .andExpect(jsonPath("$.userId", is(user.getUserId().intValue())))
                   .andExpect(jsonPath("$.username", is(user.getUsername())));
                   //.andExpect(jsonPath("$.status", is(user.getStatus().toString())));
 
@@ -183,7 +183,7 @@ public class UserControllerTest {
 
       UserPutDTO userPutDTO = new UserPutDTO();
       userPutDTO.setUsername("testUsername");
-      userPutDTO.setId(1L);
+      userPutDTO.setUserId(1L);
 
       // when/then -> do the request + validate the result
       MockHttpServletRequestBuilder postRequest = put("/users/" + user.getUserId())
@@ -200,7 +200,7 @@ public class UserControllerTest {
     public void testing_puntendpoints_failing() throws Exception {
         // given
         User user = new User();
-        user.setId(1L);
+        user.setUserId(1L);
         user.setUsername("testUsername");
         user.setPassword("test");
         user.setCreation_date(new Date());

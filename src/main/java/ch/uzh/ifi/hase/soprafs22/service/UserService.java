@@ -46,13 +46,14 @@ public class UserService {
         return this.userRepository.findAll();}
 
     //get a User
-    public User getUser(Long id) {
+    public User getUser(Long userId) {
         //Retrieve user from repository using ID
-        Optional<User> optionalUser = userRepository.findById(id);
+
+        Optional<User> optionalUser = userRepository.findById(userId);
         if(optionalUser.isPresent()){
             return optionalUser.get();}
         else{//throw error if no user found for this id in the repository
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", id));}}
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", userId));}}
 
     //login user check password and username
     public User checkingUser(User tocheckuser) {
@@ -102,7 +103,7 @@ public class UserService {
     }
 
     public void checkAuthorization(UserPutDTO updatedUserpUTdto, Long id) {
-        if(updatedUserpUTdto.getId()!=id){
+        if(updatedUserpUTdto.getUserId()!=id){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, String.format( "not authorized"));
         }
     }

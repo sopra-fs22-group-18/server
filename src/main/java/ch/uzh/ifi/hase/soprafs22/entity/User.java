@@ -1,7 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
+<<<<<<< HEAD
 import ch.uzh.ifi.hase.soprafs22.constant.Status;
 import ch.uzh.ifi.hase.soprafs22.constant.UserType;
+=======
+import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+>>>>>>> origin/master
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,9 +45,11 @@ public class User implements Serializable {
   @Column(nullable = false, unique = true)
   private String token;
 
+  public Long getUserId() {
+    return userId;
+  }
 
 
-  public Long getUserId() {return userId; }
 
   public void setUserId(Long userId) {this.userId = userId;}
 
