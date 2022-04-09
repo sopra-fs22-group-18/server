@@ -46,13 +46,14 @@ public class UserService {
         return this.userRepository.findAll();}
 
     //get a User
-    public User getUser(Long id) {
+    public User getUser(Long userId) {
         //Retrieve user from repository using ID
-        Optional<User> optionalUser = userRepository.findById(id);
+
+        Optional<User> optionalUser = userRepository.findById(userId);
         if(optionalUser.isPresent()){
             return optionalUser.get();}
         else{//throw error if no user found for this id in the repository
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", id));}}
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", userId));}}
 
     //login user check password and username
     public User checkingUser(User tocheckuser) {
@@ -68,6 +69,7 @@ public class UserService {
         return foundUser;}
 
     //update user
+<<<<<<< HEAD
     public User updateUser(User userInputed) {
         Optional<User> foundUser = userRepository.findById(userInputed.getUserId());
         //check if the user that should be editet exists
@@ -79,6 +81,19 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", userInputed.getUsername()));}
         databaseuser.setUsername(userInputed.getUsername());
         //databaseuser.setBirthday(userInputed.getBirthday());
+=======
+    public User updateUser(User inputUser) {
+        Optional<User> foundUser = userRepository.findById(inputUser.getUserId());
+        //check if the user that should be editet exists
+        if (!foundUser.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", inputUser.getUserId()));}
+        //if user that should be editet exists, get user and update it
+        User databaseuser=getUser(inputUser.getUserId());
+        if (userRepository.findByUsername(inputUser.getUsername())!=null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", inputUser.getUsername()));}
+        databaseuser.setUsername(inputUser.getUsername());
+        databaseuser.setBirthday(inputUser.getBirthday());
+>>>>>>> origin/master
         User upgedateUser=userRepository.save(databaseuser);
         return upgedateUser;}
 
@@ -102,7 +117,7 @@ public class UserService {
     }
 
     public void checkAuthorization(UserPutDTO updatedUserpUTdto, Long id) {
-        if(updatedUserpUTdto.getId()!=id){
+        if(updatedUserpUTdto.getUserId()!=id){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, String.format( "not authorized"));
         }
     }

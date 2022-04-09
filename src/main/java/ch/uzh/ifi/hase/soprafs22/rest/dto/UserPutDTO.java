@@ -6,9 +6,15 @@ public class UserPutDTO {
     private String username;
 
     
+<<<<<<< HEAD
   public Long getId() {return userId;}
   
   public void setId(Long userId) {this.userId = userId;}
+=======
+  public Long getUserId() {return userId;}
+  
+  public void setUserId(Long userId) {this.userId = userId;}
+>>>>>>> origin/master
 
   public String getUsername() {return username;}
   
