@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.service;
-import ch.uzh.ifi.hase.soprafs22.constant.Status;
+import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
@@ -86,12 +86,12 @@ public class UserService {
     
     //set user offline and loggedin false
     public void setUserOfflineandLoggedout(User usertobelogedoutandsetofflien){
-        usertobelogedoutandsetofflien.setStatus(Status.OFFLINE);}
+        usertobelogedoutandsetofflien.setStatus(UserStatus.OFFLINE);}
         //usertobelogedoutandsetofflien.setLogged_in(false);}
     
     //set user online and loggedin true
     public void setUserOnlineandLoggedin(User usertobesetonlineandloggedin){
-        usertobesetonlineandloggedin.setStatus(Status.ONLINE);}
+        usertobesetonlineandloggedin.setStatus(UserStatus.ONLINE);}
         //usertobesetonlineandloggedin.setLogged_in(true);}
 
     //check if username already in use, if so throw error

@@ -1,9 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import ch.uzh.ifi.hase.soprafs22.constant.Status;
+import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Internal User Representation
@@ -39,7 +40,7 @@ public class User implements Serializable {
 
   @Transient
   @Column(nullable = false)
-  private Status status;
+  private UserStatus status;
 
   public Long getUserId() {
     return userId;
@@ -69,10 +70,10 @@ public class User implements Serializable {
 
   
 
-public Status getStatus() {
+public UserStatus getStatus() {
   return status;}
 
-public void setStatus(Status status) {
+public void setStatus(UserStatus status) {
   this.status = status;}
 }
 
