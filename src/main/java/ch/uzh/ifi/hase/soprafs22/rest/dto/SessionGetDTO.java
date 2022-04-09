@@ -57,11 +57,12 @@ public class SessionGetDTO {
         this.maxParticipants = maxParticipants;
     }
 
-    public SessionStatus getStatus() {
+
+    public SessionStatus getUserStatus() {
         return status;
     }
 
-    public void setStatus(SessionStatus status) {
+    public void setUserStatus(SessionStatus status) {
         this.status = status;
     }
 
