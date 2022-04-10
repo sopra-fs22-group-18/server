@@ -1,6 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import ch.uzh.ifi.hase.soprafs22.constant.Status;
+import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.constant.UserType;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,7 +36,7 @@ public class User implements Serializable {
   private UserType type;
 
   @Column(nullable = false)
-  private   Status status;
+  private UserStatus userStatus;
 
   @Column(nullable = false, unique = true)
   private String token;
@@ -63,11 +63,11 @@ public class User implements Serializable {
 
   public void setUserType(UserType type) {this.type = type;}
 
-  public Status getStatus() {return status;}
+    public UserStatus getUserStatus() {return userStatus;}
 
-  public void setStatus(Status status) {this.status = status;}
+    public void setUserStatus(UserStatus userStatus) {this.userStatus = userStatus;}
 
-  public UserType getType() { return type; }
+    public UserType getType() { return type; }
 
   public void setType(UserType type) { this.type = type; }
 

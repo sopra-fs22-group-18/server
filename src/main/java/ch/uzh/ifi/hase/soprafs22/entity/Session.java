@@ -36,7 +36,7 @@ public class Session implements Serializable {
     private Date createdDate = new Date();
 
     @Enumerated(EnumType.STRING)
-    private SessionStatus status;
+    private SessionStatus sessionStatus;
 
     @Column(nullable = false)
     private String title;
@@ -90,13 +90,13 @@ public class Session implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public SessionStatus getUserStatus() {
-        return status;
+    public SessionStatus getSessionStatus() {
+        return sessionStatus;
     }
 
-    public void setUserStatus(SessionStatus status) {
+    public void setSessionStatus(SessionStatus sessionStatus) {
 
-        this.status = status;
+        this.sessionStatus = sessionStatus;
     }
 
     public String getTitle() {

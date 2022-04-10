@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository("sessionRepository")
 public interface SessionRepository extends JpaRepository<Session, Long> {
-    List<Session> findByStatus(SessionStatus status);
+    List<Session> findByStatus(SessionStatus sessionStatus);
 
     Session findBySessionId(Long sessionId);
 }

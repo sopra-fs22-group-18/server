@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
-import ch.uzh.ifi.hase.soprafs22.constant.Status;
+import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
@@ -69,7 +69,7 @@ public class UserControllerTest {
     mockMvc.perform(getRequest).andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].username", is(user.getUsername())));
-        //.andExpect(jsonPath("$[0].status", is(user.getStatus().toString())));
+        //.andExpect(jsonPath("$[0].userStatus", is(user.getUserStatus().toString())));
   }
 
   @Test
@@ -98,7 +98,7 @@ public class UserControllerTest {
     user.setPassword("test");
     //user.setLogged_in(true);
     //user.setCreation_date(new Date());
-    user.setStatus(Status.ONLINE);
+    user.setUserStatus(UserStatus.ONLINE);
 
       UserPostDTO userPostDTO = new UserPostDTO();
       userPostDTO.setUsername("testUsername");
@@ -118,7 +118,7 @@ public class UserControllerTest {
               .andExpect(jsonPath("$.username", is(user.getUsername())));
               //.andExpect(jsonPath("$.logged_in", is(user.getLogged_in())));
               //.andExpect(jsonPath("$.creation_date", is(getFormatedDate(user.getCreation_date()))))
-              //.andExpect(jsonPath("$.status", is(user.getStatus().toString())));
+              //.andExpect(jsonPath("$.userStatus", is(user.getUserStatus().toString())));
 
 
   }
@@ -133,7 +133,7 @@ public class UserControllerTest {
         user.setPassword("testPassword");
         user.setLogged_in(true);
         user.setCreation_date(new Date());
-        user.setStatus(UserStatus.ONLINE);
+        user.setUserStatus(UserStatus.ONLINE);
 
         UserPostDTO userPostDTO = new UserPostDTO();
         userPostDTO.setUsername("testUsername");
@@ -152,7 +152,7 @@ public class UserControllerTest {
                   .andExpect(status().isCreated())
                   .andExpect(jsonPath("$.userId", is(user.getUserId().intValue())))
                   .andExpect(jsonPath("$.username", is(user.getUsername())));
-                  //.andExpect(jsonPath("$.status", is(user.getStatus().toString())));
+                  //.andExpect(jsonPath("$.userStatus", is(user.getUserStatus().toString())));
 
           try {
 
@@ -178,7 +178,7 @@ public class UserControllerTest {
       user.setUsername("testUsername");
       user.setPassword("testPassword");
       //user.setCreation_date(new Date());
-      user.setStatus(Status.ONLINE);
+      user.setUserStatus(UserStatus.ONLINE);
 
       given(userService.updateUser(user)).willReturn(user);
 
@@ -205,7 +205,7 @@ public class UserControllerTest {
         user.setUsername("testUsername");
         user.setPassword("test");
         user.setCreation_date(new Date());
-        user.setStatus(UserStatus.ONLINE);
+        user.setUserStatus(UserStatus.ONLINE);
 
         given(userService.updateUser(user)).willReturn(user);
 

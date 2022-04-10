@@ -1,11 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
-import ch.uzh.ifi.hase.soprafs22.constant.Status;
+import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
 import org.junit.jupiter.api.Test;
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,7 +34,7 @@ public class UserDTOMapperTest {
     // create User
     User user = new User();
     user.setUsername("firstname@lastname");
-    user.setStatus(Status.OFFLINE);
+    user.setUserStatus(UserStatus.OFFLINE);
    //user.setCreation_date(new Date());
 
     // MAP -> Create UserGetDTO

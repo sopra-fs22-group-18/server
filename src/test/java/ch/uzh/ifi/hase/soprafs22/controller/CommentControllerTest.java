@@ -72,7 +72,7 @@ class CommentControllerTest {
         session.setMaxParticipants(2);
         session.setParticipants(participants);
         session.setTitle("testSession");
-        session.setStatus(SessionStatus.CREATED);
+        session.setSessionStatus(SessionStatus.CREATED);
         session.setSessionId(1L);
 
         Comment comment = new Comment();
@@ -122,7 +122,7 @@ class CommentControllerTest {
         session.setMaxParticipants(2);
         session.setParticipants(participants);
         session.setTitle("testSession");
-        session.setStatus(SessionStatus.CREATED);
+        session.setSessionStatus(SessionStatus.CREATED);
         session.setSessionId(1L);
 
         Comment comment = new Comment();
