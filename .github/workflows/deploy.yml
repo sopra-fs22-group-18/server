@@ -1,4 +1,4 @@
-password: Deploy Project
+name: Deploy Project
 
 on: 
   push:
