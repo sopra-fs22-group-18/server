@@ -1,6 +1,7 @@
-package ch.uzh.ifi.hase.soprafs22.service;
+package ch.uzh.ifi.hase.soprafs22.entitiy;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.entity.ChatUser;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,6 @@
-package ch.uzh.ifi.hase.soprafs22.service;
+package ch.uzh.ifi.hase.soprafs22.entity;
+
+import ch.uzh.ifi.hase.soprafs22.service.Socket;
 
 public class ChatUser {
     public Socket socket;
