@@ -40,8 +40,7 @@ public class SessionService {
   }
 
   public List<Session> getActiveSessions() {
-      List<Session> activeSessions = this.sessionRepository.findByStatus(SessionStatus.CREATED);
-
+      List<Session> activeSessions = this.sessionRepository.findAll();
       return activeSessions;
   }
 
