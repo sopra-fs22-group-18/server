@@ -1,7 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
-
+import ch.uzh.ifi.hase.soprafs22.constant.UserType;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -27,75 +27,52 @@ public class User implements Serializable {
   private Long userId;
 
   @Column(nullable = false, unique = true)
-  private String username;//primary key part2
+  private String username;
 
   @Column(nullable = false)
-  private Date creation_date;
+  private String password;
+
+  @Column(nullable = true, unique = true)
+  private UserType type;
 
   @Column(nullable = false)
-  private boolean logged_in;
-
-  @Column(nullable = true)
-    private Date birthday;
-
-  @Column(nullable = false)
-    private String password;
-
+  private UserStatus userStatus;
 
   @Column(nullable = false, unique = true)
   private String token;
 
-  @Column(nullable = false)
-  private UserStatus status;
+  @Column(nullable = true)
+  private Date birthday;
 
-  public Long getUserId() {
-    return userId;
-  }
+  public Long getUserId() {return userId; }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
-  }
+  public void setUserId(Long userId) { this.userId = userId; }
 
-  public String getPassword() {
-    return password;}
+  public String getUsername() {return username; }
 
-  public void setPassword(String password) {
-    this.password = password;}
+  public void setUsername(String username) {this.username = username;}
 
-  public String getUsername() {
-    return username;}
+  public String getPassword() {return password; }
+  public void setPassword(String password) {this.password = password;}
 
-  public void setUsername(String username) {
-    this.username = username;}
+  public String getToken() {return token;}
 
-  public String getToken() {
-    return token;}
+  public void setToken(String token) {this.token = token;}
 
-  public void setToken(String token) {
-    this.token = token;}
+  public UserType getUserType() {return type;}
 
-  public boolean getLogged_in() {
-    return logged_in;}
+  public void setUserType(UserType type) {this.type = type;}
 
-  public void setLogged_in(boolean logged_in) {
-    this.logged_in = logged_in;}
+    public UserStatus getUserStatus() {return userStatus;}
 
-  public Date getCreation_date() {
-    return creation_date;}
+    public void setUserStatus(UserStatus userStatus) {this.userStatus = userStatus;}
 
-  public void setCreation_date(Date creation_date) {
-    this.creation_date = creation_date;}
+    public UserType getType() { return type; }
 
-  public Date getBirthday() {
-    return birthday;}
+  public void setType(UserType type) { this.type = type; }
 
-public void setBirthday(Date birthday) {
-    this.birthday = birthday;}
+  public Date getBirthday() { return birthday; }
 
-public UserStatus getStatus() {
-  return status;}
+  public void setBirthday(Date birthday) { this.birthday = birthday; }
 
-public void setStatus(UserStatus status) {
-  this.status = status;}
 }
-

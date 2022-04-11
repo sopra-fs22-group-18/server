@@ -40,15 +40,14 @@ public class SessionService {
   }
 
   public List<Session> getActiveSessions() {
-      List<Session> activeSessions = this.sessionRepository.findByStatus(SessionStatus.CREATED);
-
+      List<Session> activeSessions = this.sessionRepository.findAll();
       return activeSessions;
   }
 
 
   public Session createSession(Session newSession) {
     // update Session status
-    newSession.setStatus(SessionStatus.CREATED);
+    newSession.setSessionStatus(SessionStatus.CREATED);
 
     // find host
     String baseErrorMessage = "Host with id %x was not found";

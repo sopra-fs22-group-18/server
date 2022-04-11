@@ -1,6 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
+import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
@@ -32,7 +32,7 @@ public class UserService {
     //create a user
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
-        newUser.setCreation_date(new Date());
+        //newUser.setCreation_date(new Date());
         setUserOnlineandLoggedin(newUser);
         checkIfUserExists(newUser);
         // save user and make it persistent
@@ -86,13 +86,13 @@ public class UserService {
     
     //set user offline and loggedin false
     public void setUserOfflineandLoggedout(User usertobelogedoutandsetofflien){
-        usertobelogedoutandsetofflien.setStatus(UserStatus.OFFLINE);
-        usertobelogedoutandsetofflien.setLogged_in(false);}
+        usertobelogedoutandsetofflien.setUserStatus(UserStatus.OFFLINE);}
+        //usertobelogedoutandsetofflien.setLogged_in(false);}
     
     //set user online and loggedin true
     public void setUserOnlineandLoggedin(User usertobesetonlineandloggedin){
-        usertobesetonlineandloggedin.setStatus(UserStatus.ONLINE);
-        usertobesetonlineandloggedin.setLogged_in(true);}
+        usertobesetonlineandloggedin.setUserStatus(UserStatus.ONLINE);}
+        //usertobesetonlineandloggedin.setLogged_in(true);}
 
     //check if username already in use, if so throw error
     private void checkIfUserExists(User userToBeCreated) {

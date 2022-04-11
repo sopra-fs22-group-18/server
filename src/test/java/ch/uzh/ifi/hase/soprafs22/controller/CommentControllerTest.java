@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Comment;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentPostDTO;
+
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.CommentService;
 import ch.uzh.ifi.hase.soprafs22.service.SessionService;
@@ -71,7 +72,7 @@ class CommentControllerTest {
         session.setMaxParticipants(2);
         session.setParticipants(participants);
         session.setTitle("testSession");
-        session.setStatus(SessionStatus.CREATED);
+        session.setSessionStatus(SessionStatus.CREATED);
         session.setSessionId(1L);
 
         Comment comment = new Comment();
@@ -121,7 +122,7 @@ class CommentControllerTest {
         session.setMaxParticipants(2);
         session.setParticipants(participants);
         session.setTitle("testSession");
-        session.setStatus(SessionStatus.CREATED);
+        session.setSessionStatus(SessionStatus.CREATED);
         session.setSessionId(1L);
 
         Comment comment = new Comment();

@@ -13,7 +13,7 @@ public class SessionGetDTO {
   private User winner;
   private Set<User> participants;
   private int maxParticipants;
-  private SessionStatus status;
+  private SessionStatus sessionStatus;
   private String title;
 
 
@@ -57,12 +57,13 @@ public class SessionGetDTO {
         this.maxParticipants = maxParticipants;
     }
 
-    public SessionStatus getStatus() {
-        return status;
+
+    public SessionStatus getSessionStatus() {
+        return sessionStatus;
     }
 
-    public void setStatus(SessionStatus status) {
-        this.status = status;
+    public void setSessionStatus(SessionStatus sessionStatus) {
+        this.sessionStatus = sessionStatus;
     }
 
     public String getTitle() {

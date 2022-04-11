@@ -32,7 +32,8 @@ public interface SessionDTOMapper {
   @Mapping(source = "winner", target = "winner")
   @Mapping(source = "participants", target = "participants")
   @Mapping(source = "maxParticipants", target = "maxParticipants")
-  @Mapping(source = "status", target = "status")
+
+  @Mapping(source = "sessionStatus", target = "sessionStatus")
   @Mapping(source = "title", target = "title")
   SessionGetDTO convertEntityToSessionGetDTO(Session session);
 

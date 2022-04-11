@@ -10,7 +10,6 @@ public class UserGetDTO {
   private Date creation_date;
   private boolean logged_in;
   private Date birthday;
-  private UserStatus status;
 
   public Long getUserId() {return userId;}
 
@@ -19,8 +18,6 @@ public class UserGetDTO {
   public String getUsername() {return username;}
 
   public void setUsername(String username) {this.username = username;}
-
-  public Date getCreation_date() {return creation_date;}
 
   public void setCreation_date(Date creation_date) {this.creation_date = creation_date;}
 
@@ -32,15 +29,8 @@ public class UserGetDTO {
 
   public void setBirthday(Date birthday) {this.birthday = birthday;}
 
-    public boolean isLogged_in() {
+  public boolean isLogged_in() {
         return logged_in;
     }
 
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
-    }
 }

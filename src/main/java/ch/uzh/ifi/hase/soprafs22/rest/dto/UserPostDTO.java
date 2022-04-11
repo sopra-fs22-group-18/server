@@ -5,11 +5,11 @@ public class UserPostDTO {
   private String password;
   private String username;
 
-    public Long getUserId() {return userId;}
+  public Long getUserId() {return userId;}
 
-    public void setUserId(Long userId) {this.userId = userId;}
+  public void setUserId(Long userId) {this.userId = userId;}
 
-    public String getPassword() {return password;}
+  public String getPassword() {return password;}
 
   public void setPassword(String password) {this.password = password;}
 
