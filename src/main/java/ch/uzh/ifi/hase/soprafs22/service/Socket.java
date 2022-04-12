@@ -1,26 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.ChatUser;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -31,16 +16,15 @@ import javax.websocket.server.ServerEndpoint;
 
 
 @Component
-@ServerEndpoint(value = "/websocket/{username}/{sessionid}", 
+@ServerEndpoint(value = "/websocket/{username}/{sessionId}",
                 encoders = MessageEncoder.class,
                  decoders = MessageDecoder.class)
 public class Socket {
     private Session session;
-    //private ChatUser chatUser;
     public static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username, @PathParam("sessionid") Long sessionId) {  
+    public void onOpen(Session session, @PathParam("username") String username, @PathParam("sessionId") Long sessionId) {
         ChatUser chatUser = new ChatUser();
         this.session = session;
         chatUser.socket = this;
@@ -52,19 +36,14 @@ public class Socket {
     }
 
     @OnMessage //Allows the client to send message to the socket.
-    public void onMessage(String message, @PathParam("sessionid") Long sessionId) {
+    public void onMessage(String message, @PathParam("sessionId") Long sessionId) {
         broadcast(message, sessionId);
     }
 
     @OnClose
     public void onClose(Session session, @PathParam("username") String username) {
-        //chatListeners.remove(chatUser);
-        //bandaid fix for now =)
-        for (ChatUser chatListener: chatListeners) {
-            if (chatListener.name == username) {
-                chatListeners.remove(chatListener);
-            }
-        }
+        //band-aid fix for now =)
+        chatListeners.removeIf(chatListener -> chatListener.name.equals(username));
     }
 
     @OnError
@@ -85,7 +64,7 @@ public class Socket {
         try {
             this.session.getBasicRemote().sendText(message);
         } catch (IOException e) {
-            System.out.println(e);;
+            System.out.println(e);
         }
     }
 }
