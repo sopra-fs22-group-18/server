@@ -6,6 +6,7 @@ public class ChatUser {
     private Socket socket;
     private String name;
     private Long sessionId;
+    private Long userId;
 
     public void setSocket(Socket socket) {
         this.socket = socket;
@@ -29,5 +30,13 @@ public class ChatUser {
 
     public Long getSessionId() {
         return sessionId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 }

@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.ChatUser;
+import ch.uzh.ifi.hase.soprafs22.entity.Comment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ import javax.websocket.server.ServerEndpoint;
 // should add rooms instead of sessionid if enough time
 
 @Component
-@ServerEndpoint(value = "/websocket/{username}/{sessionId}", 
+@ServerEndpoint(value = "/websocket/{userId}/{sessionId}", 
                 encoders = MessageEncoder.class,
                  decoders = MessageDecoder.class)
 public class Socket {
@@ -40,28 +41,29 @@ public class Socket {
     public static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username, @PathParam("sessionId") Long sessionId) {  
+    public void onOpen(Session session, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {  
         ChatUser chatUser = new ChatUser();
         this.session = session;
         chatUser.setSocket(this);
-        chatUser.setName(username);
+        chatUser.setUserId(userId);
         chatUser.setSessionId(sessionId);
+        // can't get Username without closing the connection instantly 
 
         chatListeners.add(chatUser);
-        broadcast("Welcome to the session " + sessionId + ", " + username, sessionId);
+        broadcast("Welcome to session " + sessionId, sessionId);
     }
 
     @OnMessage //Allows the client to send message to the socket.
-    public void onMessage(String message, @PathParam("sessionId") Long sessionId) {
+    public void onMessage(String message, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {
         broadcast(message, sessionId);
     }
 
     @OnClose
-    public void onClose(Session session, @PathParam("username") String username) {
+    public void onClose(Session session, @PathParam("userId") Long userId) {
         //chatListeners.remove(chatUser);
-        //bandaid fix for now =)
+        //bandaid fix for now (list.stream().filter can't cast optional)
         for (ChatUser chatListener: chatListeners) {
-            if (chatListener.getName() == username) {
+            if (chatListener.getUserId() == userId) {
                 chatListeners.remove(chatListener);
             }
         }
