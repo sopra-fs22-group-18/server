@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.constant.UserType;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
@@ -33,7 +34,7 @@ public class UserService {
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
         //newUser.setCreation_date(new Date());
-        setUserOnlineandLoggedin(newUser);
+        setUserOnlineStandard(newUser);
         checkIfUserExists(newUser);
         // save user and make it persistent
         newUser = userRepository.save(newUser);
@@ -60,12 +61,12 @@ public class UserService {
         User foundUser = userRepository.findByUsername(tocheckuser.getUsername());
         //checking if username exists if not throw error
         if (foundUser == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username not found, can't log in");}
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username not found, can't log in");}
         //checking if password matches username if nott throw error
         if (!foundUser.getPassword().equals(tocheckuser.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password used");}
         //set status to online and loggedin true
-        setUserOnlineandLoggedin(foundUser); 
+        setUserOnlineStandard(foundUser); 
         return foundUser;}
 
     //update user
@@ -79,19 +80,20 @@ public class UserService {
         if (userRepository.findByUsername(inputUser.getUsername())!=null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", inputUser.getUsername()));}
         databaseuser.setUsername(inputUser.getUsername());
-        databaseuser.setBirthday(inputUser.getBirthday());
         User upgedateUser=userRepository.save(databaseuser);
         return upgedateUser;}
 
     
     //set user offline and loggedin false
-    public void setUserOfflineandLoggedout(User usertobelogedoutandsetofflien){
-        usertobelogedoutandsetofflien.setUserStatus(UserStatus.OFFLINE);}
+    public void setUserOffline(User userstatustobechanged){
+        userstatustobechanged.setUserStatus(UserStatus.OFFLINE);}
         //usertobelogedoutandsetofflien.setLogged_in(false);}
     
     //set user online and loggedin true
-    public void setUserOnlineandLoggedin(User usertobesetonlineandloggedin){
-        usertobesetonlineandloggedin.setUserStatus(UserStatus.ONLINE);}
+    public void setUserOnlineStandard(User userstatustobechanged){
+        userstatustobechanged.setUserStatus(UserStatus.ONLINE);
+        userstatustobechanged.setUserType(UserType.STANDARD);}
+
         //usertobesetonlineandloggedin.setLogged_in(true);}
 
     //check if username already in use, if so throw error
