@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,7 +75,7 @@ public class Socket {
         //Error
     }
 
-    public static void broadcast(String message, long sessionId) {
+    public static void broadcast(String message, Long sessionId) {
         // good for now but not scalable I guess
         for (ChatUser chatListener: chatListeners) {
             if (chatListener.getSessionId() == sessionId) {
@@ -88,6 +89,18 @@ public class Socket {
             this.session.getBasicRemote().sendText(message);
         } catch (IOException e) {
             System.out.println(e);;
+        }
+    }
+
+    //
+    public void closeSession(Long sessionId, String winner) throws IOException {
+        for (ChatUser chatListener: chatListeners) {
+            if (chatListener.getSessionId() == sessionId) {
+                chatListener.getSocket().sendMessage("User : " + winner + " won, session closes");
+                chatListeners.remove(chatListener);
+                chatListener.getSocket().session.close();
+                chatListener = null;
+            }
         }
     }
 }
