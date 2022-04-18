@@ -32,7 +32,7 @@ public class Socket {
         // can't get Username without closing the connection instantly
 
         chatListeners.add(chatUser);
-        broadcast("Welcome to session " + sessionId, sessionId);
+        broadcast("Welcome to session " + sessionId + " user " + userId, sessionId);
     }
 
     @OnMessage //Allows the client to send message to the socket.
