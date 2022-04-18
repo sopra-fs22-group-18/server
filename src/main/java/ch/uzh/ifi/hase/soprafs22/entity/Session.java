@@ -74,6 +74,13 @@ public class Session implements Serializable {
         this.participants = participants;
     }
 
+    public void addParticipant(User participant) {
+        this.participants.add(participant);
+        if (participants.size() == maxParticipants) {
+            this.setSessionStatus(SessionStatus.ONGOING);
+        }
+    }
+
     public int getMaxParticipants() {
         return maxParticipants;
     }

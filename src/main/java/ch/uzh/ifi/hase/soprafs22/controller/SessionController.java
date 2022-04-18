@@ -68,4 +68,14 @@ public class SessionController {
 
         return sessionGetDTO;
     }
+
+    @GetMapping("/sessions/join/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public SessionGetDTO joinSession(@PathVariable Long userId) {
+        Session session = sessionService.nextInQueue(userId);
+        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
+        return sessionGetDTO;
+    }
+
 }

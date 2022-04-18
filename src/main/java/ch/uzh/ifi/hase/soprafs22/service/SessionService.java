@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Session Service
@@ -70,5 +71,23 @@ public class SessionService {
 
     public Session getSession(Long sessionId) {
       return this.sessionRepository.findBySessionId(sessionId);
+    }
+
+    public Session nextInQueue(Long userId) {
+      List<Session> openSessions = this.sessionRepository.findAllBySessionStatus(SessionStatus.CREATED);
+      Session nextSession = openSessions.isEmpty() ? null : openSessions.get(0);
+
+      Optional<User> optionalUserFound = this.userRepository.findById(userId);
+      String baseErrorMessage = "User with id %x was not found";
+      User participant = optionalUserFound.orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId))
+        );
+
+      nextSession.addParticipant(participant);
+
+      sessionRepository.save(nextSession);
+      sessionRepository.flush();
+
+      return nextSession;
     }
 }

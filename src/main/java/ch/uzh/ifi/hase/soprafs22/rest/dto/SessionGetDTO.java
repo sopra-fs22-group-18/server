@@ -9,9 +9,9 @@ import java.util.Set;
 public class SessionGetDTO {
 
   private Long sessionId;
-//  private User host;
+  private User host;
 //  private User winner;
-//  private Set<User> participants;
+  private Set<User> participants;
   private int maxParticipants;
   private SessionStatus sessionStatus;
   private String title;
@@ -81,5 +81,21 @@ public class SessionGetDTO {
 
     public void setHostUsername(String hostUsername) {
         this.hostUsername = hostUsername;
+    }
+
+    public User getHost() {
+        return host;
+    }
+
+    public void setHost(User host) {
+        this.host = host;
+    }
+
+    public Set<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<User> participants) {
+        this.participants = participants;
     }
 }
