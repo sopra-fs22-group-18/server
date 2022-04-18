@@ -4,7 +4,8 @@ import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.constant.UserType;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.awt.Image;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Internal User Representation
@@ -19,30 +20,26 @@ import java.util.Date;
 @Entity
 @Table(name = "USER")
 public class User implements Serializable {
-
   private static final long serialVersionUID = 1L;
-
-  @Id
-  @GeneratedValue
+  @Id //primary key part1
+  @GeneratedValue //auto incrementing id for each new user
   private Long userId;
+
 
   @Column(nullable = false, unique = true)
   private String username;
 
   @Column(nullable = false)
   private String password;
-
-  @Column(nullable = true, unique = true)
+  @Column(nullable = true)
   private UserType type;
-
   @Column(nullable = false)
   private UserStatus userStatus;
 
   @Column(nullable = false, unique = true)
   private String token;
-
   @Column(nullable = true)
-  private Date birthday;
+  private String  imagepath ;
 
   public Long getUserId() {return userId; }
 
@@ -63,16 +60,12 @@ public class User implements Serializable {
 
   public void setUserType(UserType type) {this.type = type;}
 
-    public UserStatus getUserStatus() {return userStatus;}
+  public UserStatus getUserStatus() {return userStatus;}
 
-    public void setUserStatus(UserStatus userStatus) {this.userStatus = userStatus;}
+  public void setUserStatus(UserStatus userStatus) {this.userStatus = userStatus;}
 
-    public UserType getType() { return type; }
+  public String  getImagepath() { return imagepath; }
 
-  public void setType(UserType type) { this.type = type; }
-
-  public Date getBirthday() { return birthday; }
-
-  public void setBirthday(Date birthday) { this.birthday = birthday; }
+  public void setImagepath(String imagepath) { this.imagepath = imagepath; }
 
 }

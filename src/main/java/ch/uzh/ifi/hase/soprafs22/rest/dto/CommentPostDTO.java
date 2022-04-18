@@ -6,11 +6,14 @@ import ch.uzh.ifi.hase.soprafs22.entity.User;
 import java.util.Date;
 
 public class CommentPostDTO {
-
+    private Long commentId;
     private User user;
     private Session session;
     private String commentText;
     private Date createdDate;
+    public Long getCommentId() {return commentId;}
+
+  public void setCommentId(Long commentId) {this.commentId = commentId;}
 
     public User getUser() { return user; }
 
