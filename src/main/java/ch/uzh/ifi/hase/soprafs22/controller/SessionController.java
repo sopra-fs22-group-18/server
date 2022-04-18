@@ -1,13 +1,18 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.SessionDTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.SessionService;
+import ch.uzh.ifi.hase.soprafs22.service.Socket;
+import ch.uzh.ifi.hase.soprafs22.service.UserService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +28,13 @@ import java.util.List;
 public class SessionController {
 
   private final SessionService sessionService;
+  private final UserService userService;
+  private final Socket socket;
 
-  SessionController(SessionService sessionService) {
+  SessionController(SessionService sessionService, UserService userService, Socket socket) {
     this.sessionService = sessionService;
+    this.userService = userService;
+    this.socket = socket;
   }
 
   @GetMapping("/sessions")
@@ -57,25 +66,12 @@ public class SessionController {
     return SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(createdSession);
   }
 
-    @GetMapping("/sessions/{sessionId}")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public SessionGetDTO getSession(@PathVariable Long sessionId) {
-
-        Session session = sessionService.getSession(sessionId);
-        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
-        sessionGetDTO.setHostUsername(session.getHost().getUsername());
-
-        return sessionGetDTO;
-    }
-
-    @GetMapping("/sessions/join/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public SessionGetDTO joinSession(@PathVariable Long userId) {
-        Session session = sessionService.nextInQueue(userId);
-        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
-        return sessionGetDTO;
-    }
-
+  @PostMapping("/sessions/{sessionId}/{winnerId}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void declareSessionWinner(@PathVariable Long sessionId, @PathVariable Long winnerId) throws IOException {
+    User winner = userService.getUser(winnerId);
+    // change session hostId and status
+    socket.closeSession(sessionId, winner.getUsername());
+  }
 }
