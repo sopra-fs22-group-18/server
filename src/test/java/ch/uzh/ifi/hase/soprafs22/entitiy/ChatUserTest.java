@@ -23,15 +23,13 @@ public class ChatUserTest {
 
     // given
     testChatUser = new ChatUser();
-    testChatUser.name = ("testName");
-    testChatUser.sessionId = (long) 1; 
+    testChatUser.setName("testName");
+    testChatUser.setSessionId((long) 1);
   }
 
   @Test
   public void createChatUser_validInputs() {
-    // when -> any object is being save in the userRepository -> return the dummy
-
-    assertEquals(testChatUser.name, "testName");
-    assertEquals(testChatUser.sessionId, (long) 1);
+    assertEquals(testChatUser.getName(), "testName");
+    assertEquals(testChatUser.getSessionId(), (long) 1);
   }
 }

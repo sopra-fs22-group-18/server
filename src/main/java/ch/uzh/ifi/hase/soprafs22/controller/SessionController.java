@@ -56,4 +56,16 @@ public class SessionController {
     // convert internal representation of session back to API
     return SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(createdSession);
   }
+
+    @GetMapping("/sessions/{sessionId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public SessionGetDTO getSession(@PathVariable Long sessionId) {
+
+        Session session = sessionService.getSession(sessionId);
+        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
+        sessionGetDTO.setHostUsername(session.getHost().getUsername());
+
+        return sessionGetDTO;
+    }
 }

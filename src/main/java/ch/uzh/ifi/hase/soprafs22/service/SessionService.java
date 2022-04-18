@@ -68,5 +68,7 @@ public class SessionService {
     return newSession;
   }
 
-
+    public Session getSession(Long sessionId) {
+      return this.sessionRepository.findBySessionId(sessionId);
+    }
 }

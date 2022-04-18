@@ -9,12 +9,13 @@ import java.util.Set;
 public class SessionGetDTO {
 
   private Long sessionId;
-  private User host;
-  private User winner;
-  private Set<User> participants;
+//  private User host;
+//  private User winner;
+//  private Set<User> participants;
   private int maxParticipants;
   private SessionStatus sessionStatus;
   private String title;
+  private String hostUsername;
 
 
     public Long getSessionId() {
@@ -25,29 +26,29 @@ public class SessionGetDTO {
         this.sessionId = sessionId;
     }
 
-    public User getHost() {
-        return host;
-    }
+//    public User getHost() {
+//        return host;
+//    }
+//
+//    public void setHost(User host) {
+//        this.host = host;
+//    }
 
-    public void setHost(User host) {
-        this.host = host;
-    }
-
-    public User getWinner() {
-        return winner;
-    }
-
-    public void setWinner(User winner) {
-        this.winner = winner;
-    }
-
-    public Set<User> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(Set<User> participants) {
-        this.participants = participants;
-    }
+//    public User getWinner() {
+//        return winner;
+//    }
+//
+//    public void setWinner(User winner) {
+//        this.winner = winner;
+//    }
+//
+//    public Set<User> getParticipants() {
+//        return participants;
+//    }
+//
+//    public void setParticipants(Set<User> participants) {
+//        this.participants = participants;
+//    }
 
     public int getMaxParticipants() {
         return maxParticipants;
@@ -72,5 +73,13 @@ public class SessionGetDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getHostUsername() {
+        return hostUsername;
+    }
+
+    public void setHostUsername(String hostUsername) {
+        this.hostUsername = hostUsername;
     }
 }
