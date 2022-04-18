@@ -66,6 +66,27 @@ public class SessionController {
     return SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(createdSession);
   }
 
+    @GetMapping("/sessions/{sessionId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public SessionGetDTO getSession(@PathVariable Long sessionId) {
+
+        Session session = sessionService.getSession(sessionId);
+        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
+        sessionGetDTO.setHostUsername(session.getHost().getUsername());
+
+        return sessionGetDTO;
+    }
+
+    @GetMapping("/sessions/join/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public SessionGetDTO joinSession(@PathVariable Long userId) {
+        Session session = sessionService.nextInQueue(userId);
+        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
+        return sessionGetDTO;
+    }
+
   @PostMapping("/sessions/{sessionId}/{winnerId}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -75,3 +96,5 @@ public class SessionController {
     socket.closeSession(sessionId, winner.getUsername());
   }
 }
+
+
