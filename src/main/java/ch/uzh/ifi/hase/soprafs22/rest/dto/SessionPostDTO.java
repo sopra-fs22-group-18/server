@@ -21,6 +21,8 @@ public class SessionPostDTO {
     private int maxParticipants;
     private String title;
 
+    private String ImageUrl;
+
     public Long getSessionId() {
         return sessionId;
     }
@@ -74,7 +76,6 @@ public class SessionPostDTO {
         this.sessionStatus = sessionStatus;
     }
 
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -82,4 +83,9 @@ public class SessionPostDTO {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    public String getImageUrl() { return ImageUrl; }
+
+    public void setImageUrl(String imageUrl) { ImageUrl = imageUrl; }
+
 }

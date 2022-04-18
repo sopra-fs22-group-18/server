@@ -41,6 +41,9 @@ public class Session implements Serializable {
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = true)
+    private String ImageUrl;
+
 
     public Long getSessionId() {
         return sessionId;
@@ -54,9 +57,7 @@ public class Session implements Serializable {
         return host;
     }
 
-    public void setHost(User host) {
-        this.host = host;
-    }
+    public void setHost(User host) { this.host = host; }
 
     public User getWinner() {
         return winner;
@@ -74,11 +75,8 @@ public class Session implements Serializable {
         this.participants = participants;
     }
 
-    public void addParticipant(User participant) {
-        this.participants.add(participant);
-        if (participants.size() == maxParticipants) {
-            this.setSessionStatus(SessionStatus.ONGOING);
-        }
+    public void addParticipant(User participant) { this.participants.add(participant);
+        if (participants.size() == maxParticipants) { this.setSessionStatus(SessionStatus.ONGOING);}
     }
 
     public int getMaxParticipants() {
@@ -101,10 +99,7 @@ public class Session implements Serializable {
         return sessionStatus;
     }
 
-    public void setSessionStatus(SessionStatus sessionStatus) {
-
-        this.sessionStatus = sessionStatus;
-    }
+    public void setSessionStatus(SessionStatus sessionStatus) { this.sessionStatus = sessionStatus; }
 
     public String getTitle() {
         return title;
@@ -113,4 +108,10 @@ public class Session implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getImageUrl() { return ImageUrl; }
+
+    public void setImageUrl(String imageUrl) { ImageUrl = imageUrl; }
 }
+
+

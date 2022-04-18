@@ -25,6 +25,7 @@ public interface SessionDTOMapper {
   @Mapping(source = "host", target = "host")
   @Mapping(source = "maxParticipants", target = "maxParticipants")
   @Mapping(source = "title", target = "title")
+  @Mapping(source = "imageUrl", target = "imageUrl")
   Session convertSessionPostDTOtoEntity(SessionPostDTO sessionPostDTO);
 
   @Mapping(source = "sessionId", target = "sessionId")
@@ -33,7 +34,7 @@ public interface SessionDTOMapper {
   @Mapping(source = "maxParticipants", target = "maxParticipants")
 //  @Mapping(source = "winner", target = "winner")
   @Mapping(source = "participants", target = "participants")
-  @Mapping(source = "sessionStatus", target = "sessionStatus")
+  @Mapping(source = "imageUrl", target = "imageUrl")
   SessionGetDTO convertEntityToSessionGetDTO(Session session);
 
 }

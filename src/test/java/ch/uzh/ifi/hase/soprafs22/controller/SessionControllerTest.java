@@ -55,6 +55,7 @@ public class SessionControllerTest {
     session.setHost(host);
     session.setMaxParticipants(2);
     session.setTitle("testSession");
+    session.setImageUrl("testURL");
     session.setSessionStatus(SessionStatus.CREATED);
 
 
@@ -73,7 +74,8 @@ public class SessionControllerTest {
 //        .andExpect(jsonPath("$[0].host.userId", is(session.getHost().getUserId().intValue())))
         .andExpect(jsonPath("$[0].maxParticipants", is(session.getMaxParticipants())))
         .andExpect(jsonPath("$[0].title", is(session.getTitle())))
-        .andExpect(jsonPath("$[0].sessionStatus", is(session.getSessionStatus().toString())));
+        .andExpect(jsonPath("$[0].sessionStatus", is(session.getSessionStatus().toString())))
+        .andExpect(jsonPath("$[0].imageUrl", is(session.getImageUrl().toString())));
   }
 
 
@@ -91,6 +93,7 @@ public class SessionControllerTest {
     session.setTitle("testSession");
     session.setSessionStatus(SessionStatus.CREATED);
     session.setSessionId(1L);
+    session.setImageUrl("testURL");
 
     SessionPostDTO sessionPostDTO = new SessionPostDTO();
     sessionPostDTO.setHost(host);
@@ -112,7 +115,8 @@ public class SessionControllerTest {
 //        .andExpect(jsonPath("$.host.userId", is(host.getUserId().intValue())))
         .andExpect(jsonPath("$.maxParticipants", is(session.getMaxParticipants())))
         .andExpect(jsonPath("$.title", is(session.getTitle())))
-        .andExpect(jsonPath("$.sessionStatus", is(SessionStatus.CREATED.toString())));
+        .andExpect(jsonPath("$.sessionStatus", is(SessionStatus.CREATED.toString())))
+        .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl().toString())));
   }
 
   /**

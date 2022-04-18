@@ -17,6 +17,8 @@ public class SessionGetDTO {
   private String title;
   private String hostUsername;
 
+  private String ImageUrl;
+
 
     public Long getSessionId() {
         return sessionId;
@@ -98,4 +100,8 @@ public class SessionGetDTO {
     public void setParticipants(Set<User> participants) {
         this.participants = participants;
     }
+
+    public String getImageUrl() {return ImageUrl;}
+
+    public void setImageUrl(String imageUrl) {ImageUrl = imageUrl;}
 }
