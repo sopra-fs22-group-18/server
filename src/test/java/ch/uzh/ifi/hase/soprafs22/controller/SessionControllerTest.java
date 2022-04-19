@@ -75,7 +75,7 @@ public class SessionControllerTest {
         .andExpect(jsonPath("$[0].maxParticipants", is(session.getMaxParticipants())))
         .andExpect(jsonPath("$[0].title", is(session.getTitle())))
         .andExpect(jsonPath("$[0].sessionStatus", is(session.getSessionStatus().toString())))
-        .andExpect(jsonPath("$[0].imageUrl", is(session.getImageUrl().toString())));
+        .andExpect(jsonPath("$[0].imageUrl", is(session.getImageUrl())));
   }
 
 
@@ -116,7 +116,7 @@ public class SessionControllerTest {
         .andExpect(jsonPath("$.maxParticipants", is(session.getMaxParticipants())))
         .andExpect(jsonPath("$.title", is(session.getTitle())))
         .andExpect(jsonPath("$.sessionStatus", is(SessionStatus.CREATED.toString())))
-        .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl().toString())));
+        .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl())));
   }
 
   /**
