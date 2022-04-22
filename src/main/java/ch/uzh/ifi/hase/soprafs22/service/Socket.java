@@ -46,7 +46,7 @@ public class Socket {
         chatListeners.add(chatUser);
 
         Message message = new Message();
-        message.setFrom(Long.toString(userId));
+        message.setFrom("Server");
         message.setContent("Welcome " + userId + " to session " + sessionId);
         broadcast(message, sessionId);
     }
