@@ -34,4 +34,6 @@ public class CommentGetDTO {
 
     public void setCreatedDate(Date createdDate) { this.createdDate = createdDate; }
 
+
+
 }

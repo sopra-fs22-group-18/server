@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Message;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.websocket.DecodeException;
@@ -29,17 +31,21 @@ public class MessageDecoderTest {
 
     @Test
     public void decodeMessageSuccess() {
-        String testString = "test";
+        Message message = new Message();
 
-        String decodedTestString = "s";
+        message.setContent("test content");
+        message.setFrom("test from");
+
+        Message decodedTestMessage = new Message();
         
         try {
-            decodedTestString = messageDecoder.decode("test");
+            decodedTestMessage = messageDecoder.decode("{\"from\":\"test from\",\"content\":\"test content\"}");
         } catch (DecodeException e) {
             e.printStackTrace();
         }
         
-        assertEquals(testString, decodedTestString);
+        assertEquals(message.getContent(), decodedTestMessage.getContent());
+        assertEquals(message.getFrom(), decodedTestMessage.getFrom());
     }
 
     @Test
@@ -56,4 +62,3 @@ public class MessageDecoderTest {
         assertTrue(messageDecoder.willDecode(testString));
     }
 }
-

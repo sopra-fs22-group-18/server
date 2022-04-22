@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.ChatUser;
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
+import ch.uzh.ifi.hase.soprafs22.entity.Message;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,16 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.websocket.EncodeException;
@@ -36,7 +29,7 @@ import javax.websocket.server.ServerEndpoint;
 @Component
 @ServerEndpoint(value = "/websocket/{userId}/{sessionId}", 
                 encoders = MessageEncoder.class,
-                 decoders = MessageDecoder.class)
+                decoders = MessageDecoder.class)
 public class Socket {
     private Session session;
     public static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
@@ -51,11 +44,15 @@ public class Socket {
         // can't get Username without closing the connection instantly 
 
         chatListeners.add(chatUser);
-        broadcast("Welcome to session " + sessionId, sessionId);
+
+        Message message = new Message();
+        message.setFrom(Long.toString(userId));
+        message.setContent("Welcome " + userId + " to session " + sessionId);
+        broadcast(message, sessionId);
     }
 
     @OnMessage //Allows the client to send message to the socket.
-    public void onMessage(String message, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {
+    public void onMessage(Message message, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {
         broadcast(message, sessionId);
     }
 
@@ -75,7 +72,7 @@ public class Socket {
         //Error
     }
 
-    public static void broadcast(String message, Long sessionId) {
+    public static void broadcast(Message message, Long sessionId) {
         // good for now but not scalable I guess
         for (ChatUser chatListener: chatListeners) {
             if (chatListener.getSessionId() == sessionId) {
@@ -84,19 +81,22 @@ public class Socket {
         }
     }
 
-    private void sendMessage(String message) {
+    private void sendMessage(Message message) {
         try {
-            this.session.getBasicRemote().sendText(message);
-        } catch (IOException e) {
+            this.session.getBasicRemote().sendObject(message);
+        } catch (EncodeException | IOException e) {
             System.out.println(e);;
         }
     }
 
     //
     public void closeSession(Long sessionId, String winner) throws IOException {
+        Message message = new Message();
+        message.setFrom("Server");
+        message.setContent("User : " + winner + " won, session closes");
         for (ChatUser chatListener: chatListeners) {
             if (chatListener.getSessionId() == sessionId) {
-                chatListener.getSocket().sendMessage("User : " + winner + " won, session closes");
+                chatListener.getSocket().sendMessage(message);
                 chatListeners.remove(chatListener);
                 chatListener.getSocket().session.close();
                 chatListener = null;

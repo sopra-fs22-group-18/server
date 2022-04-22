@@ -36,10 +36,13 @@ public class Session implements Serializable {
     private Date createdDate = new Date();
 
     @Enumerated(EnumType.STRING)
-    private SessionStatus status;
+    private SessionStatus sessionStatus;
 
     @Column(nullable = false)
     private String title;
+
+    @Column(nullable = true)
+    private String ImageUrl;
 
 
     public Long getSessionId() {
@@ -54,9 +57,7 @@ public class Session implements Serializable {
         return host;
     }
 
-    public void setHost(User host) {
-        this.host = host;
-    }
+    public void setHost(User host) { this.host = host; }
 
     public User getWinner() {
         return winner;
@@ -72,6 +73,10 @@ public class Session implements Serializable {
 
     public void setParticipants(Set<User> participants) {
         this.participants = participants;
+    }
+
+    public void addParticipant(User participant) { this.participants.add(participant);
+        if (participants.size() == maxParticipants) { this.setSessionStatus(SessionStatus.ONGOING);}
     }
 
     public int getMaxParticipants() {
@@ -90,13 +95,11 @@ public class Session implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public SessionStatus getStatus() {
-        return status;
+    public SessionStatus getSessionStatus() {
+        return sessionStatus;
     }
 
-    public void setStatus(SessionStatus status) {
-        this.status = status;
-    }
+    public void setSessionStatus(SessionStatus sessionStatus) { this.sessionStatus = sessionStatus; }
 
     public String getTitle() {
         return title;
@@ -105,4 +108,10 @@ public class Session implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getImageUrl() { return ImageUrl; }
+
+    public void setImageUrl(String imageUrl) { ImageUrl = imageUrl; }
 }
+
+

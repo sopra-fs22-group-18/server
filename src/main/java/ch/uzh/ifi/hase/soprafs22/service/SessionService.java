@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Session Service
@@ -41,15 +42,14 @@ public class SessionService {
   }
 
   public List<Session> getActiveSessions() {
-      List<Session> activeSessions = this.sessionRepository.findByStatus(SessionStatus.CREATED);
-
+      List<Session> activeSessions = this.sessionRepository.findAll();
       return activeSessions;
   }
 
 
   public Session createSession(Session newSession) {
     // update Session status
-    newSession.setStatus(SessionStatus.CREATED);
+    newSession.setSessionStatus(SessionStatus.CREATED);
 
     // find host
     String baseErrorMessage = "Host with id %x was not found";
@@ -71,5 +71,25 @@ public class SessionService {
     return newSession;
   }
 
+    public Session getSession(Long sessionId) {
+      return this.sessionRepository.findBySessionId(sessionId);
+    }
 
+    public Session nextInQueue(Long userId) {
+      List<Session> openSessions = this.sessionRepository.findAllBySessionStatus(SessionStatus.CREATED);
+      Session nextSession = openSessions.isEmpty() ? null : openSessions.get(0);
+
+      Optional<User> optionalUserFound = this.userRepository.findById(userId);
+      String baseErrorMessage = "User with id %x was not found";
+      User participant = optionalUserFound.orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId))
+        );
+
+      nextSession.addParticipant(participant);
+
+      sessionRepository.save(nextSession);
+      sessionRepository.flush();
+
+      return nextSession;
+    }
 }

@@ -33,6 +33,7 @@ public class UserController {
         User userInput = UserDTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
         // create user
         User createdUser = userService.createUser(userInput);
+        userService.setUserOnlineStandard(userInput);
         // convert internal representation of user back to API
         return UserDTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);}
 
@@ -46,7 +47,7 @@ public class UserController {
         // check login credentials
         User checkuser = userService.checkingUser(userInput);
         //set status online and loggedin true
-        userService.setUserOnlineandLoggedin(userInput);
+        userService.setUserOnlineStandard(userInput);
         //converting internal representation to api representation
         return UserDTOMapper.INSTANCE.convertEntityToUserGetDTO(checkuser);}
 
@@ -90,13 +91,13 @@ public class UserController {
 
 
     // logout user
-    @PutMapping("/logout/{id}")
+    @PutMapping("/users/logout/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDTO logout(@PathVariable Long id){
+    public UserGetDTO logout(@PathVariable Long userId){
         //get user and set status offline and logged_in false
-        User userToSetOffline=userService.getUser(id);
-        userService.setUserOfflineandLoggedout(userToSetOffline);
+        User userToSetOffline=userService.getUser(userId);
+        userService.setUserOffline(userToSetOffline);
          // convert API user to internal representation
         return UserDTOMapper.INSTANCE.convertEntityToUserGetDTO(userToSetOffline);
   }

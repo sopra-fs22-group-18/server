@@ -6,11 +6,15 @@ import javax.websocket.EndpointConfig;
 
 import com.google.gson.Gson;
 
-public class MessageDecoder implements Decoder.Text<String> {
+import ch.uzh.ifi.hase.soprafs22.entity.Message;
+
+public class MessageDecoder implements Decoder.Text<Message> {
+
+    private static Gson gson = new Gson();
 
     @Override
-    public String decode(String s) throws DecodeException {
-        return s;
+    public Message decode(String s) throws DecodeException {
+        return gson.fromJson(s, Message.class);
     }
 
     @Override
@@ -20,11 +24,11 @@ public class MessageDecoder implements Decoder.Text<String> {
 
     @Override
     public void init(EndpointConfig endpointConfig) {
-        // Custom initialization logic
+
     }
 
     @Override
     public void destroy() {
-        // Close resources (if any used)
+
     }
 }

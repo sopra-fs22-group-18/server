@@ -1,4 +1,4 @@
-password: Deploy Project
+name: Deploy Project
 
 on: 
   push:
@@ -17,10 +17,10 @@ jobs:
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
 
     steps:
-    - password: checkout repository code
+    - name: checkout repository code
       uses: actions/checkout@v1
 
-    - password: install Java JDK 15
+    - name: install Java JDK 15
       uses: actions/setup-java@v1
       with:
         java-version: 1.15
@@ -30,7 +30,7 @@ jobs:
     # run: ./gradlew test jacocoTestReport sonarqube --info
 
     # https://devcenter.heroku.com/articles/authentication
-    - password: create .netrc file for heroku authentication
+    - name: create .netrc file for heroku authentication
       run: |+
           cat >~/.netrc <<EOF
           machine api.heroku.com
@@ -41,11 +41,11 @@ jobs:
               password $HEROKU_KEY
           EOF
 
-    - password: login to heroku cli
+    - name: login to heroku cli
       run: heroku login
 
-    - password: add heroku as git remote
+    - name: add heroku as git remote
       run: heroku git:remote -a $HEROKU_APP_NAME
 
-    - password: deploy project to heroku
+    - name: deploy project to heroku
       run: git push heroku HEAD:refs/heads/master

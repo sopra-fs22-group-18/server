@@ -10,11 +10,14 @@ public class SessionGetDTO {
 
   private Long sessionId;
   private User host;
-  private User winner;
+//  private User winner;
   private Set<User> participants;
   private int maxParticipants;
-  private SessionStatus status;
+  private SessionStatus sessionStatus;
   private String title;
+  private String hostUsername;
+
+  private String ImageUrl;
 
 
     public Long getSessionId() {
@@ -25,20 +28,69 @@ public class SessionGetDTO {
         this.sessionId = sessionId;
     }
 
+//    public User getHost() {
+//        return host;
+//    }
+//
+//    public void setHost(User host) {
+//        this.host = host;
+//    }
+
+//    public User getWinner() {
+//        return winner;
+//    }
+//
+//    public void setWinner(User winner) {
+//        this.winner = winner;
+//    }
+//
+//    public Set<User> getParticipants() {
+//        return participants;
+//    }
+//
+//    public void setParticipants(Set<User> participants) {
+//        this.participants = participants;
+//    }
+
+    public int getMaxParticipants() {
+        return maxParticipants;
+    }
+
+    public void setMaxParticipants(int maxParticipants) {
+        this.maxParticipants = maxParticipants;
+    }
+
+
+    public SessionStatus getSessionStatus() {
+        return sessionStatus;
+    }
+
+    public void setSessionStatus(SessionStatus sessionStatus) {
+        this.sessionStatus = sessionStatus;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getHostUsername() {
+        return hostUsername;
+    }
+
+    public void setHostUsername(String hostUsername) {
+        this.hostUsername = hostUsername;
+    }
+
     public User getHost() {
         return host;
     }
 
     public void setHost(User host) {
         this.host = host;
-    }
-
-    public User getWinner() {
-        return winner;
-    }
-
-    public void setWinner(User winner) {
-        this.winner = winner;
     }
 
     public Set<User> getParticipants() {
@@ -49,27 +101,7 @@ public class SessionGetDTO {
         this.participants = participants;
     }
 
-    public int getMaxParticipants() {
-        return maxParticipants;
-    }
+    public String getImageUrl() {return ImageUrl;}
 
-    public void setMaxParticipants(int maxParticipants) {
-        this.maxParticipants = maxParticipants;
-    }
-
-    public SessionStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(SessionStatus status) {
-        this.status = status;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setImageUrl(String imageUrl) {ImageUrl = imageUrl;}
 }
