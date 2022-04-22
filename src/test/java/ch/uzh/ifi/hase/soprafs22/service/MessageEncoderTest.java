@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Message;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.websocket.DecodeException;
@@ -30,14 +32,16 @@ public class MessageEncoderTest {
 
     @Test
     public void decodeMessageSuccess() throws EncodeException {
-        String testString = "test";
+        Message message = new Message();
 
-        String decodedTestString = "s";
+        message.setContent("test content");
+        message.setFrom("test from");
         
-        decodedTestString = messageEncoder.encode("test");
+        String testString = "{\"from\":\"test from\",\"content\":\"test content\"}";
+
+        String encodedTestString = messageEncoder.encode(message);
         
-        assertEquals(testString, decodedTestString);
+        assertEquals(testString, encodedTestString);
     }
 
 }
-
