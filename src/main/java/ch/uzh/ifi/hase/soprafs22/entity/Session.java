@@ -42,7 +42,7 @@ public class Session implements Serializable {
     private String title;
 
     @Column(nullable = true)
-    private String ImageUrl;
+    private String imageUrl;
 
 
     public Long getSessionId() {
@@ -109,9 +109,9 @@ public class Session implements Serializable {
         this.title = title;
     }
 
-    public String getImageUrl() { return ImageUrl; }
+    public String getImageUrl() { return imageUrl; }
 
-    public void setImageUrl(String imageUrl) { ImageUrl = imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }
 
 
