@@ -17,7 +17,7 @@ public class SessionGetDTO {
   private String title;
   private String hostUsername;
 
-  private String ImageUrl;
+  private String imageUrl;
 
 
     public Long getSessionId() {
@@ -101,7 +101,8 @@ public class SessionGetDTO {
         this.participants = participants;
     }
 
-    public String getImageUrl() {return ImageUrl;}
+    public String getImageUrl() {return imageUrl;}
 
-    public void setImageUrl(String imageUrl) {ImageUrl = imageUrl;}
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;}
 }
