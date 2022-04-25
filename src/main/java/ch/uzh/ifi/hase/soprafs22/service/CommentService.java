@@ -1,8 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
+import ch.uzh.ifi.hase.soprafs22.entity.Report;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.repository.CommentRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.ReportRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.SessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +31,19 @@ import java.util.List;
 public class CommentService {
 
     private final Logger log = LoggerFactory.getLogger(CommentService.class);
-
     private final CommentRepository commentRepository;
     private final SessionRepository sessionRepository;
+    private final ReportRepository reportRepository;
+
 
     @Autowired
     public CommentService(@Qualifier("commentRepository") CommentRepository commentRepository,
-                          @Qualifier("sessionRepository") SessionRepository sessionRepository) {
+                          @Qualifier("sessionRepository") SessionRepository sessionRepository,
+                          @Qualifier("reportRepository") ReportRepository reportRepository) {
 
         this.commentRepository = commentRepository;
         this.sessionRepository = sessionRepository;
+        this.reportRepository = reportRepository;
     }
 
 
@@ -76,5 +81,28 @@ public class CommentService {
         }
 
     }
+
+
+    public Report createSessionReport(Report reportInput ) {
+
+        // find report
+        Long reportId = reportInput.getReportId();
+
+        if (reportId == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There exists no report under this reportId!");
+        } else {
+            // set host to user
+            
+            // save to repo and flush
+            reportInput = reportRepository.save( reportInput);
+            reportRepository.flush();
+
+            log.debug("Created Information for SessionComment: {}", reportInput);
+            return reportInput;
+        }
+
+    }
+
+    
 
 }

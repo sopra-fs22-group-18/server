@@ -1,9 +1,14 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
+import ch.uzh.ifi.hase.soprafs22.entity.Report;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.ReportGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.ReportPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.CommentDTOMapper;
+import ch.uzh.ifi.hase.soprafs22.rest.mapper.ReportDTOMapper;
+
 import ch.uzh.ifi.hase.soprafs22.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +62,19 @@ public class CommentController {
 
         // convert internal representation of session back to API
         return CommentDTOMapper.INSTANCE.convertEntityToCommentGetDTO(createdSessionComment);
+    }
+
+    @PostMapping("/sessions/{sessionId}/comments/report")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public ReportGetDTO createSessionComment(@RequestBody ReportPostDTO reportPostDTO) {
+        // convert API session to internal representation
+        Report reportInput = ReportDTOMapper.INSTANCE.convertReportPostDTOtoEntity(reportPostDTO);
+        // create Report
+        Report createdSessionReport = commentService.createSessionReport(reportInput);
+
+        // convert internal representation of session back to API
+        return ReportDTOMapper.INSTANCE.convertEntityToReportGetDTO(createdSessionReport);
     }
 
 }
