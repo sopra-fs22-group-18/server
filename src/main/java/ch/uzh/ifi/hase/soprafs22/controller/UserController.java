@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,7 @@ public class UserController {
     public void updateUser(@RequestBody UserPutDTO userPostDTO, @PathVariable Long userId) {
         //set id, to be able to identify user after username change
         if(userPostDTO.getUserId()!=userId){
-
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with userID = "+userId+" was not found");
         }
         userPostDTO.setUserId(userId);
         // convert API user to internal representation and update user

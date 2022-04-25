@@ -31,13 +31,16 @@ public class User implements Serializable {
 
   @Column(nullable = false)
   private String password;
+
   @Column(nullable = true)
   private UserType type;
+
   @Column(nullable = false)
   private UserStatus userStatus;
 
   @Column(nullable = false, unique = true)
   private String token;
+  
   @Column(nullable = true)
   private String  imagepath ;
 
