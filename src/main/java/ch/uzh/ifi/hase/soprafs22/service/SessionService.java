@@ -50,6 +50,7 @@ public class SessionService {
   public Session createSession(Session newSession) {
     // update Session status
     newSession.setSessionStatus(SessionStatus.CREATED);
+    newSession.setCreatedDate(new Date());
 
     // find host
     String baseErrorMessage = "Host with id %x was not found";

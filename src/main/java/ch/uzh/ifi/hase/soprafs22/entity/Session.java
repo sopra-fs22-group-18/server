@@ -33,7 +33,7 @@ public class Session implements Serializable {
     private int maxParticipants = 2;
 
     @Column(nullable = false)
-    private Date createdDate = new Date();
+    private Date created_date = new Date();
 
     @Enumerated(EnumType.STRING)
     private SessionStatus sessionStatus;
@@ -88,11 +88,11 @@ public class Session implements Serializable {
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+        return created_date;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setCreatedDate(Date created_date) {
+        this.created_date = created_date;
     }
 
     public SessionStatus getSessionStatus() {
