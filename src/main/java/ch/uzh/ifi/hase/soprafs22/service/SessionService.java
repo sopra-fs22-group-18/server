@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,7 @@ public class SessionService {
   public Session createSession(Session newSession) {
     // update Session status
     newSession.setSessionStatus(SessionStatus.CREATED);
+    newSession.setCreatedDate(new Date());
 
     // find host
     String baseErrorMessage = "Host with id %x was not found";
@@ -60,6 +62,7 @@ public class SessionService {
 
     // set host to user
     newSession.setHost(host);
+    newSession.setCreatedDate(new Date());
 
     // save to repo and flush
     newSession = sessionRepository.save(newSession);

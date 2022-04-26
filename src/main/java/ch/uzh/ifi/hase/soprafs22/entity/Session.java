@@ -33,7 +33,7 @@ public class Session implements Serializable {
     private int maxParticipants = 2;
 
     @Column(nullable = false)
-    private Date createdDate = new Date();
+    private Date created_date = new Date();
 
     @Enumerated(EnumType.STRING)
     private SessionStatus sessionStatus;
@@ -42,7 +42,7 @@ public class Session implements Serializable {
     private String title;
 
     @Column(nullable = true)
-    private String ImageUrl;
+    private String imageUrl;
 
 
     public Long getSessionId() {
@@ -88,11 +88,11 @@ public class Session implements Serializable {
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+        return created_date;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setCreatedDate(Date created_date) {
+        this.created_date = created_date;
     }
 
     public SessionStatus getSessionStatus() {
@@ -109,9 +109,9 @@ public class Session implements Serializable {
         this.title = title;
     }
 
-    public String getImageUrl() { return ImageUrl; }
+    public String getImageUrl() { return imageUrl; }
 
-    public void setImageUrl(String imageUrl) { ImageUrl = imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }
 
 
