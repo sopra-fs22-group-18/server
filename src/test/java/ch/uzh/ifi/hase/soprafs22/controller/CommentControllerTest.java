@@ -47,7 +47,7 @@ class CommentControllerTest {
 
     @MockBean
     private CommentService commentService;
-    /* TODO: Fix this test givenSessions_whenGetSessions_thenReturnJsonArray()
+
     @Test
     void givenSessionComment_whenGetSessionComments_thenReturnJsonArray() throws Exception {
         // given
@@ -56,11 +56,11 @@ class CommentControllerTest {
         host.setUserId(1L);
 
         User participant1 = new User();
-        host.setUsername("participant1");
+        participant1.setUsername("participant1");
         host.setUserId(2L);
 
         User participant2 = new User();
-        host.setUsername("participant2");
+        participant2.setUsername("participant2");
         host.setUserId(3L);
 
         Set<User> participants = new HashSet<>();
@@ -87,16 +87,15 @@ class CommentControllerTest {
         given(commentService.getSessionComments(1L)).willReturn(allSessionComments);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get("/sessions/1L/comments")
+        MockHttpServletRequestBuilder getRequest = get("/sessions/" + 1+"/comments")
                 .contentType(MediaType.APPLICATION_JSON);
         // then
         mockMvc.perform(getRequest).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].participant1.userId", is(comment.getUser().getUserId().intValue())))
                 .andExpect(jsonPath("$[0].session.sessionId", is(session.getSessionId().intValue())))
                 .andExpect(jsonPath("$[0].commentText", is(comment.getCommentText())));
     }
-    */
+
 
     @Test
     void createSessionComment_validInput_sessionCommentCreated() throws Exception {

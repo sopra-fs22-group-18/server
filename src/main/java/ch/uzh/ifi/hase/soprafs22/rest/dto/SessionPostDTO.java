@@ -3,30 +3,25 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 
 import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 
 import java.util.Date;
 import java.util.Set;
 
+import java.util.Set;
+
 public class SessionPostDTO {
-    private Long sessionId;
   
     private User winner;
     private Set<User> participants;
-    private Date createdDate;
     private SessionStatus sessionStatus;
     private User host;
     private int maxParticipants;
     private String title;
 
-    private String imageUrl;
+    private String ImageUrl;
 
-    public Long getSessionId() {
-        return sessionId;
-    }
 
-    public void setSessionId(Long sessionId) {
-        this.sessionId = sessionId;
-    }
     public User getWinner() {
         return winner;
     }
@@ -65,6 +60,7 @@ public class SessionPostDTO {
     public void setHost(User host) {
         this.host = host;
     }
+
     public SessionStatus getSessionStatus() {
         return sessionStatus;
     }
@@ -73,16 +69,8 @@ public class SessionPostDTO {
         this.sessionStatus = sessionStatus;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+    public String getImageUrl() { return ImageUrl; }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getImageUrl() { return imageUrl; }
-
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public void setImageUrl(String imageUrl) { ImageUrl = imageUrl; }
 
 }
