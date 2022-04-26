@@ -61,7 +61,7 @@ public class Socket {
         //chatListeners.remove(chatUser);
         //bandaid fix for now (list.stream().filter can't cast optional)
         for (ChatUser chatListener: chatListeners) {
-            if (chatListener.getUserId() == userId) {
+            if (chatListener.getUserId().equals(userId)) {
                 chatListeners.remove(chatListener);
             }
         }
@@ -75,7 +75,7 @@ public class Socket {
     public static void broadcast(Message message, Long sessionId) {
         // good for now but not scalable I guess
         for (ChatUser chatListener: chatListeners) {
-            if (chatListener.getSessionId() == sessionId) {
+            if (chatListener.getSessionId().equals(sessionId)) {
                 chatListener.getSocket().sendMessage(message);
             }
         }
@@ -95,7 +95,7 @@ public class Socket {
         message.setFrom("Server");
         message.setContent("User : " + winner + " won, session closes");
         for (ChatUser chatListener: chatListeners) {
-            if (chatListener.getSessionId() == sessionId) {
+            if (chatListener.getSessionId().equals(sessionId)) {
                 chatListener.getSocket().sendMessage(message);
                 chatListeners.remove(chatListener);
                 chatListener.getSocket().session.close();
