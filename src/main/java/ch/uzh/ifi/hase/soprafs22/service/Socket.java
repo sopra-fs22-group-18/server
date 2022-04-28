@@ -1,15 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.ChatUser;
-import ch.uzh.ifi.hase.soprafs22.entity.Comment;
 import ch.uzh.ifi.hase.soprafs22.entity.Message;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Set;
@@ -34,6 +29,21 @@ public class Socket {
     private Session session;
     public static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
 
+
+    private static CommentService commentService;
+    private static UserService userService;
+
+    @Autowired
+    public void setCommentService(CommentService commentService) {
+        Socket.commentService = commentService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        Socket.userService = userService;
+    }
+
+
     @OnOpen
     public void onOpen(Session session, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {  
         ChatUser chatUser = new ChatUser();
@@ -41,18 +51,20 @@ public class Socket {
         chatUser.setSocket(this);
         chatUser.setUserId(userId);
         chatUser.setSessionId(sessionId);
-        // can't get Username without closing the connection instantly 
+        User user = userService.getUser(userId);
+        chatUser.setName(user.getUsername());
 
         chatListeners.add(chatUser);
 
         Message message = new Message();
         message.setFrom("Server");
-        message.setContent("Welcome " + userId + " to session " + sessionId);
+        message.setContent("Welcome " + chatUser.getName() + " to session " + sessionId);
         broadcast(message, sessionId);
     }
 
     @OnMessage //Allows the client to send message to the socket.
     public void onMessage(Message message, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {
+        commentService.createCommentFromSession(message.getContent(), userId, sessionId);
         broadcast(message, sessionId);
     }
 
@@ -85,7 +97,7 @@ public class Socket {
         try {
             this.session.getBasicRemote().sendObject(message);
         } catch (EncodeException | IOException e) {
-            System.out.println(e);;
+            System.out.println(e);
         }
     }
 
@@ -103,4 +115,5 @@ public class Socket {
             }
         }
     }
+
 }
