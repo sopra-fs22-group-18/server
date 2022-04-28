@@ -3,9 +3,11 @@ package ch.uzh.ifi.hase.soprafs22.service;
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
 import ch.uzh.ifi.hase.soprafs22.entity.Report;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.CommentRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.ReportRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.SessionRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,16 +37,19 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final SessionRepository sessionRepository;
     private final ReportRepository reportRepository;
+    private final UserRepository userRepository;
 
 
     @Autowired
     public CommentService(@Qualifier("commentRepository") CommentRepository commentRepository,
                           @Qualifier("sessionRepository") SessionRepository sessionRepository,
-                          @Qualifier("reportRepository") ReportRepository reportRepository) {
+                          @Qualifier("reportRepository") ReportRepository reportRepository,
+                          @Qualifier("userRepository") UserRepository userRepository) {
 
         this.commentRepository = commentRepository;
         this.sessionRepository = sessionRepository;
         this.reportRepository = reportRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -100,9 +106,24 @@ public class CommentService {
             log.debug("Created Information for SessionComment: {}", reportInput);
             return reportInput;
         }
-
     }
 
+    public void createCommentFromSession(String commentText, Long userId, Long sessionId) {
+        Comment comment = new Comment();
+        comment.setCommentText(commentText);
+        comment.setCreatedDate(new Date());
+
+        Session session = sessionRepository.findBySessionId(sessionId);
+        comment.setSession(session);
+
+        User user = userRepository.findByUserId(userId);
+        comment.setUser(user);
+
+        commentRepository.save(comment);
+        commentRepository.flush();
+        log.debug("Created Information for SessionComment: {}", comment);
+
+    }
     
 
 }
