@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # uncomment tokens for assignment 2-4
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # auto-generated
       HEROKU_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -25,9 +24,8 @@ jobs:
       with:
         java-version: 1.15
 
-    # uncomment for assignment 2-4
-    - password: test the project and upload test report -> sonarqube
-    run: ./gradlew test jacocoTestReport sonarqube --info
+    - name: test the project and upload test report -> sonarqube
+      run: ./gradlew test jacocoTestReport sonarqube --info
 
     # https://devcenter.heroku.com/articles/authentication
     - name: create .netrc file for heroku authentication
