@@ -67,19 +67,6 @@ public class UserServiceTest {
   }
 
   @Test
-  public void text_api_insult() {
-    // given -> a first user has already been created
-    String expected="insult";
-    String actual=TextApi.checkComment("bitch");
-    assertEquals(expected, actual);
-  }
-
-
-
-
-
-
-  @Test
   public void createUser_duplicateInputs_throwsException() {
     // given -> a first user has already been created
     userService.createUser(testUser);

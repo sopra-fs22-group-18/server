@@ -13,7 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 @Transactional
 public class TextApi {
 
-    static String checkComment(String comment_text) {
+    private static String checkComment(String comment_text) {
         String url="https://api.sightengine.com/1.0/text/check.json";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -38,7 +38,7 @@ public class TextApi {
         }
     }
 
-    public String moderateMessage(String comment_text) {
+    public static String moderateMessage(String comment_text) {
         String typeOfViolation = checkComment(comment_text);
         if (typeOfViolation == "") {
             return comment_text;
