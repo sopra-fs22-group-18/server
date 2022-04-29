@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPutDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -22,6 +23,10 @@ import org.mapstruct.factory.Mappers;
 public interface SessionDTOMapper {
 
   SessionDTOMapper INSTANCE = Mappers.getMapper(SessionDTOMapper.class);
+
+  @Mapping(source = "participants", target = "participants")
+  Session convertSessionPutDTOtoEntity(SessionPutDTO sessionPutDTO);
+
   @Mapping(source = "host", target = "host")
   @Mapping(source = "maxParticipants", target = "maxParticipants")
   @Mapping(source = "title", target = "title")
@@ -36,5 +41,6 @@ public interface SessionDTOMapper {
   @Mapping(source = "participants", target = "participants")
   @Mapping(source = "imageUrl", target = "imageUrl")
   SessionGetDTO convertEntityToSessionGetDTO(Session session);
+
 
 }

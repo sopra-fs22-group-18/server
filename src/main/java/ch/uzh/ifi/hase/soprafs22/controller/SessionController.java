@@ -55,7 +55,7 @@ public class SessionController {
   @PostMapping("/sessions")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public SessionGetDTO createSession(@RequestBody SessionPostDTO sessionPostDTO) {
+      public SessionGetDTO createSession(@RequestBody SessionPostDTO sessionPostDTO) {
       // convert API session to internal representation
     Session sessionInput = SessionDTOMapper.INSTANCE.convertSessionPostDTOtoEntity(sessionPostDTO);
 
@@ -83,6 +83,15 @@ public class SessionController {
     @ResponseBody
     public SessionGetDTO joinSession(@PathVariable Long userId) {
         Session session = sessionService.nextInQueue(userId);
+        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
+        return sessionGetDTO;
+    }
+
+    @PutMapping("/sessions/{sessionId}/leave/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public SessionGetDTO leaveSession(@PathVariable Long sessionId, @PathVariable Long userId) {
+        Session session = sessionService.removeParticipant(sessionId, userId);
         SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
         return sessionGetDTO;
     }

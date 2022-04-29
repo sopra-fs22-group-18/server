@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
@@ -92,5 +93,21 @@ public class SessionService {
       sessionRepository.flush();
 
       return nextSession;
+    }
+
+    public Session removeParticipant(Long sessionId, Long userId) {
+
+      Session currentSession = this.sessionRepository.findBySessionId(sessionId);
+      Optional<User> optionalUserFound = this.userRepository.findById(userId);
+      String baseErrorMessage = "User with id %x was not found";
+      User participant = optionalUserFound.orElseThrow(() ->
+              new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId))
+        );
+      currentSession.removeParticipant(participant);
+
+      sessionRepository.save(currentSession);
+      sessionRepository.flush();
+
+      return currentSession;
     }
 }
