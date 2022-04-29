@@ -19,7 +19,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-// should add rooms instead of sessionid if enough time
+// should add rooms instead of session id if enough time
 
 @Component
 @ServerEndpoint(value = "/websocket/{userId}/{sessionId}", 
@@ -29,9 +29,10 @@ public class Socket {
     private Session session;
     public static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
 
-
+    // add in Service so that they can be used by the socket. Autowired with Spring framework below.
     private static CommentService commentService;
     private static UserService userService;
+    private static TextApi textApi;
 
     @Autowired
     public void setCommentService(CommentService commentService) {
@@ -43,6 +44,10 @@ public class Socket {
         Socket.userService = userService;
     }
 
+    @Autowired
+    public void setTextApi(TextApi textApi) {
+        Socket.textApi = textApi;
+    }
 
     @OnOpen
     public void onOpen(Session session, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {  
@@ -51,6 +56,8 @@ public class Socket {
         chatUser.setSocket(this);
         chatUser.setUserId(userId);
         chatUser.setSessionId(sessionId);
+
+        // find user in the userService to access further user attributes
         User user = userService.getUser(userId);
         chatUser.setName(user.getUsername());
 
@@ -64,6 +71,8 @@ public class Socket {
 
     @OnMessage //Allows the client to send message to the socket.
     public void onMessage(Message message, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {
+        String moderatedContent = textApi.moderateMessage(message.getContent());
+        message.setContent(moderatedContent);
         commentService.createCommentFromSession(message.getContent(), userId, sessionId);
         broadcast(message, sessionId);
     }
