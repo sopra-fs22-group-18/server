@@ -1,4 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
@@ -7,7 +9,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 
+@Service
+@Transactional
 public class TextApi {
+
     static String checkComment(String comment_text) {
         String url="https://api.sightengine.com/1.0/text/check.json";
         RestTemplate restTemplate = new RestTemplate();
@@ -31,8 +36,16 @@ public class TextApi {
         else{
             return "";
         }
+    }
 
-        
-}
+    public String moderateMessage(String comment_text) {
+        String typeOfViolation = checkComment(comment_text);
+        if (typeOfViolation == "") {
+            return comment_text;
+        } else {
+            String languageWarning = "This comment contained inappropriate language (" + typeOfViolation + ") and will not be displayed.";
+            return languageWarning;
+        }
+    }
 
 }
