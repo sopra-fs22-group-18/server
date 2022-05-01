@@ -4,6 +4,8 @@ import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.mapper.UserDTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.SessionService;
 import ch.uzh.ifi.hase.soprafs22.service.Socket;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
@@ -20,14 +22,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -79,7 +79,7 @@ public class SessionControllerTest {
     // then
     mockMvc.perform(getRequest).andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(1)))
-//        .andExpect(jsonPath("$[0].host.userId", is(session.getHost().getUserId().intValue())))
+        .andExpect(jsonPath("$[0].host.userId", is(session.getHost().getUserId().intValue())))
         .andExpect(jsonPath("$[0].maxParticipants", is(session.getMaxParticipants())))
         .andExpect(jsonPath("$[0].title", is(session.getTitle())))
         .andExpect(jsonPath("$[0].sessionStatus", is(session.getSessionStatus().toString())))
@@ -120,12 +120,95 @@ public class SessionControllerTest {
     mockMvc.perform(postRequest)
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.sessionId", is(session.getSessionId().intValue())))
-//        .andExpect(jsonPath("$.host.userId", is(host.getUserId().intValue())))
+        .andExpect(jsonPath("$.host.userId", is(host.getUserId().intValue())))
         .andExpect(jsonPath("$.maxParticipants", is(session.getMaxParticipants())))
         .andExpect(jsonPath("$.title", is(session.getTitle())))
         .andExpect(jsonPath("$.sessionStatus", is(SessionStatus.CREATED.toString())))
         .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl())));
   }
+
+    @Test
+    public void givenSession_whenParticipantJoinsSession_thenReturnJsonArray() throws Exception {
+        // given
+        User host = new User();
+        host.setUsername("host");
+        host.setUserId(1L);
+
+        User participant1 = new User();
+        participant1.setUsername("participant1");
+        participant1.setUserId(2L);
+
+        Set<User> participants = new HashSet<>();
+
+        Session session = new Session();
+        session.setHost(host);
+        session.setSessionId(3L);
+        session.setParticipants(participants);
+        session.setMaxParticipants(2);
+        session.setTitle("testSession");
+        session.setImageUrl("testURL");
+        session.setSessionStatus(SessionStatus.CREATED);
+
+
+        List<Session> allSessions = Collections.singletonList(session);
+
+        // this mocks the SessionService -> we define above what the sessionService should
+        // return when getActiveSessions() is called
+        given(sessionService.getActiveSessions()).willReturn(allSessions);
+
+        given(sessionService.nextInQueue(2L)).willReturn(session);
+
+        // when
+        MockHttpServletRequestBuilder getRequest = get("/sessions/join/" + 2).contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$.maxParticipants", is(session.getMaxParticipants())))
+                .andExpect(jsonPath("$.title", is(session.getTitle())))
+                .andExpect(jsonPath("$.sessionStatus", is(session.getSessionStatus().toString())))
+                .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl())))
+                .andExpect(jsonPath("$.participants", hasSize(0)));
+    }
+
+    @Test
+    public void givenSession_whenParticipantLeavesSession_thenReturnJsonArray() throws Exception {
+        User host = new User();
+        host.setUsername("host");
+        host.setUserId(1L);
+
+        User participant1 = new User();
+        participant1.setUsername("participant1");
+        participant1.setUserId(2L);
+
+        Set<User> participants = new HashSet<>();
+        participants.add(participant1);
+
+        Session session = new Session();
+        session.setHost(host);
+        session.setSessionId(3L);
+        session.setParticipants(participants);
+        session.setMaxParticipants(2);
+        session.setTitle("testSession");
+        session.setImageUrl("testURL");
+        session.setSessionStatus(SessionStatus.CREATED);
+
+
+        given(sessionService.removeParticipant(3L, 2L)).willReturn(session);
+
+        MockHttpServletRequestBuilder putRequest = put("/sessions/"+ 3 +"/leave/" + 2)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(putRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.sessionId", is(session.getSessionId().intValue())))
+                .andExpect(jsonPath("$.maxParticipants", is(session.getMaxParticipants())))
+                .andExpect(jsonPath("$.title", is(session.getTitle())))
+                .andExpect(jsonPath("$.sessionStatus", is(session.getSessionStatus().toString())))
+                .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl())))
+                .andExpect(jsonPath("$.participants", hasSize(1)));
+
+
+    }
 
   /**
    * Helper Method to convert DTO into a JSON string such that the input
