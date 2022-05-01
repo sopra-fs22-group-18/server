@@ -124,6 +124,71 @@ public class UserControllerTest {
 
   }
 
+    @Test
+    public void loginUser_checkJsonReturned() throws Exception {
+        // given
+        User user = new User();
+        user.setUserId(3L);
+        user.setUsername("tiger");
+        user.setToken("3");
+        user.setPassword("tiger123");
+        user.setUserStatus(UserStatus.ONLINE);
+
+        UserPostDTO userPostDTO = new UserPostDTO();
+        userPostDTO.setUsername("tiger");
+        userPostDTO.setPassword("tiger123");
+
+        Mockito.when(userService.checkingUser(Mockito.any())).thenReturn(user);
+
+
+        // when
+        MockHttpServletRequestBuilder putRequest = post("/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(userPostDTO));
+
+        // then
+        mockMvc.perform(putRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.userId", is(user.getUserId().intValue())))
+                .andExpect(jsonPath("$.username", is(user.getUsername())));
+    }
+
+
+    @Test
+    public void loginUser_notExisting() throws Exception {
+        UserPostDTO userPostDTO = new UserPostDTO();
+        userPostDTO.setUsername("tiger");
+        userPostDTO.setPassword("tiger123");
+
+        Mockito.when(userService.checkingUser(Mockito.any())).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, "The user was not found"));
+
+        // when
+        MockHttpServletRequestBuilder postRequest = post("/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(userPostDTO));
+
+        // then
+        mockMvc.perform(postRequest)
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    public void logoutUser() throws Exception {
+        // given
+        User user = new User();
+        user.setUserId(3L);
+        user.setUsername("tiger");
+        user.setPassword("tiger123");
+        user.setToken("3");
+        user.setUserStatus(UserStatus.ONLINE);
+
+        // when
+        MockHttpServletRequestBuilder putRequest = put("/users/logout/3").contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(putRequest).andExpect(status().isOk());
+    }
 
     @Test
     public void testtwousers() throws Exception {

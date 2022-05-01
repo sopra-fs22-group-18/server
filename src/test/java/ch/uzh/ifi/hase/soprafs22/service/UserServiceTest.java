@@ -10,7 +10,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserServiceTest {
 
@@ -22,6 +26,8 @@ public class UserServiceTest {
 
   private User testUser;
 
+  private User testUser2;
+
   @BeforeEach
   public void setup() {
     MockitoAnnotations.openMocks(this);
@@ -30,6 +36,11 @@ public class UserServiceTest {
     testUser = new User();
     testUser.setPassword("testPassword");
     testUser.setUsername("testUsername");
+
+    testUser2 = new User();
+    testUser2.setPassword("testPassword2");
+    testUser2.setUsername("testUsername2");
+
 
     // when -> any object is being save in the userRepository -> return the dummy
     // testUser
@@ -73,10 +84,6 @@ public class UserServiceTest {
     String actual=TextApi.checkComment("bitch");
     assertEquals(expected, actual);
   }
-
-
-
-
 
 
   @Test

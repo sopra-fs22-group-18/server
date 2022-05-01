@@ -86,7 +86,41 @@ public class SessionControllerTest {
         .andExpect(jsonPath("$[0].imageUrl", is(session.getImageUrl())));
   }
 
+  @Test
+  public void givenSession_whenGetSession_thenReturnJsonArray() throws Exception {
+      // given
+      User host = new User();
+      host.setUsername("host");
+      host.setUserId(1L);
 
+      Session session = new Session();
+      session.setHost(host);
+      session.setSessionId(2L);
+      session.setMaxParticipants(2);
+      session.setTitle("testSession");
+      session.setImageUrl("testURL");
+      session.setSessionStatus(SessionStatus.CREATED);
+
+
+
+      // this mocks the SessionService -> we define above what the sessionService should
+      // return when getActiveSessions() is called
+      given(sessionService.getSession(2L)).willReturn(session);
+
+      // when
+      MockHttpServletRequestBuilder getRequest = get("/sessions/" + 2).contentType(MediaType.APPLICATION_JSON);
+
+      // then
+      mockMvc.perform(getRequest).andExpect(status().isOk())
+              .andExpect(jsonPath("$.sessionId", is(session.getSessionId().intValue())))
+              .andExpect(jsonPath("$.host.userId", is(session.getHost().getUserId().intValue())))
+              .andExpect(jsonPath("$.maxParticipants", is(session.getMaxParticipants())))
+              .andExpect(jsonPath("$.title", is(session.getTitle())))
+              .andExpect(jsonPath("$.sessionStatus", is(session.getSessionStatus().toString())))
+              .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl())));
+
+
+  }
 
   @Test
   public void createSession_validInput_sessionCreated() throws Exception {
@@ -209,6 +243,7 @@ public class SessionControllerTest {
 
 
     }
+
 
   /**
    * Helper Method to convert DTO into a JSON string such that the input
