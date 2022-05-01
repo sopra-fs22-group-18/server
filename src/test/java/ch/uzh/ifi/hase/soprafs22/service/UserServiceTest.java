@@ -67,12 +67,42 @@ public class UserServiceTest {
   }
 
   @Test
-  public void text_api_insult() {
+  public void text_api_sexual() {
     // given -> a first user has already been created
-    String expected="insult";
-    String actual=TextApi.checkComment("bitch");
+    String expected="sexual";
+    String actual=TextApi.checkComment("boobs");
     assertEquals(expected, actual);
   }
+  @Test
+  public void text_api_grawlix() {
+    // given -> a first user has already been created
+    String expected="grawlix";
+    String actual=TextApi.checkComment("$#!t");
+    assertEquals(expected, actual);
+  }
+  @Test
+  public void text_api_discriminatory() {
+    // given -> a first user has already been created
+    String expected="discriminatory";
+    String actual=TextApi.checkComment("chink");
+    assertEquals(expected, actual);
+  }
+  @Test
+  public void text_api_inappropriate() {
+    // given -> a first user has already been created
+    String expected="inappropriate";
+    String actual=TextApi.checkComment("i will kill you");
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void text_api_other_profanity () {
+    // given -> a first user has already been created
+    String expected="other_profanity";
+    String actual=TextApi.checkComment("redneck");
+    assertEquals(expected, actual);
+  }
+
 
 
 
