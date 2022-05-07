@@ -16,7 +16,7 @@ public class SessionGetDTO {
   private SessionStatus sessionStatus;
   private String title;
   private String hostUsername;
-
+  private String identifier;
   private String imageUrl;
 
 
@@ -26,6 +26,14 @@ public class SessionGetDTO {
 
     public void setSessionId(Long sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
 //    public User getHost() {

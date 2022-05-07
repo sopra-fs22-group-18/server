@@ -190,7 +190,7 @@ public class SessionControllerTest {
         // return when getActiveSessions() is called
         given(sessionService.getActiveSessions()).willReturn(allSessions);
 
-        given(sessionService.nextInQueue(2L)).willReturn(session);
+        given(sessionService.joinSessionByQueue(2L)).willReturn(session);
 
         // when
         MockHttpServletRequestBuilder getRequest = get("/sessions/join/" + 2).contentType(MediaType.APPLICATION_JSON);
