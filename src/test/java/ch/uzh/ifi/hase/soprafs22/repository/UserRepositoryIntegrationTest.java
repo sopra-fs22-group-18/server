@@ -1,4 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.repository;
+import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -14,8 +17,7 @@ public class UserRepositoryIntegrationTest {
 
   @Autowired
   private UserRepository userRepository;
-  /* Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "HIBERNATE_SEQUENCE" not found; SQL statement:
-     select next_val as id_val from hibernate_sequence for update [42102-200] TODO: Fix the findByUsername_success() test
+
   @Test
   public void findByUsername_success() {
 
@@ -24,16 +26,15 @@ public class UserRepositoryIntegrationTest {
     user.setUsername("Max");
     user.setPassword("123");
     user.setUserStatus(UserStatus.ONLINE);
-    //user.setLogged_in(true);
-    //user.setCreation_date(new Date());
 
-      user.setToken("1");
 
-      entityManager.persist(user);
-      entityManager.flush();
+    user.setToken("1");
 
-      // when
-      User found = userRepository.findByUsername(user.getUsername());
+    entityManager.persist(user);
+    entityManager.flush();
+
+    // when
+    User found = userRepository.findByUsername(user.getUsername());
 
     // then
     assertNotNull(found.getUserId());
@@ -44,5 +45,4 @@ public class UserRepositoryIntegrationTest {
 
   }
 
-   */
 }
