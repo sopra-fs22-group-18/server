@@ -13,7 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 @Transactional
 public class TextApi {
 
-    private static String checkComment(String comment_text) {
+    public static String checkComment(String comment_text) {
         String url="https://api.sightengine.com/1.0/text/check.json";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
