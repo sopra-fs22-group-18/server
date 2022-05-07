@@ -84,11 +84,11 @@ public class SessionService {
       List<Session> openSessions = this.sessionRepository.findAllBySessionStatus(SessionStatus.CREATED);
       Session nextSession = openSessions.isEmpty() ? null : openSessions.get(0);
 
-      Optional<User> optionalUserFound = this.userRepository.findById(userId);
+      User participant = this.userRepository.findByUserId(userId);
       String baseErrorMessage = "User with id %x was not found";
-      User participant = optionalUserFound.orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId))
-        );
+      if (participant == null) {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId));
+      }
 
       nextSession.addParticipant(participant);
 
@@ -101,11 +101,11 @@ public class SessionService {
     public Session removeParticipant(Long sessionId, Long userId) {
 
       Session currentSession = this.sessionRepository.findBySessionId(sessionId);
-      Optional<User> optionalUserFound = this.userRepository.findById(userId);
+      User participant = this.userRepository.findByUserId(userId);
       String baseErrorMessage = "User with id %x was not found";
-      User participant = optionalUserFound.orElseThrow(() ->
-              new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId))
-        );
+      if (participant == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId));
+      }
       currentSession.removeParticipant(participant);
 
       sessionRepository.save(currentSession);
