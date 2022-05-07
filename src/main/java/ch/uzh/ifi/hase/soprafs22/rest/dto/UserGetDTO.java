@@ -7,6 +7,7 @@ import java.util.Date;
 public class UserGetDTO {
   private Long userId;
   private String username;
+  private String token;
 
   public Long getUserId() {return userId;}
 
@@ -17,6 +18,11 @@ public class UserGetDTO {
   public void setUsername(String username) {this.username = username;}
 
 
+    public String getToken() {
+        return token;
+    }
 
-
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

@@ -20,13 +20,13 @@ public class Report implements Serializable {
     @GeneratedValue
     private Long reportId;
 
-    @Column(nullable = false)
+    @ManyToOne
     private Comment comment;
 
-    @Column(nullable = false)
+    @ManyToOne
     private Session session;
 
-    @Column(nullable = false)
+    @ManyToOne
     private User user;
 
     @Column(nullable = false)
