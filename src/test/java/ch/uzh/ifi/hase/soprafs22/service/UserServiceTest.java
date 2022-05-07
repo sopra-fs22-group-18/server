@@ -10,7 +10,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserServiceTest {
 
@@ -22,6 +26,8 @@ public class UserServiceTest {
 
   private User testUser;
 
+  private User testUser2;
+
   @BeforeEach
   public void setup() {
     MockitoAnnotations.openMocks(this);
@@ -30,6 +36,11 @@ public class UserServiceTest {
     testUser = new User();
     testUser.setPassword("testPassword");
     testUser.setUsername("testUsername");
+
+    testUser2 = new User();
+    testUser2.setPassword("testPassword2");
+    testUser2.setUsername("testUsername2");
+
 
     // when -> any object is being save in the userRepository -> return the dummy
     // testUser
@@ -65,6 +76,45 @@ public class UserServiceTest {
     // is thrown
     assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
   }
+
+  @Test
+  public void text_api_sexual() {
+    // given -> a first user has already been created
+    String expected="sexual";
+    String actual=TextApi.checkComment("boobs");
+    assertEquals(expected, actual);
+  }
+  @Test
+  public void text_api_grawlix() {
+    // given -> a first user has already been created
+    String expected="grawlix";
+    String actual=TextApi.checkComment("$#!t");
+    assertEquals(expected, actual);
+  }
+  @Test
+  public void text_api_discriminatory() {
+    // given -> a first user has already been created
+    String expected="discriminatory";
+    String actual=TextApi.checkComment("chink");
+    assertEquals(expected, actual);
+  }
+  @Test
+  public void text_api_inappropriate() {
+    // given -> a first user has already been created
+    String expected="inappropriate";
+    String actual=TextApi.checkComment("i will kill you");
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void text_api_other_profanity () {
+    // given -> a first user has already been created
+    String expected="other_profanity";
+    String actual=TextApi.checkComment("redneck");
+    assertEquals(expected, actual);
+  }
+
+
 
   @Test
   public void createUser_duplicateInputs_throwsException() {

@@ -57,11 +57,11 @@ class CommentControllerTest {
 
         User participant1 = new User();
         participant1.setUsername("participant1");
-        host.setUserId(2L);
+        participant1.setUserId(2L);
 
         User participant2 = new User();
         participant2.setUsername("participant2");
-        host.setUserId(3L);
+        participant2.setUserId(3L);
 
         Set<User> participants = new HashSet<>();
         participants.add(participant1);
@@ -87,7 +87,7 @@ class CommentControllerTest {
         given(commentService.getSessionComments(1L)).willReturn(allSessionComments);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get("/sessions/" + 1+"/comments")
+        MockHttpServletRequestBuilder getRequest = get("/sessions/" + 1 +"/comments")
                 .contentType(MediaType.APPLICATION_JSON);
         // then
         mockMvc.perform(getRequest).andExpect(status().isOk())
