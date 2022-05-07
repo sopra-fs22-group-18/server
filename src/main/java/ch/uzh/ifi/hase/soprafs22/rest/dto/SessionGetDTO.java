@@ -18,6 +18,7 @@ public class SessionGetDTO {
   private String hostUsername;
   private String identifier;
   private String imageUrl;
+  private boolean isPrivate;
 
 
     public Long getSessionId() {
@@ -107,6 +108,14 @@ public class SessionGetDTO {
 
     public void setParticipants(Set<User> participants) {
         this.participants = participants;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
+    public boolean getIsPrivate() {
+        return isPrivate;
     }
 
     public String getImageUrl() {return imageUrl;}
