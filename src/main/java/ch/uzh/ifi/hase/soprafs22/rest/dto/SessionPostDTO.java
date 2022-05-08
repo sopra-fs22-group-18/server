@@ -21,6 +21,8 @@ public class SessionPostDTO {
 
     private String ImageUrl;
 
+    private boolean isPrivate;
+
 
     public User getWinner() {
         return winner;
@@ -73,4 +75,11 @@ public class SessionPostDTO {
 
     public void setImageUrl(String imageUrl) { ImageUrl = imageUrl; }
 
+    public boolean getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
 }

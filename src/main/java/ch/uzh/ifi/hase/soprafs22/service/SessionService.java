@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Session Service
@@ -53,6 +54,10 @@ public class SessionService {
     newSession.setSessionStatus(SessionStatus.CREATED);
     newSession.setCreatedDate(new Date());
 
+
+    // create identifier
+    newSession.setIdentifier(createRandomNumbeString());
+
     // find host
     String baseErrorMessage = "Host with id %x was not found";
     Long hostId = newSession.getHost().getUserId();
@@ -80,8 +85,25 @@ public class SessionService {
       return this.sessionRepository.findBySessionId(sessionId);
     }
 
-    public Session nextInQueue(Long userId) {
-      List<Session> openSessions = this.sessionRepository.findAllBySessionStatus(SessionStatus.CREATED);
+    public Session joinSessionByIdentifier(Long userId, String identifier) {
+      Session openSession = this.sessionRepository.findByIdentifier(identifier);
+
+      Optional<User> optionalUserFound = this.userRepository.findById(userId);
+      String baseErrorMessage = "User with id %x was not found";
+      User participant = optionalUserFound.orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId))
+        );
+      
+      openSession.addParticipant(participant);
+
+      sessionRepository.save(openSession);
+      sessionRepository.flush();
+
+      return openSession;
+    }
+
+    public Session joinSessionByQueue(Long userId) {
+      List<Session> openSessions = this.sessionRepository.findAllBySessionStatusAndIsPrivate(SessionStatus.CREATED, false);
       Session nextSession = openSessions.isEmpty() ? null : openSessions.get(0);
 
       User participant = this.userRepository.findByUserId(userId);
@@ -112,5 +134,14 @@ public class SessionService {
       sessionRepository.flush();
 
       return currentSession;
+    }
+
+    private String createRandomNumbeString() {
+      Random random = new Random();
+      int number = random.nextInt(999999);
+
+      // to be super safe one could save the number and compare against a runtime array of previously rolled numbers
+
+      return String.format("%06d", number);
     }
 }

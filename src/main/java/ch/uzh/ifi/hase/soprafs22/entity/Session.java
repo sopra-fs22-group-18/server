@@ -44,6 +44,12 @@ public class Session implements Serializable {
     @Column(nullable = true)
     private String imageUrl;
 
+    @Column(nullable = true)
+    private String identifier;
+
+    @Column(nullable = false)
+    private boolean isPrivate = false;
+
 
     public Long getSessionId() {
         return sessionId;
@@ -110,9 +116,26 @@ public class Session implements Serializable {
         this.title = title;
     }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public boolean getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
     public String getImageUrl() { return imageUrl; }
 
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
 }
 
 

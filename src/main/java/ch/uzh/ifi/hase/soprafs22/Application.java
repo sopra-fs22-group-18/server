@@ -23,13 +23,6 @@ public class Application {
   public String helloWorld() {
     return "The application is running.";
   }
-
-
-
-
-
-
-
   
   @Bean
   public WebMvcConfigurer corsConfigurer() {
