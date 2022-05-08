@@ -90,6 +90,18 @@ public class UserController {
         User userInput = UserDTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPostDTO);
         userService.updateUser(userInput);}
 
+    @PutMapping("/users/{userId}/{participatedSessions}/{wonSessions}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void updateUserStatistics(@RequestBody UserPutDTO userPutDTO, @PathVariable Long userId, @PathVariable Integer participatedSessions, @PathVariable Integer wonSessions) {
+        //set id, to be able to identify user after username change
+        if(userPutDTO.getUserId()!=userId){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "UserID "+userId+" and "+userPutDTO.getUserId()+" are not matching");
+        }
+        // convert API user to internal representation and update user
+        User userInput = UserDTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
+        userService.updateUserStatics(userInput);}
+
 
     // logout user
     @PutMapping("/users/logout/{userId}")
