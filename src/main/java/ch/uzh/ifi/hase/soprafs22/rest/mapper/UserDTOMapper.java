@@ -33,6 +33,9 @@ public interface UserDTOMapper {
   @Mapping(source = "userId", target = "userId")
   @Mapping(source = "username", target = "username")
   @Mapping(source = "token", target = "token")
+  @Mapping(source = "name", target = "name")
+  @Mapping(source = "avatarUrl", target = "avatarUrl")
+  @Mapping(source = "bio", target = "bio")
   @Mapping(source = "participated_sessions", target = "participated_sessions")
   @Mapping(source = "wonSessions", target = "wonSessions")
   UserGetDTO convertEntityToUserGetDTO(User user);
@@ -40,6 +43,9 @@ public interface UserDTOMapper {
   //mapping internal representation of  User to UserPutDTO
   @Mapping(source = "userId", target = "userId")
   @Mapping(source = "username", target = "username")
+  @Mapping(source = "name", target = "name")
+  @Mapping(source = "avatarUrl", target = "avatarUrl")
+  @Mapping(source = "bio", target = "bio")
   @Mapping(source = "participated_sessions", target = "participated_sessions")
   @Mapping(source = "wonSessions", target = "wonSessions")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);

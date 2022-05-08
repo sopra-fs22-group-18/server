@@ -8,13 +8,15 @@ public class UserPutDTO {
   private Long userId;
   private String password;
   private String username;
+  private String name;
 
   private UserType type;
   private UserStatus userStatus;
   private String token;
-  private Image  profilePic;
   private Integer participated_sessions;
   private Integer wonSessions;
+  private String avatarUrl;
+  private String bio;
 
   public Long getUserId() {return userId; }
 
@@ -24,7 +26,12 @@ public class UserPutDTO {
 
   public void setUsername(String username) {this.username = username;}
 
+  public String getName() {return name;}
+
+  public void setName(String name) {this.name = name;}
+
   public String getPassword() {return password; }
+
   public void setPassword(String password) {this.password = password;}
 
   public String getToken() {return token;}
@@ -35,28 +42,28 @@ public class UserPutDTO {
 
   public void setUserType(UserType type) {this.type = type;}
 
-    public UserStatus getUserStatus() {return userStatus;}
+  public UserStatus getUserStatus() {return userStatus;}
 
-    public void setUserStatus(UserStatus userStatus) {this.userStatus = userStatus;}
+  public void setUserStatus(UserStatus userStatus) {this.userStatus = userStatus;}
 
-    public UserType getType() { return type; }
+  public UserType getType() { return type; }
 
     public void setType(UserType type) {
         this.type = type;
     }
 
-    public Image getImage() {
-        return profilePic;
-    }
 
-    public void setImage(Image profilePic) {
-        this.profilePic = profilePic;
-    }
 
+  public String getAvatarUrl() {return avatarUrl;}
+
+  public void setAvatarUrl(String avatarUrl) {this.avatarUrl = avatarUrl;}
     public Integer getParticipated_sessions() {
         return participated_sessions;
     }
 
+  public String getBio() {return bio;}
+
+  public void setBio(String bio) {this.bio = bio;}
     public void setParticipated_sessions(Integer participated_sessions) {
         this.participated_sessions = participated_sessions;
     }

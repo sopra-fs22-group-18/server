@@ -75,15 +75,27 @@ public class UserService {
         //check if the user that should be editet exists
         if (!foundUser.isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", inputUser.getUserId()));}
-        //if user that should be editet exists, get user and update it
-        User databaseuser=getUser(inputUser.getUserId());
+        //if user that should be edited exists, get user and update it
+        User databaseUser=getUser(inputUser.getUserId());
         if (userRepository.findByUsername(inputUser.getUsername())!=null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", inputUser.getUsername()));}
-        databaseuser.setUsername(inputUser.getUsername());
-        databaseuser.setParticipated_sessions(inputUser.getParticipated_sessions());
-        databaseuser.setWonSessions(inputUser.getWonSessions());
-        User upgedateUser=userRepository.save(databaseuser);
-        return upgedateUser;}
+        databaseUser.setUsername(inputUser.getUsername());
+
+        // if the AvatarUrl is not null or "", then update it!
+        if (inputUser.getName()!=null && !inputUser.getName().equals("")) {
+            databaseUser.setName(inputUser.getName());
+        }
+        // if the avatarUrl is not null or "", then update it!
+        if (inputUser.getAvatarUrl()!=null && !inputUser.getAvatarUrl().equals("")) {
+            databaseUser.setAvatarUrl(inputUser.getAvatarUrl());
+        }
+        // if the bio is not null or "", then update it!
+        if (inputUser.getBio()!=null && !inputUser.getBio().equals("")) {
+            databaseUser.setBio(inputUser.getBio());
+        }
+
+        User updatedUser = userRepository.save(databaseUser);
+        return updatedUser;}
 
     
     //set user offline and loggedin false

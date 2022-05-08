@@ -4,8 +4,6 @@ import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.constant.UserType;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.awt.Image;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Internal User Representation
@@ -26,9 +24,11 @@ public class User implements Serializable {
   @GeneratedValue
   private Long userId;
 
-
   @Column(nullable = false, unique = true)
   private String username;
+
+  @Column(nullable = true)
+  private String name;
 
   @Column(nullable = false)
   private String password;
@@ -43,7 +43,10 @@ public class User implements Serializable {
   private String token;
   
   @Column(nullable = true)
-  private String  imagepath ;
+  private String avatarUrl;
+
+  @Column(nullable = true)
+  private String bio;
 
   @Column(nullable = true)
   private Integer participated_sessions = 0;
@@ -59,12 +62,17 @@ public class User implements Serializable {
 
   public void setUsername(String username) {this.username = username;}
 
-  public String getPassword() {return password; }
-  public void setPassword(String password) {this.password = password;}
+  public String getName() { return name; }
 
-  public String getToken() {return token;}
+  public void setName(String name) { this.name = name; }
 
-  public void setToken(String token) {this.token = token;}
+  public String getPassword() { return password; }
+
+  public void setPassword(String password) { this.password = password; }
+
+  public String getToken() { return token; }
+
+  public void setToken(String token) { this.token = token; }
 
   public UserType getUserType() {return type;}
 
@@ -74,10 +82,13 @@ public class User implements Serializable {
 
   public void setUserStatus(UserStatus userStatus) {this.userStatus = userStatus;}
 
-  public String  getImagepath() { return imagepath; }
+  public String getAvatarUrl() { return avatarUrl; }
 
-  public void setImagepath(String imagepath) { this.imagepath = imagepath;}
+  public void setAvatarUrl(String avatarUrl) { this.avatarUrl = avatarUrl; }
 
+  public String getBio() {return bio;}
+
+  public void setBio(String bio) {this.bio = bio;}
   public Integer getParticipated_sessions() {return participated_sessions;}
 
   public void setParticipated_sessions(Integer participated_sessions) {this.participated_sessions = participated_sessions;}
