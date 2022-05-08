@@ -13,6 +13,8 @@ public class UserPutDTO {
   private UserStatus userStatus;
   private String token;
   private Image  profilePic;
+  private Integer participated_sessions;
+  private Integer wonSessions;
 
   public Long getUserId() {return userId; }
 
@@ -39,11 +41,32 @@ public class UserPutDTO {
 
     public UserType getType() { return type; }
 
-  public void setType(UserType type) { this.type = type; }
+    public void setType(UserType type) {
+        this.type = type;
+    }
 
-  public Image getImage() { return profilePic; }
+    public Image getImage() {
+        return profilePic;
+    }
 
-  public void setImage(Image profilePic) { this.profilePic = profilePic; }
+    public void setImage(Image profilePic) {
+        this.profilePic = profilePic;
+    }
 
+    public Integer getParticipated_sessions() {
+        return participated_sessions;
+    }
+
+    public void setParticipated_sessions(Integer participated_sessions) {
+        this.participated_sessions = participated_sessions;
+    }
+
+    public Integer getWonSessions() {
+        return wonSessions;
+    }
+
+    public void setWonSessions(Integer wonSessions) {
+        this.wonSessions = wonSessions;
+    }
 }
 

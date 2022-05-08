@@ -80,6 +80,8 @@ public class UserService {
         if (userRepository.findByUsername(inputUser.getUsername())!=null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", inputUser.getUsername()));}
         databaseuser.setUsername(inputUser.getUsername());
+        databaseuser.setParticipated_sessions(inputUser.getParticipated_sessions());
+        databaseuser.setWonSessions(inputUser.getWonSessions());
         User upgedateUser=userRepository.save(databaseuser);
         return upgedateUser;}
 

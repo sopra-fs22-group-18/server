@@ -8,6 +8,8 @@ public class UserGetDTO {
   private Long userId;
   private String username;
   private String token;
+  private Integer participated_sessions;
+  private Integer wonSessions;
 
   public Long getUserId() {return userId;}
 
@@ -15,14 +17,31 @@ public class UserGetDTO {
 
   public String getUsername() {return username;}
 
-  public void setUsername(String username) {this.username = username;}
+  public void setUsername(String username) {
+      this.username = username;
+  }
 
+  public String getToken() {
+      return token;
+  }
 
-    public String getToken() {
-        return token;
-    }
+  public void setToken(String token) {
+      this.token = token;
+  }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+  public Integer getParticipated_sessions() {
+      return participated_sessions;
+  }
+
+  public void setParticipated_sessions(Integer participated_sessions) {
+      this.participated_sessions = participated_sessions;
+  }
+
+  public Integer getWonSessions(){
+      return wonSessions;
+  }
+
+  public void setWonSessions(Integer wonSessions) {
+      this.wonSessions = wonSessions;
+  }
 }
