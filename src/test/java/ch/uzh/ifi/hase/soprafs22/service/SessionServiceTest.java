@@ -93,9 +93,6 @@ public class SessionServiceTest {
       assertEquals("404 NOT_FOUND \"Host with id 5 was not found\"", thrown.getMessage());
 
     }
-  /* TODO: Fix joinSession_validInputs() test, it fails!
-  Cannot invoke "ch.uzh.ifi.hase.soprafs22.entity.Session.addParticipant(ch.uzh.ifi.hase.soprafs22.entity.User)" because "nextSession" is null
-  java.lang.NullPointerException: Cannot invoke "ch.uzh.ifi.hase.soprafs22.entity.Session.addParticipant(ch.uzh.ifi.hase.soprafs22.entity.User)" because "nextSession" is null
 
   @Test
   public void joinSession_validInputs() {
@@ -103,7 +100,7 @@ public class SessionServiceTest {
       // make sure the sessionRepository returns the testSession
      List<Session> testOpenSessions = new ArrayList<Session>();
      testOpenSessions.add(testSession);
-     Mockito.when(sessionRepository.findAllBySessionStatus(SessionStatus.CREATED)).thenReturn(testOpenSessions);
+     Mockito.when(sessionRepository.findAllBySessionStatusAndIsPrivate(SessionStatus.CREATED, false)).thenReturn(testOpenSessions);
 
      Session joinedSession = sessionService.joinSessionByQueue(participant.getUserId());
      testSession.addParticipant(participant);
@@ -112,7 +109,7 @@ public class SessionServiceTest {
      assertEquals(testSession.getParticipants(), joinedSession.getParticipants());
 
     }
-    */
+    
   @Test
   public void joinSession_invalid_userId() {
 
