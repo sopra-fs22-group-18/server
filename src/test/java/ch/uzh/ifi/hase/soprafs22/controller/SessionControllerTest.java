@@ -4,8 +4,6 @@ import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.UserGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.mapper.UserDTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.SessionService;
 import ch.uzh.ifi.hase.soprafs22.service.Socket;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;

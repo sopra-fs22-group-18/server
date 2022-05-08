@@ -34,6 +34,7 @@ public class UserDTOMapperTest {
     // create User
     User user = new User();
     user.setUsername("firstname@lastname");
+    user.setPassword("password");
     user.setUserStatus(UserStatus.OFFLINE);
    //user.setCreation_date(new Date());
 
