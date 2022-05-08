@@ -93,9 +93,7 @@ public class SessionServiceTest {
       assertEquals("404 NOT_FOUND \"Host with id 5 was not found\"", thrown.getMessage());
 
     }
- /* TODO: Fix the the joinSession_validInputs the in SessionServiceTest
- Cannot invoke "ch.uzh.ifi.hase.soprafs22.entity.Session.addParticipant(ch.uzh.ifi.hase.soprafs22.entity.User)" because "nextSession" is null
-java.lang.NullPointerException: Cannot invoke "ch.uzh.ifi.hase.soprafs22.entity.Session.addParticipant(ch.uzh.ifi.hase.soprafs22.entity.User)" because "nextSession" is null
+
   @Test
   public void joinSession_validInputs() {
 
@@ -111,7 +109,7 @@ java.lang.NullPointerException: Cannot invoke "ch.uzh.ifi.hase.soprafs22.entity.
      assertEquals(testSession.getParticipants(), joinedSession.getParticipants());
 
     }
-  */
+
   @Test
   public void joinSession_invalid_userId() {
 
