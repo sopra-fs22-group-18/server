@@ -86,13 +86,13 @@ public class SessionService {
     }
 
     public Session joinSessionByIdentifier(Long userId, String identifier) {
-      Session openSession = this.sessionRepository.findByIdentifier(identifier);
+      Session openSession = this.sessionRepository.findBySessionStatusAndIdentifier(SessionStatus.CREATED, identifier);
 
-      Optional<User> optionalUserFound = this.userRepository.findById(userId);
+      User participant = this.userRepository.findByUserId(userId);
       String baseErrorMessage = "User with id %x was not found";
-      User participant = optionalUserFound.orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId))
-        );
+      if (participant == null) {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId));
+      }
       
       openSession.addParticipant(participant);
 

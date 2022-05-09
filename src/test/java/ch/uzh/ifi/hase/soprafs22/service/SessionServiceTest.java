@@ -95,7 +95,7 @@ public class SessionServiceTest {
     }
 
   @Test
-  public void joinSession_validInputs() {
+  public void joinSessionByQueue_validInputs() {
 
       // make sure the sessionRepository returns the testSession
      List<Session> testOpenSessions = new ArrayList<Session>();
@@ -103,6 +103,19 @@ public class SessionServiceTest {
      Mockito.when(sessionRepository.findAllBySessionStatusAndIsPrivate(SessionStatus.CREATED, false)).thenReturn(testOpenSessions);
 
      Session joinedSession = sessionService.joinSessionByQueue(participant.getUserId());
+     testSession.addParticipant(participant);
+
+     assertEquals(testSession.getSessionId(), joinedSession.getSessionId());
+     assertEquals(testSession.getParticipants(), joinedSession.getParticipants());
+
+    }
+
+  @Test
+  public void joinSessionByIdentifier_validInputs() {
+    String testIdentifier = "123123";
+     Mockito.when(sessionRepository.findBySessionStatusAndIdentifier(SessionStatus.CREATED, testIdentifier)).thenReturn(testSession);
+
+     Session joinedSession = sessionService.joinSessionByIdentifier(participant.getUserId(), testIdentifier);
      testSession.addParticipant(participant);
 
      assertEquals(testSession.getSessionId(), joinedSession.getSessionId());

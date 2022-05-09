@@ -12,7 +12,7 @@ import java.util.List;
 public interface SessionRepository extends JpaRepository<Session, Long> {
     Session findBySessionId(Long sessionId);
 
-    Session findByIdentifier(String identifier);
+    Session findBySessionStatusAndIdentifier(SessionStatus sessionStatus, String identifier);
 
     List<Session> findAllBySessionStatus(SessionStatus sessionStatus);
 

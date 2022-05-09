@@ -27,7 +27,7 @@ import javax.websocket.server.ServerEndpoint;
                 decoders = MessageDecoder.class)
 public class Socket {
     private Session session;
-    public static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
+    private static Set<ChatUser> chatListeners = new CopyOnWriteArraySet<>();
 
     // add in Service so that they can be used by the socket. Autowired with Spring framework below.
     private static CommentService commentService;
@@ -79,8 +79,7 @@ public class Socket {
 
     @OnClose
     public void onClose(Session session, @PathParam("userId") Long userId) {
-        //chatListeners.remove(chatUser);
-        //bandaid fix for now (list.stream().filter can't cast optional)
+        // bandaid fix for now (list.stream().filter can't cast optional)
         for (ChatUser chatListener: chatListeners) {
             if (chatListener.getUserId().equals(userId)) {
                 chatListeners.remove(chatListener);
@@ -93,8 +92,8 @@ public class Socket {
         //Error
     }
 
-    public static void broadcast(Message message, Long sessionId) {
-        // good for now but not scalable I guess
+    private static void broadcast(Message message, Long sessionId) {
+        // good for now but not scalable I guess, paths or rooms would be an upgrade
         for (ChatUser chatListener: chatListeners) {
             if (chatListener.getSessionId().equals(sessionId)) {
                 chatListener.getSocket().sendMessage(message);
