@@ -48,6 +48,12 @@ public class User implements Serializable {
   @Column(nullable = true)
   private String bio;
 
+  @Column(nullable = true)
+  private Integer participated_sessions = 0;
+
+  @Column(nullable = true)
+  private Integer wonSessions = 0;
+
   public Long getUserId() {return userId; }
 
   public void setUserId(Long userId) { this.userId = userId; }
@@ -83,4 +89,12 @@ public class User implements Serializable {
   public String getBio() {return bio;}
 
   public void setBio(String bio) {this.bio = bio;}
+  public Integer getParticipated_sessions() {return participated_sessions;}
+
+  public void setParticipated_sessions(Integer participated_sessions) {this.participated_sessions = participated_sessions;}
+
+  public Integer getWonSessions(){return wonSessions;}
+
+  public void setWonSessions(Integer wonSessions){this.wonSessions = wonSessions;}
+
 }

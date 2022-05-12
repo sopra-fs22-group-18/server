@@ -13,6 +13,8 @@ public class UserPutDTO {
   private UserType type;
   private UserStatus userStatus;
   private String token;
+  private Integer participated_sessions;
+  private Integer wonSessions;
   private String avatarUrl;
   private String bio;
 
@@ -46,14 +48,32 @@ public class UserPutDTO {
 
   public UserType getType() { return type; }
 
-  public void setType(UserType type) { this.type = type; }
+    public void setType(UserType type) {
+        this.type = type;
+    }
+
+
 
   public String getAvatarUrl() {return avatarUrl;}
 
   public void setAvatarUrl(String avatarUrl) {this.avatarUrl = avatarUrl;}
+    public Integer getParticipated_sessions() {
+        return participated_sessions;
+    }
 
   public String getBio() {return bio;}
 
   public void setBio(String bio) {this.bio = bio;}
+    public void setParticipated_sessions(Integer participated_sessions) {
+        this.participated_sessions = participated_sessions;
+    }
+
+    public Integer getWonSessions() {
+        return wonSessions;
+    }
+
+    public void setWonSessions(Integer wonSessions) {
+        this.wonSessions = wonSessions;
+    }
 }
 

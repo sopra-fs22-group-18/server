@@ -54,7 +54,7 @@ public class UserService {
         if(optionalUser.isPresent()){
             return optionalUser.get();}
         else{//throw error if no user found for this id in the repository
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", userId));}}
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", userId));}}
 
     //login user check password and username
     public User checkingUser(User tocheckuser) {
@@ -66,7 +66,7 @@ public class UserService {
         if (!foundUser.getPassword().equals(tocheckuser.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password used");}
         //set status to online and loggedin true
-        setUserOnlineStandard(foundUser); 
+        setUserOnlineStandard(foundUser);
         return foundUser;}
 
     //update user
@@ -97,18 +97,30 @@ public class UserService {
         User updatedUser = userRepository.save(databaseUser);
         return updatedUser;}
 
-    
+
+    public User updateUserStatics(User inputUser){
+        Optional<User> foundUser = userRepository.findById(inputUser.getUserId());
+        if (!foundUser.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", inputUser.getUserId()));}
+        User databaseUser = getUser(inputUser.getUserId());
+        databaseUser.setParticipated_sessions((inputUser.getParticipated_sessions()));
+        databaseUser.setWonSessions(inputUser.getWonSessions());
+        User updatedUser = userRepository.save(databaseUser);
+        return updatedUser;
+    }
+
+
     //set user offline and loggedin false
     public void setUserOffline(User userstatustobechanged){
         userstatustobechanged.setUserStatus(UserStatus.OFFLINE);}
-        //usertobelogedoutandsetofflien.setLogged_in(false);}
-    
+    //usertobelogedoutandsetofflien.setLogged_in(false);}
+
     //set user online and loggedin true
     public void setUserOnlineStandard(User userstatustobechanged){
         userstatustobechanged.setUserStatus(UserStatus.ONLINE);
         userstatustobechanged.setUserType(UserType.STANDARD);}
 
-        //usertobesetonlineandloggedin.setLogged_in(true);}
+    //usertobesetonlineandloggedin.setLogged_in(true);}
 
     //check if username already in use, if so throw error
     private void checkIfUserExists(User userToBeCreated) {
@@ -123,5 +135,6 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, String.format( "not authorized"));
         }
     }
-    
+
 }
+
