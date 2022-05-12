@@ -11,6 +11,8 @@ public class UserGetDTO {
   private String token;
   private String avatarUrl;
   private String bio;
+  private Integer participated_sessions;
+  private Integer wonSessions;
 
   public Long getUserId() {return userId;}
 
@@ -23,6 +25,7 @@ public class UserGetDTO {
   public String getName() {return name;}
 
   public void setName(String name) {this.name = name;}
+
 
   public String getToken() {
         return token;
@@ -39,4 +42,20 @@ public class UserGetDTO {
   public String getBio() {return bio;}
 
     public void setBio(String bio) {this.bio = bio;}
+
+  public Integer getParticipated_sessions() {
+      return participated_sessions;
+  }
+
+  public void setParticipated_sessions(Integer participated_sessions) {
+      this.participated_sessions = participated_sessions;
+  }
+
+  public Integer getWonSessions(){
+      return wonSessions;
+  }
+
+  public void setWonSessions(Integer wonSessions) {
+      this.wonSessions = wonSessions;
+  }
 }
