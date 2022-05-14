@@ -88,6 +88,9 @@ public class SessionService {
     public Session joinSessionByIdentifier(Long userId, String identifier) {
       Session openSession = this.sessionRepository.findBySessionStatusAndIdentifier(SessionStatus.CREATED, identifier);
 
+      if (openSession == null) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Session not found");
+      }
       User participant = this.userRepository.findByUserId(userId);
       String baseErrorMessage = "User with id %x was not found";
       if (participant == null) {
