@@ -29,6 +29,7 @@ public interface ReportDTOMapper {
     @Mapping(source = "user", target = "user")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "reason", target = "reason")
+    @Mapping(source = "createdDate", target = "createdDate")
     Report convertReportPostDTOtoEntity(ReportPostDTO reportPostDTO);
 
     @Mapping(source = "comment", target = "comment")
@@ -36,6 +37,7 @@ public interface ReportDTOMapper {
     @Mapping(source = "user", target = "user")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "reason", target = "reason")
+    @Mapping(source = "createdDate", target = "createdDate")
     ReportGetDTO convertEntityToReportGetDTO(Report report);
 
 }

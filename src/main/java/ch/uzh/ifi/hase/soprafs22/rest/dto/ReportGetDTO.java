@@ -15,6 +15,7 @@ public class ReportGetDTO {
     private User user;
     private String description;
     private ReportReason reason;
+    private Date createdDate;
 
     public Long getReportId() {
         return reportId;
@@ -63,4 +64,9 @@ public class ReportGetDTO {
     public void setReason(ReportReason reason) {
         this.reason = reason;
     }
+
+    public Date getCreatedDate() { return createdDate; }
+
+    public void setCreatedDate(Date createdDate) { this.createdDate = createdDate; }
+
 }

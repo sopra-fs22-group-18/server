@@ -72,7 +72,7 @@ public class UserService {
     //update user
     public User updateUser(User inputUser) {
         Optional<User> foundUser = userRepository.findById(inputUser.getUserId());
-        //check if the user that should be editet exists
+        //checks if the user that should be edited exists
         if (!foundUser.isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", inputUser.getUserId()));}
         //if user that should be edited exists, get user and update it
