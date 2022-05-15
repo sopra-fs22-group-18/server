@@ -113,6 +113,26 @@ public class SessionController {
     // change session hostId and status
     socket.closeSession(sessionId, winner.getUsername());
   }
+
+  @GetMapping("/sessions/{userId}/posts")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<SessionGetDTO> getallPosts(@PathVariable Long userId) {
+    // fetch all sessions in the internal representation
+    List<Session> activeSessions = sessionService.getAllSessions();
+    List<SessionGetDTO> sessionGetDTOs = new ArrayList<>();
+
+    // convert each session to the API represent ation
+    for (Session session : activeSessions) {
+      if(session.getHost().getUserId()==userId)
+      sessionGetDTOs.add(SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session));
+    }
+
+    
+
+
+    return sessionGetDTOs;
+  }
 }
 
 
