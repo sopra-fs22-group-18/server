@@ -1,10 +1,12 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -272,6 +274,32 @@ public class UserControllerTest {
 
         mockMvc.perform(putrequest)
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testing_statistics_update() throws Exception{
+        User user = new User();
+        user.setUserId(1L);
+        user.setUsername("testUsername");
+        user.setPassword("test");
+
+        UserPutDTO userPutDTO = new UserPutDTO();
+        userPutDTO.setUsername("testUsername");
+        userPutDTO.setPassword("test");
+        userPutDTO.setUserId(user.getUserId());
+        userPutDTO.setName(null);
+        userPutDTO.setToken(user.getToken());
+        userPutDTO.setAvatarUrl(null);
+        userPutDTO.setBio(null);
+        userPutDTO.setParticipated_sessions(2);
+        userPutDTO.setWonSessions(1);
+
+        MockHttpServletRequestBuilder putRequest = put("/users/statistics/" + user.getUserId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(userPutDTO));
+        mockMvc.perform(putRequest)
+                .andExpect(status().isNoContent());
+
     }
 
 
