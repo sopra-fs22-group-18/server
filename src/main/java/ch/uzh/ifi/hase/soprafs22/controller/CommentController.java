@@ -67,7 +67,7 @@ public class CommentController {
     @PostMapping("/sessions/{sessionId}/comments/report")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public ReportGetDTO createSessionComment(@RequestBody ReportPostDTO reportPostDTO) {
+    public ReportGetDTO createSessionCommentReport(@RequestBody ReportPostDTO reportPostDTO) {
         // convert API session to internal representation
         Report reportInput = ReportDTOMapper.INSTANCE.convertReportPostDTOtoEntity(reportPostDTO);
         // create Report

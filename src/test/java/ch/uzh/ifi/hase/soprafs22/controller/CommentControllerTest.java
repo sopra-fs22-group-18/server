@@ -1,10 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.constant.ReportReason;
 import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
+import ch.uzh.ifi.hase.soprafs22.entity.Report;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.ReportPostDTO;
 
 import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
 import ch.uzh.ifi.hase.soprafs22.service.CommentService;
@@ -150,6 +153,61 @@ class CommentControllerTest {
                 .andExpect(jsonPath("$.user.userId", is(participant1.getUserId())))
                 .andExpect(jsonPath("$.session.sessionId", is(session.getSessionId().intValue())))
                 .andExpect(jsonPath("$.commentText", is(comment.getCommentText())));
+    }
+
+    @Test
+    void createReport_validInput_expectCreated() throws Exception{
+        User host = new User();
+        host.setUsername("host");
+        host.setUserId(1L);
+
+        User participant1 = new User();
+        host.setUsername("participant1");
+        host.setUserId(2L);
+
+        User participant2 = new User();
+        host.setUsername("participant2");
+        host.setUserId(3L);
+
+        Set<User> participants = new HashSet<>();
+        participants.add(participant1);
+        participants.add(participant2);
+
+        Session session = new Session();
+        session.setHost(host);
+        session.setMaxParticipants(2);
+        session.setParticipants(participants);
+        session.setTitle("testSession");
+        session.setSessionStatus(SessionStatus.CREATED);
+        session.setSessionId(1L);
+
+        Comment comment = new Comment();
+        comment.setCommentId(1L);
+        comment.setSession(session);
+        comment.setUser(participant1);
+        comment.setCommentText("This is a test comment");
+
+        Report report = new Report();
+        report.setReportId(1L);
+        report.setComment(comment);
+        report.setReason(ReportReason.THREAT);
+        report.setSession(session);
+        report.setUser(participant1);
+        report.setDescription("The user participant2 threated me");
+
+        ReportPostDTO reportPostDTO = new ReportPostDTO();
+        reportPostDTO.setComment(comment);
+        reportPostDTO.setReason(ReportReason.THREAT);
+        reportPostDTO.setUser(participant1);
+        reportPostDTO.setSession(session);
+        reportPostDTO.setDescription("The user participant2 threated me");
+
+        MockHttpServletRequestBuilder postRequest =  post("/sessions/"+session.getSessionId()+"/comments/report")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(reportPostDTO));
+
+        mockMvc.perform(postRequest)
+                .andExpect(status().isCreated());
     }
 
     /**
