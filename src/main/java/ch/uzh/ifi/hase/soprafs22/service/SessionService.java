@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Session Service
@@ -47,6 +49,16 @@ public class SessionService {
       List<Session> activeSessions = this.sessionRepository.findAllBySessionStatus(SessionStatus.CREATED);
       return activeSessions;
   }
+
+
+  public List<Session> getAllSessions() {
+    List<Session> activeSessions = this.sessionRepository.findAllBySessionStatus(SessionStatus.CREATED);
+    List<Session> finished = this.sessionRepository.findAllBySessionStatus(SessionStatus.FINISHED);
+    List<Session> ongoing = this.sessionRepository.findAllBySessionStatus(SessionStatus.ONGOING);
+    List<Session> newList = Stream.concat(activeSessions.stream(), finished.stream()).collect(Collectors.toList());
+    List<Session> newList2 = Stream.concat(newList.stream(), ongoing.stream()).collect(Collectors.toList());
+    return newList2;
+}
 
 
   public Session createSession(Session newSession) {
@@ -86,13 +98,16 @@ public class SessionService {
     }
 
     public Session joinSessionByIdentifier(Long userId, String identifier) {
-      Session openSession = this.sessionRepository.findByIdentifier(identifier);
+      Session openSession = this.sessionRepository.findBySessionStatusAndIdentifier(SessionStatus.CREATED, identifier);
 
-      Optional<User> optionalUserFound = this.userRepository.findById(userId);
+      if (openSession == null) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Session not found");
+      }
+      User participant = this.userRepository.findByUserId(userId);
       String baseErrorMessage = "User with id %x was not found";
-      User participant = optionalUserFound.orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId))
-        );
+      if (participant == null) {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,userId));
+      }
       
       openSession.addParticipant(participant);
 

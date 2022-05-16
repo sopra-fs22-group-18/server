@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.ReportReason;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * - nullable = false -> this cannot be left empty
@@ -34,6 +35,9 @@ public class Report implements Serializable {
 
     @Column(nullable = false)
     private ReportReason reason;
+
+    @Column(nullable = false)
+    private Date createdDate = new Date();
 
     public Long getReportId() {
         return reportId;
@@ -81,5 +85,13 @@ public class Report implements Serializable {
 
     public void setReason(ReportReason reason) {
         this.reason = reason;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }

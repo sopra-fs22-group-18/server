@@ -1,8 +1,6 @@
-package ch.uzh.ifi.hase.soprafs22.entitiy;
+package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs22.entity.ChatUser;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,22 +12,22 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ChatUserTest {
-  private ChatUser testChatUser;
+public class MessageTest {
+  private Message message;
 
   @BeforeEach
   public void setup() {
     MockitoAnnotations.openMocks(this);
 
     // given
-    testChatUser = new ChatUser();
-    testChatUser.setName("testName");
-    testChatUser.setSessionId((long) 1);
+    message = new Message();
+    message.setContent("testContent");
+    message.setFrom("testFrom");
   }
 
   @Test
   public void createChatUser_validInputs() {
-    assertEquals(testChatUser.getName(), "testName");
-    assertEquals(testChatUser.getSessionId(), (long) 1);
+    assertEquals(message.getContent(), "testContent");
+    assertEquals(message.getFrom(), "testFrom");
   }
 }

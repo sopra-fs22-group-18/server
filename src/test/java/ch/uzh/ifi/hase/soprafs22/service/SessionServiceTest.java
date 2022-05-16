@@ -93,17 +93,14 @@ public class SessionServiceTest {
       assertEquals("404 NOT_FOUND \"Host with id 5 was not found\"", thrown.getMessage());
 
     }
-  /* TODO: Fix joinSession_validInputs() test, it fails!
-  Cannot invoke "ch.uzh.ifi.hase.soprafs22.entity.Session.addParticipant(ch.uzh.ifi.hase.soprafs22.entity.User)" because "nextSession" is null
-  java.lang.NullPointerException: Cannot invoke "ch.uzh.ifi.hase.soprafs22.entity.Session.addParticipant(ch.uzh.ifi.hase.soprafs22.entity.User)" because "nextSession" is null
 
   @Test
-  public void joinSession_validInputs() {
+  public void joinSessionByQueue_validInputs() {
 
       // make sure the sessionRepository returns the testSession
      List<Session> testOpenSessions = new ArrayList<Session>();
      testOpenSessions.add(testSession);
-     Mockito.when(sessionRepository.findAllBySessionStatus(SessionStatus.CREATED)).thenReturn(testOpenSessions);
+     Mockito.when(sessionRepository.findAllBySessionStatusAndIsPrivate(SessionStatus.CREATED, false)).thenReturn(testOpenSessions);
 
      Session joinedSession = sessionService.joinSessionByQueue(participant.getUserId());
      testSession.addParticipant(participant);
@@ -112,7 +109,20 @@ public class SessionServiceTest {
      assertEquals(testSession.getParticipants(), joinedSession.getParticipants());
 
     }
-    */
+
+  @Test
+  public void joinSessionByIdentifier_validInputs() {
+    String testIdentifier = "123123";
+     Mockito.when(sessionRepository.findBySessionStatusAndIdentifier(SessionStatus.CREATED, testIdentifier)).thenReturn(testSession);
+
+     Session joinedSession = sessionService.joinSessionByIdentifier(participant.getUserId(), testIdentifier);
+     testSession.addParticipant(participant);
+
+     assertEquals(testSession.getSessionId(), joinedSession.getSessionId());
+     assertEquals(testSession.getParticipants(), joinedSession.getParticipants());
+
+    }
+    
   @Test
   public void joinSession_invalid_userId() {
 

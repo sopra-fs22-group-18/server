@@ -11,4 +11,6 @@ import java.util.List;
 @Repository("commentRepository")
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findBySession(Session session);
+
+    Comment findByCommentId(Long commentId);
 }
