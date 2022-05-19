@@ -110,7 +110,7 @@ public class SessionController {
   @ResponseBody
   public void declareSessionWinner(@PathVariable Long sessionId, @PathVariable Long winnerId) throws IOException {
     User winner = userService.getUser(winnerId);
-    socket.closeSession(sessionId, "User : " + winner.getUsername() + " won, session closes");
+    socket.closeSession(sessionId, winner.getUsername() + " won, session closes");
   }
 
   @PostMapping("/sessions/{sessionId}/close")
