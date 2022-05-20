@@ -16,7 +16,7 @@ public class MessageTest {
   private Message message;
 
   @BeforeEach
-  public void setup() {
+  public void setUp() {
     MockitoAnnotations.openMocks(this);
 
     // given

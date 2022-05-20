@@ -15,14 +15,17 @@ import ch.uzh.ifi.hase.soprafs22.entity.Message;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.websocket.DecodeException;
 import javax.websocket.EncodeException;
+import javax.websocket.Session;
 
 /**
  * Test class for the UserResource REST resource.
@@ -35,16 +38,29 @@ public class SocketTest {
     @Mock
     private Socket socket;
 
+    private Iterator<ChatUser> chatIterator;
+    private ChatUser chatUser;
+    private Session session;
+
     @BeforeEach
     public void setup() {
+        chatUser.setName("testName");
+        chatUser.setSessionId(1L);
+        chatUser.setUserId(1L);
+        this.session = session;
+        chatUser.setSocket(socket);
+
+        chatIterator = mock(Iterator.class);
+        when(chatIterator.hasNext()).thenReturn(true, false);
+        when(chatIterator.next()).thenReturn(chatUser);
 
     }
-
-    /*
+    /* I have no idea how to test websockets
     @Test
-    public void testCloseSession() throws IOException {
-        Mockito.doNothing().when(socket).closeSession(Mockito.anyLong(), Mockito.any());
+    public void testOnClose() throws IOException {
+        socket.onClose(session, chatUser.getUserId());
 
-    } */
+        assertEquals(chatIterator.next(), false); 
+    }  */
 }
 

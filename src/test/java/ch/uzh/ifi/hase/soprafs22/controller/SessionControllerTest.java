@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.stubbing.VoidAnswer1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,6 +25,7 @@ import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -200,6 +202,30 @@ public class SessionControllerTest {
                 .andExpect(jsonPath("$.sessionStatus", is(session.getSessionStatus().toString())))
                 .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl())))
                 .andExpect(jsonPath("$.participants", hasSize(0)));
+    }
+
+    @Test
+    public void closeSessionEndpointTest_withSuccessfulWinner() throws Exception {
+        // given
+        User winner = new User();
+        winner.setUsername("host");
+        winner.setUserId(1L);
+
+        given(userService.getUser(Mockito.anyLong())).willReturn(winner);
+
+        Mockito.doNothing().when(socket).closeSession(Mockito.anyLong(), Mockito.any());
+
+        // when
+        MockHttpServletRequestBuilder postRequest = post("/sessions/2/close/" + winner.getUserId()).contentType(MediaType.APPLICATION_JSON);
+    }
+
+    @Test
+    public void closeSessionEndpointTest() throws Exception {
+        // given
+        Mockito.doNothing().when(socket).closeSession(Mockito.anyLong(), Mockito.any());
+
+        // when
+        MockHttpServletRequestBuilder postRequest = post("/sessions/2/close").contentType(MediaType.APPLICATION_JSON);
     }
 
     @Test
