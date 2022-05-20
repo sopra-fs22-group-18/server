@@ -26,7 +26,7 @@ public class MessageDecoderTest {
 
     @BeforeEach
     public void setup() {
-    messageDecoder = new MessageDecoder();
+        messageDecoder = new MessageDecoder();
     }
 
     @Test

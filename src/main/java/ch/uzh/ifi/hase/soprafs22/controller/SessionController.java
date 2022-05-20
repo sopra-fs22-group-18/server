@@ -105,13 +105,19 @@ public class SessionController {
         return sessionGetDTO;
     }
 
-  @PostMapping("/sessions/{sessionId}/{winnerId}")
+  @PostMapping("/sessions/{sessionId}/close/{winnerId}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public void declareSessionWinner(@PathVariable Long sessionId, @PathVariable Long winnerId) throws IOException {
     User winner = userService.getUser(winnerId);
-    // change session hostId and status
-    socket.closeSession(sessionId, winner.getUsername());
+    socket.closeSession(sessionId, winner.getUsername() + " won, session closes");
+  }
+
+  @PostMapping("/sessions/{sessionId}/close")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void closeSessionByHost(@PathVariable Long sessionId) throws IOException {
+    socket.closeSession(sessionId, "The host has closed the session");
   }
 
   @GetMapping("/sessions/{userId}/posts")
@@ -127,10 +133,6 @@ public class SessionController {
       if(session.getHost().getUserId()==userId)
       sessionGetDTOs.add(SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session));
     }
-
-    
-
-
     return sessionGetDTOs;
   }
 }

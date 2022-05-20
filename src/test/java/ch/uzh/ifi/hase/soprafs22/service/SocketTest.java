@@ -14,6 +14,8 @@ import ch.uzh.ifi.hase.soprafs22.entity.ChatUser;
 import ch.uzh.ifi.hase.soprafs22.entity.Message;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.Set;
@@ -37,5 +39,12 @@ public class SocketTest {
     public void setup() {
 
     }
+
+    /*
+    @Test
+    public void testCloseSession() throws IOException {
+        Mockito.doNothing().when(socket).closeSession(Mockito.anyLong(), Mockito.any());
+
+    } */
 }
 

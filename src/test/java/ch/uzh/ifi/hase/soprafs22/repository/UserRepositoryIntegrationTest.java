@@ -21,7 +21,7 @@ public class UserRepositoryIntegrationTest {
   @Test
   public void findByUsername_success() {
 
-    // given
+    // why does this not work when done in @BeforeEach?
     User user = new User();
     user.setUsername("Max");
     user.setPassword("123");
@@ -45,4 +45,30 @@ public class UserRepositoryIntegrationTest {
 
   }
 
+  @Test
+  public void findByUserId_success() {
+
+    // given
+    User user = new User();
+    user.setUsername("Max");
+    user.setPassword("123");
+    user.setUserStatus(UserStatus.ONLINE);
+
+
+    user.setToken("1");
+
+    entityManager.persist(user);
+    entityManager.flush();
+
+    // when
+    User found = userRepository.findByUserId(user.getUserId());
+
+    // then
+    assertNotNull(found.getUserId());
+    assertEquals(found.getPassword(), user.getPassword());
+    assertEquals(found.getUsername(), user.getUsername());
+    assertEquals(found.getToken(), user.getToken());
+    assertEquals(found.getUserStatus(), user.getUserStatus());
+
+  }
 }

@@ -109,11 +109,10 @@ public class Socket {
         }
     }
 
-    //
-    public void closeSession(Long sessionId, String winner) throws IOException {
+    public void closeSession(Long sessionId, String messageString) throws IOException {
         Message message = new Message();
         message.setFrom("Server");
-        message.setContent("User : " + winner + " won, session closes");
+        message.setContent(messageString);
         for (ChatUser chatListener: chatListeners) {
             if (chatListener.getSessionId().equals(sessionId)) {
                 chatListener.getSocket().sendMessage(message);
@@ -123,5 +122,4 @@ public class Socket {
             }
         }
     }
-
 }
