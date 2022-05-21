@@ -15,6 +15,7 @@ import ch.uzh.ifi.hase.soprafs22.service.CommentService;
 import ch.uzh.ifi.hase.soprafs22.service.ReportService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,27 +53,30 @@ class ReportControllerTest {
     @MockBean
     private ReportService reportService;
 
+    private final User host = new User();
+    private final User participant1 = new User();
+    private final User participant2 = new User();
+    private final Set<User> participants = new HashSet<>();
+    private final Session session = new Session();
+    private final Comment comment = new Comment();
+    private final CommentPostDTO commentPostDTO = new CommentPostDTO();
+    private final Report report = new Report();
+    private final ReportPostDTO reportPostDTO = new ReportPostDTO();
 
-    @Test
-    void givenSessionReport_whenGetSessionReports_thenReturnJsonArray() throws Exception {
-        // given
-        User host = new User();
+    @BeforeEach
+    private void givens(){
         host.setUsername("host");
         host.setUserId(1L);
 
-        User participant1 = new User();
         participant1.setUsername("participant1");
         participant1.setUserId(2L);
 
-        User participant2 = new User();
         participant2.setUsername("participant2");
         participant2.setUserId(3L);
 
-        Set<User> participants = new HashSet<>();
         participants.add(participant1);
         participants.add(participant2);
 
-        Session session = new Session();
         session.setHost(host);
         session.setMaxParticipants(2);
         session.setParticipants(participants);
@@ -80,13 +84,11 @@ class ReportControllerTest {
         session.setSessionStatus(SessionStatus.CREATED);
         session.setSessionId(1L);
 
-        Comment comment = new Comment();
         comment.setCommentId(5L);
         comment.setSession(session);
         comment.setUser(participant1);
         comment.setCommentText("This is a test comment");
 
-        Report report = new Report();
         report.setReportId(2L);
         report.setSession(session);
         report.setComment(comment);
@@ -94,7 +96,15 @@ class ReportControllerTest {
         report.setReason(ReportReason.THREAT);
         report.setDescription("This is a test report");
 
+        reportPostDTO.setUser(participant1);
+        reportPostDTO.setDescription("This is a test report");
+        reportPostDTO.setSession(session);
+        reportPostDTO.setComment(comment);
+        reportPostDTO.setReason(ReportReason.THREAT);
+    }
 
+    @Test
+    void givenSessionReport_whenGetSessionReports_thenReturnJsonArray() throws Exception {
         List<Report> allSessionReports = Collections.singletonList(report);
 
         given(reportService.getSessionReports(1L)).willReturn(allSessionReports);
@@ -115,53 +125,6 @@ class ReportControllerTest {
 
     @Test
     void createSessionReport_validInput_sessionReportCreated() throws Exception {
-        // given
-        User host = new User();
-        host.setUsername("host");
-        host.setUserId(1L);
-
-        User participant1 = new User();
-        host.setUsername("participant1");
-        host.setUserId(2L);
-
-        User participant2 = new User();
-        host.setUsername("participant2");
-        host.setUserId(3L);
-
-        Set<User> participants = new HashSet<>();
-        participants.add(participant1);
-        participants.add(participant2);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setMaxParticipants(2);
-        session.setParticipants(participants);
-        session.setTitle("testSession");
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setSessionId(1L);
-
-        Comment comment = new Comment();
-        comment.setCommentId(1L);
-        comment.setSession(session);
-        comment.setUser(participant1);
-        comment.setCommentText("This is a test comment");
-
-        Report report = new Report();
-        report.setReportId(2L);
-        report.setSession(session);
-        report.setComment(comment);
-        report.setUser(participant1);
-        report.setReason(ReportReason.THREAT);
-        report.setDescription("This is a test report");
-
-        ReportPostDTO reportPostDTO = new ReportPostDTO();
-        reportPostDTO.setUser(participant1);
-        reportPostDTO.setDescription("This is a test report");
-        reportPostDTO.setSession(session);
-        reportPostDTO.setComment(comment);
-        reportPostDTO.setReason(ReportReason.THREAT);
-
-
         given(reportService.createReport(Mockito.any())).willReturn(report);
 
         // when/then -> do the request + validate the result
@@ -173,7 +136,7 @@ class ReportControllerTest {
         mockMvc.perform(postRequest)
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.reportId", is(report.getReportId().intValue())))
-                .andExpect(jsonPath("$.user.userId", is(participant1.getUserId())))
+                .andExpect(jsonPath("$.user.userId", is(participant1.getUserId().intValue())))
                 .andExpect(jsonPath("$.session.sessionId", is(session.getSessionId().intValue())))
                 .andExpect(jsonPath("$.comment.commentId", is(comment.getCommentId().intValue())))
                 .andExpect(jsonPath("$.reason", is(report.getReason().toString())))
