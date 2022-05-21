@@ -27,10 +27,16 @@ class CommentRepositoryTest {
     @Autowired
     private CommentRepository commentRepository;
 
-    @Test
-    public void findAll_success(){
-        //given
-        User host = new User();
+    private User host = new User();
+    private User player = new User();
+    private Session session = new Session();
+    private Comment comment = new Comment();
+    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> emptyList = new ArrayList<Comment>();
+    private Set<User> participant = new HashSet<>();
+
+    @BeforeEach
+    private void given(){
         host.setUsername("Host");
         host.setPassword("Password");
         host.setUserStatus(UserStatus.ONLINE);
@@ -38,7 +44,6 @@ class CommentRepositoryTest {
 
         entityManager.persistAndFlush(host);
 
-        User player = new User();
         player.setUsername("Player");
         player.setPassword("Password");
         player.setUserStatus(UserStatus.ONLINE);
@@ -46,10 +51,9 @@ class CommentRepositoryTest {
 
         entityManager.persistAndFlush(player);
 
-        Set<User> participant = new HashSet<>();
+        participant = new HashSet<>();
         participant.add(player);
 
-        Session session = new Session();
         session.setHost(host);
         session.setSessionStatus(SessionStatus.CREATED);
         session.setIdentifier("hello");
@@ -59,16 +63,17 @@ class CommentRepositoryTest {
 
         entityManager.persistAndFlush(session);
 
-        Comment comment = new Comment();
         comment.setUser(player);
         comment.setSession(session);
         comment.setCommentText("Test comment");
 
         entityManager.persistAndFlush(comment);
 
-        List<Comment> comments = new ArrayList<Comment>();
         comments.add(comment);
+    }
 
+    @Test
+    public void findAll_success(){
         //when
         List<Comment> found = commentRepository.findAll();
 
@@ -83,58 +88,7 @@ class CommentRepositoryTest {
     }
 
     @Test
-    public void findAll_noComments(){
-        List<Comment> emptyList = new ArrayList<Comment>();
-
-        //when
-        List<Comment> found = commentRepository.findAll();
-
-        //then
-        assertEquals(found, emptyList);
-    }
-
-    @Test
     public void findBySession_success(){
-        //given
-        User host = new User();
-        host.setUsername("Host");
-        host.setPassword("Password");
-        host.setUserStatus(UserStatus.ONLINE);
-        host.setToken("1");
-
-        entityManager.persistAndFlush(host);
-
-        User player = new User();
-        player.setUsername("Player");
-        player.setPassword("Password");
-        player.setUserStatus(UserStatus.ONLINE);
-        player.setToken("2");
-
-        entityManager.persistAndFlush(player);
-
-        Set<User> participant = new HashSet<>();
-        participant.add(player);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setIdentifier("hello");
-        session.setIsPrivate(false);
-        session.setParticipants(participant);
-        session.setTitle("test");
-
-        entityManager.persistAndFlush(session);
-
-        Comment comment = new Comment();
-        comment.setUser(player);
-        comment.setSession(session);
-        comment.setCommentText("Test comment");
-
-        entityManager.persistAndFlush(comment);
-
-        List<Comment> comments = new ArrayList<>();
-        comments.add(comment);
-
         //when
         List<Comment> found = commentRepository.findBySession(session);
 
@@ -151,42 +105,6 @@ class CommentRepositoryTest {
     @Test
     public void findBySession_notSuccessfully_wrongSession(){
         //given
-        User host = new User();
-        host.setUsername("Host");
-        host.setPassword("Password");
-        host.setUserStatus(UserStatus.ONLINE);
-        host.setToken("1");
-
-        entityManager.persistAndFlush(host);
-
-        User player = new User();
-        player.setUsername("Player");
-        player.setPassword("Password");
-        player.setUserStatus(UserStatus.ONLINE);
-        player.setToken("2");
-
-        entityManager.persistAndFlush(player);
-
-        Set<User> participant = new HashSet<>();
-        participant.add(player);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setIdentifier("hello");
-        session.setIsPrivate(false);
-        session.setParticipants(participant);
-        session.setTitle("test");
-
-        entityManager.persistAndFlush(session);
-
-        Comment comment = new Comment();
-        comment.setUser(player);
-        comment.setSession(session);
-        comment.setCommentText("Test comment");
-
-        entityManager.persistAndFlush(comment);
-
         Session session1 = new Session();
         session1.setHost(host);
         session1.setSessionStatus(SessionStatus.CREATED);
@@ -197,8 +115,6 @@ class CommentRepositoryTest {
 
         entityManager.persistAndFlush(session1);
 
-        List<Comment> emptyList = new ArrayList<Comment>();
-
         //when
         List<Comment> found = commentRepository.findBySession(session1);
 
@@ -208,43 +124,6 @@ class CommentRepositoryTest {
 
     @Test
     public void findByCommentId_success(){
-        //given
-        User host = new User();
-        host.setUsername("Host");
-        host.setPassword("Password");
-        host.setUserStatus(UserStatus.ONLINE);
-        host.setToken("1");
-
-        entityManager.persistAndFlush(host);
-
-        User player = new User();
-        player.setUsername("Player");
-        player.setPassword("Password");
-        player.setUserStatus(UserStatus.ONLINE);
-        player.setToken("2");
-
-        entityManager.persistAndFlush(player);
-
-        Set<User> participant = new HashSet<>();
-        participant.add(player);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setIdentifier("hello");
-        session.setIsPrivate(false);
-        session.setParticipants(participant);
-        session.setTitle("test");
-
-        entityManager.persistAndFlush(session);
-
-        Comment comment = new Comment();
-        comment.setUser(player);
-        comment.setSession(session);
-        comment.setCommentText("Test comment");
-
-        entityManager.persistAndFlush(comment);
-
         //when
         Comment found = commentRepository.findByCommentId(comment.getCommentId());
 
@@ -259,43 +138,6 @@ class CommentRepositoryTest {
 
     @Test
     public void findByCommentId_notSuccessfully_wrongCommentId(){
-        //given
-        User host = new User();
-        host.setUsername("Host");
-        host.setPassword("Password");
-        host.setUserStatus(UserStatus.ONLINE);
-        host.setToken("1");
-
-        entityManager.persistAndFlush(host);
-
-        User player = new User();
-        player.setUsername("Player");
-        player.setPassword("Password");
-        player.setUserStatus(UserStatus.ONLINE);
-        player.setToken("2");
-
-        entityManager.persistAndFlush(player);
-
-        Set<User> participant = new HashSet<>();
-        participant.add(player);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setIdentifier("hello");
-        session.setIsPrivate(false);
-        session.setParticipants(participant);
-        session.setTitle("test");
-
-        entityManager.persistAndFlush(session);
-
-        Comment comment = new Comment();
-        comment.setUser(player);
-        comment.setSession(session);
-        comment.setCommentText("Test comment");
-
-        entityManager.persistAndFlush(comment);
-
         //when
         Comment found = commentRepository.findByCommentId(comment.getCommentId() + 1);
 

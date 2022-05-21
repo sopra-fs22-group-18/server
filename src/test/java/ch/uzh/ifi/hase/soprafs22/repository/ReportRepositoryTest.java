@@ -7,6 +7,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Comment;
 import ch.uzh.ifi.hase.soprafs22.entity.Report;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -28,10 +29,18 @@ class ReportRepositoryTest {
     @Autowired
     private ReportRepository reportRepository;
 
-    @Test
-    public void findByReportId_success(){
-        //given
-        User host = new User();
+    private User host = new User();
+    private User player = new User();
+    private Session session = new Session();
+    private Comment comment = new Comment();
+    private Report report = new Report();
+    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> emptyList = new ArrayList<Comment>();
+    private Set<User> participant = new HashSet<>();
+    private List<Report> reportList = new ArrayList<>();
+
+    @BeforeEach
+    private void given(){
         host.setUsername("Host");
         host.setPassword("Password");
         host.setUserStatus(UserStatus.ONLINE);
@@ -39,7 +48,6 @@ class ReportRepositoryTest {
 
         entityManager.persistAndFlush(host);
 
-        User player = new User();
         player.setUsername("Player");
         player.setPassword("Password");
         player.setUserStatus(UserStatus.ONLINE);
@@ -47,10 +55,8 @@ class ReportRepositoryTest {
 
         entityManager.persistAndFlush(player);
 
-        Set<User> participant = new HashSet<>();
         participant.add(player);
 
-        Session session = new Session();
         session.setHost(host);
         session.setSessionStatus(SessionStatus.CREATED);
         session.setIdentifier("hello");
@@ -60,14 +66,15 @@ class ReportRepositoryTest {
 
         entityManager.persistAndFlush(session);
 
-        Comment comment = new Comment();
         comment.setUser(player);
         comment.setSession(session);
         comment.setCommentText("Test comment");
 
         entityManager.persistAndFlush(comment);
 
-        Report report = new Report();
+        comments.add(comment);
+
+        report = new Report();
         report.setDescription("racist comment");
         report.setReason(ReportReason.RACISM);
         report.setUser(player);
@@ -76,6 +83,11 @@ class ReportRepositoryTest {
 
         entityManager.persistAndFlush(report);
 
+        reportList.add(report);
+    }
+
+    @Test
+    public void findByReportId_success(){
         //when
         Report found = reportRepository.findByReportId(report.getReportId());
 
@@ -91,52 +103,6 @@ class ReportRepositoryTest {
 
     @Test
     public void findByReportId_notSuccessfully_wrongId(){
-        //given
-        User host = new User();
-        host.setUsername("Host");
-        host.setPassword("Password");
-        host.setUserStatus(UserStatus.ONLINE);
-        host.setToken("1");
-
-        entityManager.persistAndFlush(host);
-
-        User player = new User();
-        player.setUsername("Player");
-        player.setPassword("Password");
-        player.setUserStatus(UserStatus.ONLINE);
-        player.setToken("2");
-
-        entityManager.persistAndFlush(player);
-
-        Set<User> participant = new HashSet<>();
-        participant.add(player);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setIdentifier("hello");
-        session.setIsPrivate(false);
-        session.setParticipants(participant);
-        session.setTitle("test");
-
-        entityManager.persistAndFlush(session);
-
-        Comment comment = new Comment();
-        comment.setUser(player);
-        comment.setSession(session);
-        comment.setCommentText("Test comment");
-
-        entityManager.persistAndFlush(comment);
-
-        Report report = new Report();
-        report.setDescription("racist comment");
-        report.setReason(ReportReason.RACISM);
-        report.setUser(player);
-        report.setSession(session);
-        report.setComment(comment);
-
-        entityManager.persistAndFlush(report);
-
         //when
         Report found = reportRepository.findByReportId(report.getReportId()+1);
 
@@ -147,55 +113,6 @@ class ReportRepositoryTest {
 
     @Test
     public void findBySession_oneReport_success(){
-        //given
-        User host = new User();
-        host.setUsername("Host");
-        host.setPassword("Password");
-        host.setUserStatus(UserStatus.ONLINE);
-        host.setToken("1");
-
-        entityManager.persistAndFlush(host);
-
-        User player = new User();
-        player.setUsername("Player");
-        player.setPassword("Password");
-        player.setUserStatus(UserStatus.ONLINE);
-        player.setToken("2");
-
-        entityManager.persistAndFlush(player);
-
-        Set<User> participant = new HashSet<>();
-        participant.add(player);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setIdentifier("hello");
-        session.setIsPrivate(false);
-        session.setParticipants(participant);
-        session.setTitle("test");
-
-        entityManager.persistAndFlush(session);
-
-        Comment comment = new Comment();
-        comment.setUser(player);
-        comment.setSession(session);
-        comment.setCommentText("Test comment");
-
-        entityManager.persistAndFlush(comment);
-
-        Report report = new Report();
-        report.setDescription("racist comment");
-        report.setReason(ReportReason.RACISM);
-        report.setUser(player);
-        report.setSession(session);
-        report.setComment(comment);
-
-        entityManager.persistAndFlush(report);
-
-        List<Report> reportList = new ArrayList<>();
-        reportList.add(report);
-
         //when
         List<Report> found = reportRepository.findBySession(session);
 
@@ -212,58 +129,13 @@ class ReportRepositoryTest {
 
     @Test
     public void findBySession_twoReports_success(){
-        //given
-        User host = new User();
-        host.setUsername("Host");
-        host.setPassword("Password");
-        host.setUserStatus(UserStatus.ONLINE);
-        host.setToken("1");
-
-        entityManager.persistAndFlush(host);
-
-        User player = new User();
-        player.setUsername("Player");
-        player.setPassword("Password");
-        player.setUserStatus(UserStatus.ONLINE);
-        player.setToken("2");
-
-        entityManager.persistAndFlush(player);
-
-        Set<User> participant = new HashSet<>();
-        participant.add(player);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setIdentifier("hello");
-        session.setIsPrivate(false);
-        session.setParticipants(participant);
-        session.setTitle("test");
-
-        entityManager.persistAndFlush(session);
-
-        Comment comment = new Comment();
-        comment.setUser(player);
-        comment.setSession(session);
-        comment.setCommentText("Test comment");
-
-        entityManager.persistAndFlush(comment);
-
+        //additional given
         Comment comment1 = new Comment();
         comment1.setUser(player);
         comment1.setSession(session);
         comment1.setCommentText("Test comment");
 
         entityManager.persistAndFlush(comment1);
-
-        Report report = new Report();
-        report.setDescription("racist comment");
-        report.setReason(ReportReason.RACISM);
-        report.setUser(player);
-        report.setSession(session);
-        report.setComment(comment);
-
-        entityManager.persistAndFlush(report);
 
         Report report1 = new Report();
         report1.setDescription("she threaded me");
@@ -274,8 +146,6 @@ class ReportRepositoryTest {
 
         entityManager.persistAndFlush(report1);
 
-        List<Report> reportList = new ArrayList<>();
-        reportList.add(report);
         reportList.add(report1);
 
         //when
@@ -301,36 +171,7 @@ class ReportRepositoryTest {
 
     @Test
     public void findBySession_notSuccessfully_wrongSession(){
-        //given
-        User host = new User();
-        host.setUsername("Host");
-        host.setPassword("Password");
-        host.setUserStatus(UserStatus.ONLINE);
-        host.setToken("1");
-
-        entityManager.persistAndFlush(host);
-
-        User player = new User();
-        player.setUsername("Player");
-        player.setPassword("Password");
-        player.setUserStatus(UserStatus.ONLINE);
-        player.setToken("2");
-
-        entityManager.persistAndFlush(player);
-
-        Set<User> participant = new HashSet<>();
-        participant.add(player);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionStatus(SessionStatus.CREATED);
-        session.setIdentifier("hello");
-        session.setIsPrivate(false);
-        session.setParticipants(participant);
-        session.setTitle("test");
-
-        entityManager.persistAndFlush(session);
-
+        //additional given
         Session session1 = new Session();
         session1.setHost(host);
         session1.setSessionStatus(SessionStatus.ONGOING);
@@ -341,23 +182,6 @@ class ReportRepositoryTest {
 
         entityManager.persistAndFlush(session1);
 
-        Comment comment = new Comment();
-        comment.setUser(player);
-        comment.setSession(session);
-        comment.setCommentText("Test comment");
-
-        entityManager.persistAndFlush(comment);
-
-        Report report = new Report();
-        report.setDescription("racist comment");
-        report.setReason(ReportReason.RACISM);
-        report.setUser(player);
-        report.setSession(session);
-        report.setComment(comment);
-
-        entityManager.persistAndFlush(report);
-
-        List<Report> emptyList = new ArrayList<>();
 
         //when
         List<Report> found = reportRepository.findBySession(session1);
