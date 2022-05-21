@@ -9,9 +9,12 @@ import ch.uzh.ifi.hase.soprafs22.service.Socket;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -50,21 +53,34 @@ public class SessionControllerTest {
   @MockBean
   private Socket socket;
 
+  private final User host = new User();
+  private final Session session = new Session();
+  private final User participant1 = new User();
+  private final Set<User> participants = new HashSet<>();
+  private final Set<User> emptyList = new HashSet<>();
+
+  @BeforeEach
+  public void createUserAndSession(){
+      host.setUsername("host");
+      host.setUserId(1L);
+
+      participant1.setUsername("participant1");
+      participant1.setUserId(2L);
+
+      participants.add(participant1);
+
+      session.setHost(host);
+      session.setSessionId(3L);
+      session.setMaxParticipants(2);
+      session.setTitle("testSession");
+      session.setImageUrl("testURL");
+      session.setParticipants(participants);
+      session.setSessionStatus(SessionStatus.CREATED);
+  }
+
   @Test
   public void givenSessions_whenGetSessions_thenReturnJsonArray() throws Exception {
-    // given
-    User host = new User();
-    host.setUsername("host");
-    host.setUserId(1L);
-
-    Session session = new Session();
-    session.setHost(host);
-    session.setMaxParticipants(2);
-    session.setTitle("testSession");
-    session.setImageUrl("testURL");
-    session.setSessionStatus(SessionStatus.CREATED);
-
-
+    // additional given
     List<Session> allSessions = Collections.singletonList(session);
 
     // this mocks the SessionService -> we define above what the sessionService should
@@ -86,27 +102,12 @@ public class SessionControllerTest {
 
   @Test
   public void givenSession_whenGetSession_thenReturnJsonArray() throws Exception {
-      // given
-      User host = new User();
-      host.setUsername("host");
-      host.setUserId(1L);
-
-      Session session = new Session();
-      session.setHost(host);
-      session.setSessionId(2L);
-      session.setMaxParticipants(2);
-      session.setTitle("testSession");
-      session.setImageUrl("testURL");
-      session.setSessionStatus(SessionStatus.CREATED);
-
-
-
       // this mocks the SessionService -> we define above what the sessionService should
       // return when getActiveSessions() is called
-      given(sessionService.getSession(2L)).willReturn(session);
+      given(sessionService.getSession(session.getSessionId())).willReturn(session);
 
       // when
-      MockHttpServletRequestBuilder getRequest = get("/sessions/" + 2).contentType(MediaType.APPLICATION_JSON);
+      MockHttpServletRequestBuilder getRequest = get("/sessions/" + 3).contentType(MediaType.APPLICATION_JSON);
 
       // then
       mockMvc.perform(getRequest).andExpect(status().isOk())
@@ -123,23 +124,10 @@ public class SessionControllerTest {
   @Test
   public void createSession_validInput_sessionCreated() throws Exception {
     // given
-    User host = new User();
-    host.setUsername("host");
-    host.setUserId(1L);
-
-    Session session = new Session();
-    session.setHost(host);
-    session.setMaxParticipants(2);
-    session.setTitle("testSession");
-    session.setSessionStatus(SessionStatus.CREATED);
-    session.setSessionId(1L);
-    session.setImageUrl("testURL");
-
     SessionPostDTO sessionPostDTO = new SessionPostDTO();
     sessionPostDTO.setHost(host);
     sessionPostDTO.setMaxParticipants(2);
     sessionPostDTO.setTitle("testSession");
-
 
     given(sessionService.createSession(Mockito.any())).willReturn(session);
 
@@ -161,27 +149,7 @@ public class SessionControllerTest {
 
     @Test
     public void givenSession_whenParticipantJoinsSession_thenReturnJsonArray() throws Exception {
-        // given
-        User host = new User();
-        host.setUsername("host");
-        host.setUserId(1L);
-
-        User participant1 = new User();
-        participant1.setUsername("participant1");
-        participant1.setUserId(2L);
-
-        Set<User> participants = new HashSet<>();
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionId(3L);
-        session.setParticipants(participants);
-        session.setMaxParticipants(2);
-        session.setTitle("testSession");
-        session.setImageUrl("testURL");
-        session.setSessionStatus(SessionStatus.CREATED);
-
-
+      session.setParticipants(emptyList);
         List<Session> allSessions = Collections.singletonList(session);
 
         // this mocks the SessionService -> we define above what the sessionService should
@@ -204,27 +172,6 @@ public class SessionControllerTest {
 
     @Test
     public void givenSession_whenParticipantLeavesSession_thenReturnJsonArray() throws Exception {
-        User host = new User();
-        host.setUsername("host");
-        host.setUserId(1L);
-
-        User participant1 = new User();
-        participant1.setUsername("participant1");
-        participant1.setUserId(2L);
-
-        Set<User> participants = new HashSet<>();
-        participants.add(participant1);
-
-        Session session = new Session();
-        session.setHost(host);
-        session.setSessionId(3L);
-        session.setParticipants(participants);
-        session.setMaxParticipants(2);
-        session.setTitle("testSession");
-        session.setImageUrl("testURL");
-        session.setSessionStatus(SessionStatus.CREATED);
-
-
         given(sessionService.removeParticipant(3L, 2L)).willReturn(session);
 
         MockHttpServletRequestBuilder putRequest = put("/sessions/"+ 3 +"/leave/" + 2)
@@ -238,8 +185,6 @@ public class SessionControllerTest {
                 .andExpect(jsonPath("$.sessionStatus", is(session.getSessionStatus().toString())))
                 .andExpect(jsonPath("$.imageUrl", is(session.getImageUrl())))
                 .andExpect(jsonPath("$.participants", hasSize(1)));
-
-
     }
 
 
@@ -247,7 +192,7 @@ public class SessionControllerTest {
    * Helper Method to convert DTO into a JSON string such that the input
    * can be processed
    * Input will look like this: {"name": "Test User", "username": "testUsername"}
-   * 
+   *
    * @param object
    * @return string
    */
@@ -256,7 +201,7 @@ public class SessionControllerTest {
       return new ObjectMapper().writeValueAsString(object);
     } catch (JsonProcessingException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          String.format("The request body could not be created.%s", e.toString()));
+          String.format("The request body could not be created.%s", e));
     }
   }
 }
