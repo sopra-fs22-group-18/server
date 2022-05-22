@@ -43,19 +43,14 @@ public class SessionServiceTest {
     host.setUsername("host");
     host.setUserId(1L);
 
-
     participant = new User();
     participant.setPassword("testPassword2");
     participant.setUsername("participant");
     participant.setUserId(2L);
 
-
-
     // when the users are being looked for, return the dummy users.
-
     Mockito.when(userRepository.findByUserId(1L)).thenReturn(host);
     Mockito.when(userRepository.findByUserId(2L)).thenReturn(participant);
-
 
     testSession = new Session();
     testSession.setTitle("testSession");
@@ -186,4 +181,9 @@ public class SessionServiceTest {
       assertEquals(testSession.getTitle(), returnedSession.getTitle());
   }
 
+  @Test
+  public void checkSessionStatus_Created() {
+      SessionStatus returnedStatus = sessionService.checkSessionStatus(3L);
+      assertEquals(SessionStatus.CREATED, returnedStatus);
+  }
 }
