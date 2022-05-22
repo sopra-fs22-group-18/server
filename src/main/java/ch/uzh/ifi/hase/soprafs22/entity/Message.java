@@ -6,7 +6,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
 public class Message {
     private String from;
     private String content;
-    private MessageType Messagetype;
+    private MessageType messageType;
     private SessionStatus sessionStatus;
 
     
@@ -26,12 +26,12 @@ public class Message {
         this.content = content;
     }
 
-    public MessageType getMessagetype() {
-        return Messagetype;
+    public MessageType getMessageType() {
+        return messageType;
     }
 
-    public void setMessagetype(MessageType messagetype) {
-        Messagetype = messagetype;
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
     }
 
     public SessionStatus getSessionStatus() {

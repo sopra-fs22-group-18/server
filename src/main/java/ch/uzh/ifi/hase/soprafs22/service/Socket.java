@@ -74,7 +74,7 @@ public class Socket {
         Message message = new Message();
         message.setFrom("Server");
         message.setContent("Welcome " + chatUser.getName() + " to session " + sessionId);
-        message.setMessagetype(MessageType.CommentText);
+        message.setMessageType(MessageType.CommentText);
         broadcast(message, sessionId);
 
         //check if session exists and handle status updates
@@ -86,7 +86,7 @@ public class Socket {
             }
         } catch (Exception e) {
             Message errorMessage = new Message();
-            errorMessage.setMessagetype(MessageType.Error);
+            errorMessage.setMessageType(MessageType.Error);
             errorMessage.setFrom("Server");
             errorMessage.setContent("There is no session with id " + sessionId + ". You will be disconnected.");
             broadcast(errorMessage, sessionId);
@@ -98,7 +98,7 @@ public class Socket {
     public void onMessage(Message message, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {
         String moderatedContent = textApi.moderateMessage(message.getContent());
         message.setContent(moderatedContent);
-        message.setMessagetype(MessageType.CommentText);
+        message.setMessageType(MessageType.CommentText);
         commentService.createCommentFromSession(message.getContent(), userId, sessionId);
         broadcast(message, sessionId);
     }
@@ -139,7 +139,7 @@ public class Socket {
         Message message = new Message();
         message.setFrom("Server");
         message.setContent(messageString);
-        message.setMessagetype(MessageType.CommentText);
+        message.setMessageType(MessageType.CommentText);
         for (ChatUser chatListener: chatListeners) {
             if (chatListener.getSessionId().equals(sessionId)) {
                 chatListener.getSocket().sendMessage(message);
@@ -154,7 +154,7 @@ public class Socket {
         Message message = new Message();
         message.setFrom("Server");
         message.setContent("Session status updated");
-        message.setMessagetype(MessageType.StatusUpdate);
+        message.setMessageType(MessageType.StatusUpdate);
         message.setSessionStatus(sessionStatus);
         broadcast(message, sessionId);
     }
