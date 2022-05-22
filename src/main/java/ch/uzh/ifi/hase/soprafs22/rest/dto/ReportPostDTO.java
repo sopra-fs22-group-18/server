@@ -10,7 +10,6 @@ import java.util.Date;
 
 public class ReportPostDTO {
     private Long reportId;
-    private Comment comment;
     private Session session;
     private User user;
     private String description;
@@ -23,14 +22,6 @@ public class ReportPostDTO {
 
     public void setReportId(Long reportId) {
         this.reportId = reportId;
-    }
-
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
     }
 
     public Session getSession() {

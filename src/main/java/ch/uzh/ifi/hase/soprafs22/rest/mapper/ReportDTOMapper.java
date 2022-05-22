@@ -24,7 +24,6 @@ import java.util.Date;
 public interface ReportDTOMapper {
 
     ReportDTOMapper INSTANCE = Mappers.getMapper(ReportDTOMapper.class);
-    @Mapping(source = "comment", target = "comment")
     @Mapping(source = "session", target = "session")
     @Mapping(source = "user", target = "user")
     @Mapping(source = "description", target = "description")
@@ -32,7 +31,6 @@ public interface ReportDTOMapper {
     @Mapping(source = "createdDate", target = "createdDate")
     Report convertReportPostDTOtoEntity(ReportPostDTO reportPostDTO);
 
-    @Mapping(source = "comment", target = "comment")
     @Mapping(source = "session", target = "session")
     @Mapping(source = "user", target = "user")
     @Mapping(source = "description", target = "description")

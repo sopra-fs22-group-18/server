@@ -22,10 +22,6 @@ public class Report implements Serializable {
     private Long reportId;
 
     @ManyToOne
-    @JoinColumn(name = "commentId")
-    private Comment comment;
-
-    @ManyToOne
     @JoinColumn(name = "sessionId")
     private Session session;
 
@@ -48,14 +44,6 @@ public class Report implements Serializable {
 
     public void setReportId(Long reportId) {
         this.reportId = reportId;
-    }
-
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
     }
 
     public Session getSession() {

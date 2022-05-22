@@ -34,19 +34,16 @@ import java.util.List;
 public class ReportService {
 
     private final Logger log = LoggerFactory.getLogger(ReportService.class);
-    private final CommentRepository commentRepository;
     private final SessionRepository sessionRepository;
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
 
 
     @Autowired
-    public ReportService(@Qualifier("commentRepository") CommentRepository commentRepository,
-                          @Qualifier("sessionRepository") SessionRepository sessionRepository,
+    public ReportService( @Qualifier("sessionRepository") SessionRepository sessionRepository,
                           @Qualifier("reportRepository") ReportRepository reportRepository,
-                         @Qualifier("userRepository") UserRepository userRepository) {
+                          @Qualifier("userRepository") UserRepository userRepository) {
 
-        this.commentRepository = commentRepository;
         this.sessionRepository = sessionRepository;
         this.reportRepository = reportRepository;
         this.userRepository = userRepository;
@@ -80,28 +77,19 @@ public class ReportService {
         Long sessionId = newReport.getSession().getSessionId();
         Session session = sessionRepository.findBySessionId(sessionId);
 
-        // find comment
-        String commentErrorMessage = "Comment with id %x was not found";
-        Long commentId = newReport.getComment().getCommentId();
-        Comment comment = commentRepository.findByCommentId(commentId);
-
         if (session == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(sessionErrorMessage,sessionId));
-        } else if (comment == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(commentErrorMessage,commentId));
         } else if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(userErrorMessage,userId));
         } else {
             // set createdDate, session and comment
             newReport.setCreatedDate(new java.util.Date());
             newReport.setSession(session);
-            newReport.setComment(comment);
 
             // save to repo and flush
             newReport = reportRepository.save(newReport);
             sessionRepository.flush();
             userRepository.flush();
-            commentRepository.flush();
 
 
             log.debug("Created Information for Report: {}", newReport);

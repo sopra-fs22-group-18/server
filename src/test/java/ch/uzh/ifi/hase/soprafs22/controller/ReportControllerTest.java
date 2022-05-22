@@ -91,7 +91,6 @@ class ReportControllerTest {
 
         report.setReportId(2L);
         report.setSession(session);
-        report.setComment(comment);
         report.setUser(participant1);
         report.setReason(ReportReason.THREAT);
         report.setDescription("This is a test report");
@@ -99,7 +98,6 @@ class ReportControllerTest {
         reportPostDTO.setUser(participant1);
         reportPostDTO.setDescription("This is a test report");
         reportPostDTO.setSession(session);
-        reportPostDTO.setComment(comment);
         reportPostDTO.setReason(ReportReason.THREAT);
     }
 
@@ -118,7 +116,6 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$[0].session.sessionId", is(session.getSessionId().intValue())))
                 .andExpect(jsonPath("$[0].reportId", is(report.getReportId().intValue())))
                 .andExpect(jsonPath("$[0].user.userId", is(participant1.getUserId().intValue())))
-                .andExpect(jsonPath("$[0].comment.commentId", is(comment.getCommentId().intValue())))
                 .andExpect(jsonPath("$[0].reason", is(report.getReason().toString())))
                 .andExpect(jsonPath("$[0].description", is(report.getDescription())));
     }
@@ -138,7 +135,6 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$.reportId", is(report.getReportId().intValue())))
                 .andExpect(jsonPath("$.user.userId", is(participant1.getUserId().intValue())))
                 .andExpect(jsonPath("$.session.sessionId", is(session.getSessionId().intValue())))
-                .andExpect(jsonPath("$.comment.commentId", is(comment.getCommentId().intValue())))
                 .andExpect(jsonPath("$.reason", is(report.getReason().toString())))
                 .andExpect(jsonPath("$.description", is(report.getDescription())));
     }

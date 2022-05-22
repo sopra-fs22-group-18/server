@@ -92,7 +92,6 @@ public class ReportServiceTest {
         testReport = new Report();
         testReport.setReportId(7L);
         testReport.setSession(testSession);
-        testReport.setComment(testComment);
         testReport.setUser(participant);
         testReport.setReason(ReportReason.THREAT);
         testReport.setDescription("This is a test report");
@@ -111,7 +110,6 @@ public class ReportServiceTest {
 
         assertEquals(testReport.getReportId(), createdReport.getReportId());
         assertEquals(testReport.getSession(), createdReport.getSession());
-        assertEquals(testReport.getComment(), createdReport.getComment());
         assertEquals(testReport.getUser(), createdReport.getUser());
         assertEquals(testReport.getReason(), createdReport.getReason());
         assertEquals(testReport.getDescription(), createdReport.getDescription());
@@ -143,25 +141,12 @@ public class ReportServiceTest {
     }
 
     @Test
-    public void createSession_invalid_commentId() {
-        testComment.setCommentId(5L);
-
-        Mockito.when(userRepository.findByUserId(5L)).thenReturn(null);
-
-        Throwable thrown = assertThrows(ResponseStatusException.class, () -> reportService.createReport(testReport));
-
-        assertEquals("404 NOT_FOUND \"Comment with id 5 was not found\"", thrown.getMessage());
-
-    }
-
-    @Test
     public void getOneReport_valid() {
 
         Report returnedReport = reportService.getReport(testReport.getReportId());
 
         assertEquals(testReport.getReportId(), returnedReport.getReportId());
         assertEquals(testReport.getSession(), returnedReport.getSession());
-        assertEquals(testReport.getComment(), returnedReport.getComment());
         assertEquals(testReport.getUser(), returnedReport.getUser());
         assertEquals(testReport.getReason(), returnedReport.getReason());
         assertEquals(testReport.getDescription(), returnedReport.getDescription());

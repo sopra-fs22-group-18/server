@@ -79,7 +79,6 @@ class ReportRepositoryTest {
         report.setReason(ReportReason.RACISM);
         report.setUser(player);
         report.setSession(session);
-        report.setComment(comment);
 
         entityManager.persistAndFlush(report);
 
@@ -92,7 +91,6 @@ class ReportRepositoryTest {
         Report found = reportRepository.findByReportId(report.getReportId());
 
         //then
-        assertEquals(found.getComment(), comment);
         assertEquals(found.getReportId(), report.getReportId());
         assertEquals(found.getCreatedDate(), report.getCreatedDate());
         assertEquals(found.getDescription(), "racist comment");
@@ -124,7 +122,6 @@ class ReportRepositoryTest {
         assertEquals(found.get(0).getReason(), ReportReason.RACISM);
         assertEquals(found.get(0).getDescription(), "racist comment");
         assertEquals(found.get(0).getCreatedDate(), report.getCreatedDate());
-        assertEquals(found.get(0).getComment(), comment);
     }
 
     @Test
@@ -142,7 +139,6 @@ class ReportRepositoryTest {
         report1.setReason(ReportReason.THREAT);
         report1.setUser(player);
         report1.setSession(session);
-        report1.setComment(comment1);
 
         entityManager.persistAndFlush(report1);
 
@@ -159,14 +155,12 @@ class ReportRepositoryTest {
         assertEquals(found.get(0).getReason(), ReportReason.RACISM);
         assertEquals(found.get(0).getDescription(), "racist comment");
         assertEquals(found.get(0).getCreatedDate(), report.getCreatedDate());
-        assertEquals(found.get(0).getComment(), comment);
         assertEquals(found.get(1).getUser(), player);
         assertEquals(found.get(1).getSession(), session);
         assertEquals(found.get(1).getReportId(), report1.getReportId());
         assertEquals(found.get(1).getReason(), ReportReason.THREAT);
         assertEquals(found.get(1).getDescription(), "she threaded me");
         assertEquals(found.get(1).getCreatedDate(), report1.getCreatedDate());
-        assertEquals(found.get(1).getComment(), comment1);
     }
 
     @Test
