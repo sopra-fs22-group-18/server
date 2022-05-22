@@ -70,6 +70,7 @@ public class ReportController {
 
         // create Report
         Report createdReport = reportService.createReport(reportInput);
+
         // convert internal representation of session back to API
         return ReportDTOMapper.INSTANCE.convertEntityToReportGetDTO(createdReport);
     }

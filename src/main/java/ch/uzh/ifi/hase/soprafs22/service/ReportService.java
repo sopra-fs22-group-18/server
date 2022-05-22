@@ -99,7 +99,10 @@ public class ReportService {
 
             // save to repo and flush
             newReport = reportRepository.save(newReport);
-            reportRepository.flush();
+            sessionRepository.flush();
+            userRepository.flush();
+            commentRepository.flush();
+
 
             log.debug("Created Information for Report: {}", newReport);
             return newReport;
