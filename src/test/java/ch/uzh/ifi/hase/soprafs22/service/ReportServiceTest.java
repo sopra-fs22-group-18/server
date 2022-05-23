@@ -117,19 +117,19 @@ public class ReportServiceTest {
     }
 
     @Test
-    public void createSession_invalid_userId() {
-        participant.setUserId(5L);
+    public void createReport_invalid_userId() {
+        participant.setUserId(4L);
 
-        Mockito.when(userRepository.findByUserId(5L)).thenReturn(null);
+        Mockito.when(userRepository.findByUserId(4L)).thenReturn(null);
 
         Throwable thrown = assertThrows(ResponseStatusException.class, () -> reportService.createReport(testReport));
 
-        assertEquals("404 NOT_FOUND \"User with id 5 was not found\"", thrown.getMessage());
+        assertEquals("404 NOT_FOUND \"User with id 4 was not found\"", thrown.getMessage());
 
     }
 
     @Test
-    public void createSession_invalid_sessionId() {
+    public void createReport_invalid_sessionId() {
         testSession.setSessionId(5L);
 
         Mockito.when(sessionRepository.findBySessionId(5L)).thenReturn(null);
