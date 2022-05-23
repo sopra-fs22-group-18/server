@@ -67,11 +67,6 @@ public class ReportService {
 
     public Report createReport(Report newReport) {
 
-        // find user
-        String userErrorMessage = "User with id %x was not found";
-        Long userId = newReport.getUser().getUserId();
-        User user = userRepository.findByUserId(userId);
-
         // find session
         String sessionErrorMessage = "Session with id %x was not found";
         Long sessionId = newReport.getSession().getSessionId();
@@ -79,8 +74,6 @@ public class ReportService {
 
         if (session == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(sessionErrorMessage,sessionId));
-        } else if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(userErrorMessage,userId));
         } else {
             // set createdDate, session and comment
             newReport.setCreatedDate(new java.util.Date());
@@ -89,7 +82,6 @@ public class ReportService {
             // save to repo and flush
             newReport = reportRepository.save(newReport);
             sessionRepository.flush();
-            userRepository.flush();
 
 
             log.debug("Created Information for Report: {}", newReport);

@@ -22,11 +22,11 @@ public class Report implements Serializable {
     private Long reportId;
 
     @ManyToOne
-    @JoinColumn(name = "sessionId")
+    @JoinColumn(name = "sessionId", nullable = false)
     private Session session;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @Column(nullable = false)
