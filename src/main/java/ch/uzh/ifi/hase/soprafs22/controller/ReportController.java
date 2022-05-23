@@ -1,19 +1,15 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Report;
-import ch.uzh.ifi.hase.soprafs22.entity.Session;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ReportGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ReportPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.ReportDTOMapper;
-import ch.uzh.ifi.hase.soprafs22.rest.mapper.SessionDTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.ReportService;
 
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

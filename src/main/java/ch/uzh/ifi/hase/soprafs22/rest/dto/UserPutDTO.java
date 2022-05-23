@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.constant.UserType;
-import java.awt.Image;
 
 public class UserPutDTO {
   private Long userId;
