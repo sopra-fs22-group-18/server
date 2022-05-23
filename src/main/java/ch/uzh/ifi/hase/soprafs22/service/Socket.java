@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.constant.MessageType;
+import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.ChatUser;
 import ch.uzh.ifi.hase.soprafs22.entity.Message;
 
@@ -33,6 +35,7 @@ public class Socket {
     private static CommentService commentService;
     private static UserService userService;
     private static TextApi textApi;
+    private static SessionService sessionService;
 
     @Autowired
     public void setCommentService(CommentService commentService) {
@@ -49,8 +52,13 @@ public class Socket {
         Socket.textApi = textApi;
     }
 
+    @Autowired
+    public void setSessionService(SessionService sessionService) {
+        Socket.sessionService = sessionService;
+    }
+
     @OnOpen
-    public void onOpen(Session session, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {  
+    public void onOpen(Session session, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) throws IOException {
         ChatUser chatUser = new ChatUser();
         this.session = session;
         chatUser.setSocket(this);
@@ -66,13 +74,31 @@ public class Socket {
         Message message = new Message();
         message.setFrom("Server");
         message.setContent("Welcome " + chatUser.getName() + " to session " + sessionId);
+        message.setMessageType(MessageType.CommentText);
         broadcast(message, sessionId);
+
+        //check if session exists and handle status updates
+        try {
+            SessionStatus sessionStatus = sessionService.checkSessionStatus(sessionId);
+            switch (sessionStatus) {
+                case ONGOING:
+                    updateSessionStatus(sessionId, sessionStatus);
+            }
+        } catch (Exception e) {
+            Message errorMessage = new Message();
+            errorMessage.setMessageType(MessageType.Error);
+            errorMessage.setFrom("Server");
+            errorMessage.setContent("There is no session with id " + sessionId + ". You will be disconnected.");
+            broadcast(errorMessage, sessionId);
+            //closeSession(sessionId, "Closing");
+        }
     }
 
     @OnMessage //Allows the client to send message to the socket.
     public void onMessage(Message message, @PathParam("userId") Long userId, @PathParam("sessionId") Long sessionId) {
         String moderatedContent = textApi.moderateMessage(message.getContent());
         message.setContent(moderatedContent);
+        message.setMessageType(MessageType.CommentText);
         commentService.createCommentFromSession(message.getContent(), userId, sessionId);
         broadcast(message, sessionId);
     }
@@ -113,6 +139,7 @@ public class Socket {
         Message message = new Message();
         message.setFrom("Server");
         message.setContent(messageString);
+        message.setMessageType(MessageType.CommentText);
         for (ChatUser chatListener: chatListeners) {
             if (chatListener.getSessionId().equals(sessionId)) {
                 chatListener.getSocket().sendMessage(message);
@@ -121,5 +148,14 @@ public class Socket {
                 chatListener = null;
             }
         }
+    }
+
+    private void updateSessionStatus(Long sessionId, SessionStatus sessionStatus) {
+        Message message = new Message();
+        message.setFrom("Server");
+        message.setContent("Session status updated");
+        message.setMessageType(MessageType.StatusUpdate);
+        message.setSessionStatus(sessionStatus);
+        broadcast(message, sessionId);
     }
 }

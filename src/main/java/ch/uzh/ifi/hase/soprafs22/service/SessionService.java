@@ -12,15 +12,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.Objects.isNull;
 
 /**
  * Session Service
@@ -68,7 +68,7 @@ public class SessionService {
 
 
     // create identifier
-    newSession.setIdentifier(createRandomNumbeString());
+    newSession.setIdentifier(createRandomNumberString());
 
     // find host
     String baseErrorMessage = "Host with id %x was not found";
@@ -151,12 +151,24 @@ public class SessionService {
       return currentSession;
     }
 
-    private String createRandomNumbeString() {
+    private String createRandomNumberString() {
       Random random = new Random();
       int number = random.nextInt(999999);
 
       // to be super safe one could save the number and compare against a runtime array of previously rolled numbers
 
       return String.format("%06d", number);
+    }
+
+    public SessionStatus checkSessionStatus(Long sessionId) {
+      Session session = sessionRepository.findBySessionId(sessionId);
+
+      // in case the session does not exist
+      String baseErrorMessage = "Session with id %x was not found";
+      if (isNull(session)) {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,sessionId));
+      }
+
+      return session.getSessionStatus();
     }
 }
