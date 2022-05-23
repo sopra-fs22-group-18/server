@@ -79,9 +79,16 @@ public class UserService {
         User databaseUser=getUser(inputUser.getUserId());
         if (userRepository.findByUsername(inputUser.getUsername())!=null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", inputUser.getUsername()));}
-        databaseUser.setUsername(inputUser.getUsername());
 
-        // if the AvatarUrl is not null or "", then update it!
+        // if the username is not null or "", then update it!
+        if (inputUser.getUsername()!=null && !inputUser.getUsername().equals("")) {
+            databaseUser.setUsername(inputUser.getUsername());
+        }
+        // if the password is not null or "", then update it!
+        if (inputUser.getPassword()!=null && !inputUser.getPassword().equals("")) {
+            databaseUser.setPassword(inputUser.getPassword());
+        }
+        // if the name is not null or "", then update it!
         if (inputUser.getName()!=null && !inputUser.getName().equals("")) {
             databaseUser.setName(inputUser.getName());
         }
@@ -93,6 +100,7 @@ public class UserService {
         if (inputUser.getBio()!=null && !inputUser.getBio().equals("")) {
             databaseUser.setBio(inputUser.getBio());
         }
+
 
         User updatedUser = userRepository.save(databaseUser);
         return updatedUser;}
