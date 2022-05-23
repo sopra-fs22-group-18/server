@@ -5,8 +5,6 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 
-import java.util.Date;
-
 
 /**
  * DTOMapper

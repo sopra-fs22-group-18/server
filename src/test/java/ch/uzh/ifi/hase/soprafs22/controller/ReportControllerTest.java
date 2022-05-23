@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.constant.ReportReason;
 import ch.uzh.ifi.hase.soprafs22.constant.SessionStatus;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.Comment;
 import ch.uzh.ifi.hase.soprafs22.entity.Report;
 import ch.uzh.ifi.hase.soprafs22.entity.Session;
@@ -10,8 +9,6 @@ import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.CommentPostDTO;
 
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ReportPostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.SessionPostDTO;
-import ch.uzh.ifi.hase.soprafs22.service.CommentService;
 import ch.uzh.ifi.hase.soprafs22.service.ReportService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.*;
 import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
