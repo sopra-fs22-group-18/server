@@ -2,16 +2,23 @@ package ch.uzh.ifi.hase.soprafs22.service;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.UserPutDTO;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class UserServiceTest {
 
@@ -74,9 +81,55 @@ public class UserServiceTest {
     assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
   }
 
+  @Test 
+  public void returnAllUsersTest() {
+    List<User> userList = new ArrayList<>();
+    userList.add(testUser);
+    userList.add(testUser2);
+
+    Mockito.when(userRepository.findAll()).thenReturn(userList);
+
+    List<User> returnedList = userService.getUsers();
+    assertEquals(userList.size(), returnedList.size());
+  }
 
 
+  @Test
+  public void returnGetUserSuccess() {
+    Optional<User> optionalUser = Optional.of(testUser);
 
+    Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
+
+    User returnedUser = userRepository.findByUserId(testUser.getUserId());
+
+    assertEquals(returnedUser, testUser);
+  }
+
+  @Test
+  public void checkingUserSuccess() {
+    Mockito.doNothing().when(userService).setUserOnlineStandard(testUser);
+    Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(testUser);
+
+    User returnedUser = userService.checkingUser(testUser);
+
+    assertEquals(testUser, returnedUser);
+  }
+
+  @Test
+  public void checkingUserFailureNull() {
+    Mockito.doNothing().when(userService).setUserOnlineStandard(testUser);
+    Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(null);
+
+    assertThrows(ResponseStatusException.class, () -> userService.checkingUser(testUser));
+  }
+
+  @Test
+  public void checkingUserFailureWrongPassword() {
+    Mockito.doNothing().when(userService).setUserOnlineStandard(testUser);
+    Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(testUser);
+
+    assertThrows(ResponseStatusException.class, () -> userService.checkingUser(testUser2));
+  }
 
   @Test
   public void createUser_duplicateInputs_throwsException() {
@@ -90,6 +143,14 @@ public class UserServiceTest {
     // then -> attempt to create second user with same user -> check that an error
     // is thrown
     assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
+  }
+
+  @Test
+  public void checkAuthorizationFailure() {
+    UserPutDTO testDTOUser = new UserPutDTO();
+    testDTOUser.setUserId(1L);
+
+    assertThrows(ResponseStatusException.class, () -> userService.checkAuthorization(testDTOUser, 2L));
   }
 
 }

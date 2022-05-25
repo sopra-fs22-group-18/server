@@ -33,7 +33,7 @@ public class UserService {
     //create a user
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
-        //newUser.setCreation_date(new Date());
+
         setUserOnlineStandard(newUser);
         checkIfUserExists(newUser);
         // save user and make it persistent
@@ -51,7 +51,7 @@ public class UserService {
         //Retrieve user from repository using ID
 
         Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isPresent()){
+        if(optionalUser.isPresent()) {
             return optionalUser.get();}
         else{//throw error if no user found for this id in the repository
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", userId));}}
@@ -121,14 +121,12 @@ public class UserService {
     //set user offline and loggedin false
     public void setUserOffline(User userstatustobechanged){
         userstatustobechanged.setUserStatus(UserStatus.OFFLINE);}
-    //usertobelogedoutandsetofflien.setLogged_in(false);}
 
     //set user online and loggedin true
     public void setUserOnlineStandard(User userstatustobechanged){
         userstatustobechanged.setUserStatus(UserStatus.ONLINE);
         userstatustobechanged.setUserType(UserType.STANDARD);}
 
-    //usertobesetonlineandloggedin.setLogged_in(true);}
 
     //check if username already in use, if so throw error
     private void checkIfUserExists(User userToBeCreated) {
@@ -138,11 +136,10 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "username", "is"));}
     }
 
-    public void checkAuthorization(UserPutDTO updatedUserpUTdto, Long id) {
-        if(updatedUserpUTdto.getUserId()!=id){
+    public void checkAuthorization(UserPutDTO updatedUserPutDTO, Long id) {
+        if(updatedUserPutDTO.getUserId()!=id){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, String.format( "not authorized"));
         }
     }
-
 }
 
