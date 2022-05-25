@@ -72,7 +72,7 @@ public class UserControllerTest {
         userPutDTO.setToken(user.getToken());
         userPutDTO.setAvatarUrl(null);
         userPutDTO.setBio(null);
-        userPutDTO.setParticipated_sessions(2);
+        userPutDTO.setParticipatedSessions(2);
         userPutDTO.setWonSessions(1);
     }
 

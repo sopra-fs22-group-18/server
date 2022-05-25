@@ -82,7 +82,7 @@ public class UserController {
     @ResponseBody
     public void updateUser(@RequestBody UserPutDTO userPostDTO, @PathVariable Long userId) {
         //set id, to be able to identify user after username change
-        if(userPostDTO.getUserId()!=userId){
+        if(!userPostDTO.getUserId().equals(userId)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with userID = "+userId+" was not found");
         }
         userPostDTO.setUserId(userId);
@@ -95,7 +95,7 @@ public class UserController {
     @ResponseBody
     public void updateUserStatistics(@RequestBody UserPutDTO userPutDTO, @PathVariable Long userId) {
         //set id, to be able to identify user after username change
-        if(userPutDTO.getUserId()!=userId){
+        if(!userPutDTO.getUserId().equals(userId)){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "UserID "+userId+" and "+userPutDTO.getUserId()+" are not matching");
         }
         // convert API user to internal representation and update user

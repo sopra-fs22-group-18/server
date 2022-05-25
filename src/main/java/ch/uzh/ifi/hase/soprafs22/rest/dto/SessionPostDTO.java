@@ -15,7 +15,7 @@ public class SessionPostDTO {
     private int maxParticipants;
     private String title;
 
-    private String ImageUrl;
+    private String imageUrl;
 
     private boolean isPrivate;
 
@@ -67,9 +67,9 @@ public class SessionPostDTO {
         this.sessionStatus = sessionStatus;
     }
 
-    public String getImageUrl() { return ImageUrl; }
+    public String getImageUrl() { return imageUrl; }
 
-    public void setImageUrl(String imageUrl) { ImageUrl = imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public boolean getIsPrivate() {
         return isPrivate;

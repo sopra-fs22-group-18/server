@@ -33,6 +33,7 @@ import static java.util.Objects.isNull;
 @Service
 @Transactional
 public class SessionService {
+  private Random random = new Random();
 
   private final Logger log = LoggerFactory.getLogger(SessionService.class);
 
@@ -152,7 +153,6 @@ public class SessionService {
     }
 
     private String createRandomNumberString() {
-      Random random = new Random();
       int number = random.nextInt(999999);
 
       // to be super safe one could save the number and compare against a runtime array of previously rolled numbers

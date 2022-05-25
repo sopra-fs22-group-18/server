@@ -49,7 +49,7 @@ public class User implements Serializable {
   private String bio;
 
   @Column(nullable = true)
-  private Integer participated_sessions = 0;
+  private Integer participatedSessions = 0;
 
   @Column(nullable = true)
   private Integer wonSessions = 0;
@@ -89,9 +89,9 @@ public class User implements Serializable {
   public String getBio() {return bio;}
 
   public void setBio(String bio) {this.bio = bio;}
-  public Integer getParticipated_sessions() {return participated_sessions;}
+  public Integer getParticipatedSessions() {return participatedSessions;}
 
-  public void setParticipated_sessions(Integer participated_sessions) {this.participated_sessions = participated_sessions;}
+  public void setParticipatedSessions(Integer participatedSessions) {this.participatedSessions = participatedSessions;}
 
   public Integer getWonSessions(){return wonSessions;}
 

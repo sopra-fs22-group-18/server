@@ -10,7 +10,6 @@ public class SessionGetDTO {
 
   private Long sessionId;
   private User host;
-//  private User winner;
   private Set<User> participants;
   private int maxParticipants;
   private SessionStatus sessionStatus;
@@ -36,31 +35,6 @@ public class SessionGetDTO {
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
-
-//    public User getHost() {
-//        return host;
-//    }
-//
-//    public void setHost(User host) {
-//        this.host = host;
-//    }
-
-//    public User getWinner() {
-//        return winner;
-//    }
-//
-//    public void setWinner(User winner) {
-//        this.winner = winner;
-//    }
-//
-//    public Set<User> getParticipants() {
-//        return participants;
-//    }
-//
-//    public void setParticipants(Set<User> participants) {
-//        this.participants = participants;
-//    }
-
     public int getMaxParticipants() {
         return maxParticipants;
     }

@@ -52,9 +52,8 @@ public class ReportController {
     public ReportGetDTO getSessionReport(@PathVariable Long reportId) {
 
         Report report = reportService.getReport(reportId);
-        ReportGetDTO reportGetDTO = ReportDTOMapper.INSTANCE.convertEntityToReportGetDTO(report);
 
-        return reportGetDTO;
+        return ReportDTOMapper.INSTANCE.convertEntityToReportGetDTO(report);
     }
 
     @PostMapping("/sessions/{sessionId}/reports")

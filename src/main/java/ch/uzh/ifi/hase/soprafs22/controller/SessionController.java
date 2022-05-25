@@ -83,8 +83,7 @@ public class SessionController {
     @ResponseBody
     public SessionGetDTO joinSessionByQueue(@PathVariable Long userId) {
         Session session = sessionService.joinSessionByQueue(userId);
-        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
-        return sessionGetDTO;
+        return SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
     }
 
     @GetMapping("/sessions/{identifier}/join/{userId}")
@@ -92,8 +91,7 @@ public class SessionController {
     @ResponseBody
     public SessionGetDTO joinSessionByIdentifier(@PathVariable String identifier, @PathVariable Long userId) {
         Session session = sessionService.joinSessionByIdentifier(userId, identifier);
-        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
-        return sessionGetDTO;
+        return SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
     }
 
     @PutMapping("/sessions/{sessionId}/leave/{userId}")
@@ -101,8 +99,7 @@ public class SessionController {
     @ResponseBody
     public SessionGetDTO leaveSession(@PathVariable Long sessionId, @PathVariable Long userId) {
         Session session = sessionService.removeParticipant(sessionId, userId);
-        SessionGetDTO sessionGetDTO = SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
-        return sessionGetDTO;
+        return SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session);
     }
 
   @PostMapping("/sessions/{sessionId}/close/{winnerId}")
@@ -130,8 +127,8 @@ public class SessionController {
 
     // convert each session to the API represent ation
     for (Session session : activeSessions) {
-      if(session.getHost().getUserId()==userId)
-      sessionGetDTOs.add(SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session));
+      if(session.getHost().getUserId().equals(userId))
+        sessionGetDTOs.add(SessionDTOMapper.INSTANCE.convertEntityToSessionGetDTO(session));
     }
     return sessionGetDTOs;
   }

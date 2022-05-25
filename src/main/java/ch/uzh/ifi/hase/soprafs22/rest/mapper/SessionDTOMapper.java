@@ -38,7 +38,6 @@ public interface SessionDTOMapper {
   @Mapping(source = "host", target = "host")
   @Mapping(source = "title", target = "title")
   @Mapping(source = "maxParticipants", target = "maxParticipants")
-//  @Mapping(source = "winner", target = "winner")
   @Mapping(source = "participants", target = "participants")
   @Mapping(source = "imageUrl", target = "imageUrl")
   @Mapping(source = "identifier", target = "identifier")

@@ -20,7 +20,7 @@ public class UserTest {
     user.setAvatarUrl("testUrl");
     user.setBio("testBio");
     user.setName("testName");
-    user.setParticipated_sessions(1);
+    user.setParticipatedSessions(1);
     user.setPassword("testPassword");
     user.setToken("testToken");
     user.setUserId(1L);
@@ -35,7 +35,7 @@ public class UserTest {
     assertEquals(user.getAvatarUrl(), "testUrl");
     assertEquals(user.getBio(), "testBio");
     assertEquals(user.getName(), "testName");
-    assertEquals(user.getParticipated_sessions(), 1);
+    assertEquals(user.getParticipatedSessions(), 1);
     assertEquals(user.getPassword(), "testPassword");
     assertEquals(user.getToken(), "testToken");
     assertEquals(user.getUserId(), 1L);

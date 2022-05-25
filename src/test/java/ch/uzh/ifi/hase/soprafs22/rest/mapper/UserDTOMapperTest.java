@@ -36,7 +36,6 @@ public class UserDTOMapperTest {
     user.setUsername("firstname@lastname");
     user.setPassword("password");
     user.setUserStatus(UserStatus.OFFLINE);
-   //user.setCreation_date(new Date());
 
     // MAP -> Create UserGetDTO
     UserGetDTO userGetDTO = UserDTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
@@ -44,6 +43,5 @@ public class UserDTOMapperTest {
     // check content
     assertEquals(user.getUserId(), userGetDTO.getUserId());
     assertEquals(user.getUsername(), userGetDTO.getUsername());
-    //assertEquals(user.getStatus(), userGetDTO.getUserStatus());
   }
 }

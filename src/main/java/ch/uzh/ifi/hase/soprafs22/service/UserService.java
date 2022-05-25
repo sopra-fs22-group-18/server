@@ -111,7 +111,7 @@ public class UserService {
         if (!foundUser.isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d was not found", inputUser.getUserId()));}
         User databaseUser = getUser(inputUser.getUserId());
-        databaseUser.setParticipated_sessions((inputUser.getParticipated_sessions()));
+        databaseUser.setParticipatedSessions((inputUser.getParticipatedSessions()));
         databaseUser.setWonSessions(inputUser.getWonSessions());
         User updatedUser = userRepository.save(databaseUser);
         return updatedUser;

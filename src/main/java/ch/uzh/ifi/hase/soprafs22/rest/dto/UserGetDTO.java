@@ -8,7 +8,7 @@ public class UserGetDTO {
   private String token;
   private String avatarUrl;
   private String bio;
-  private Integer participated_sessions;
+  private Integer participatedSessions;
   private Integer wonSessions;
 
   public Long getUserId() {return userId;}
@@ -40,12 +40,12 @@ public class UserGetDTO {
 
     public void setBio(String bio) {this.bio = bio;}
 
-  public Integer getParticipated_sessions() {
-      return participated_sessions;
+  public Integer getParticipatedSessions() {
+      return participatedSessions;
   }
 
-  public void setParticipated_sessions(Integer participated_sessions) {
-      this.participated_sessions = participated_sessions;
+  public void setParticipatedSessions(Integer participatedSessions) {
+      this.participatedSessions = participatedSessions;
   }
 
   public Integer getWonSessions(){
