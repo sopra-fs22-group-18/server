@@ -17,8 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 
@@ -53,12 +51,8 @@ public class SessionService {
 
 
   public List<Session> getAllSessions() {
-    List<Session> activeSessions = this.sessionRepository.findAllBySessionStatus(SessionStatus.CREATED);
-    List<Session> finished = this.sessionRepository.findAllBySessionStatus(SessionStatus.FINISHED);
-    List<Session> ongoing = this.sessionRepository.findAllBySessionStatus(SessionStatus.ONGOING);
-    List<Session> newList = Stream.concat(activeSessions.stream(), finished.stream()).collect(Collectors.toList());
-    List<Session> newList2 = Stream.concat(newList.stream(), ongoing.stream()).collect(Collectors.toList());
-    return newList2;
+    List<Session> allSessions = this.sessionRepository.findAll();
+    return allSessions;
 }
 
 

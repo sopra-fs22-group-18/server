@@ -200,11 +200,10 @@ public class SessionServiceTest {
         // make sure the sessionRepository returns the testSession
         List<Session> testAllSessions = new ArrayList<Session>();
         testAllSessions.add(testSession);
-        Mockito.when(sessionRepository.findAllBySessionStatus(SessionStatus.CREATED)).thenReturn(testAllSessions);
-        Mockito.when(sessionRepository.findAllBySessionStatus(SessionStatus.FINISHED)).thenReturn(null);
-        Mockito.when(sessionRepository.findAllBySessionStatus(SessionStatus.ONGOING)).thenReturn(null);
 
-        List<Session> returnedSessions = sessionService.getActiveSessions();
+        Mockito.when(sessionRepository.findAll()).thenReturn(testAllSessions);
+
+        List<Session> returnedSessions = sessionService.getAllSessions();
 
         assertEquals(testAllSessions, returnedSessions);
     }
