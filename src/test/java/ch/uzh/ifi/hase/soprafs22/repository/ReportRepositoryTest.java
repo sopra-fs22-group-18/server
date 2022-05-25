@@ -76,7 +76,7 @@ class ReportRepositoryTest {
 
         report = new Report();
         report.setDescription("racist comment");
-        report.setReason(ReportReason.RACISM);
+        report.setReason(ReportReason.Racism);
         report.setUser(player);
         report.setSession(session);
 
@@ -94,7 +94,7 @@ class ReportRepositoryTest {
         assertEquals(found.getReportId(), report.getReportId());
         assertEquals(found.getCreatedDate(), report.getCreatedDate());
         assertEquals(found.getDescription(), "racist comment");
-        assertEquals(found.getReason(), ReportReason.RACISM);
+        assertEquals(found.getReason(), ReportReason.Racism);
         assertEquals(found.getSession(), session);
         assertEquals(found.getUser(), player);
     }
@@ -119,7 +119,7 @@ class ReportRepositoryTest {
         assertEquals(found.get(0).getUser(), player);
         assertEquals(found.get(0).getSession(), session);
         assertEquals(found.get(0).getReportId(), report.getReportId());
-        assertEquals(found.get(0).getReason(), ReportReason.RACISM);
+        assertEquals(found.get(0).getReason(), ReportReason.Racism);
         assertEquals(found.get(0).getDescription(), "racist comment");
         assertEquals(found.get(0).getCreatedDate(), report.getCreatedDate());
     }
@@ -136,7 +136,7 @@ class ReportRepositoryTest {
 
         Report report1 = new Report();
         report1.setDescription("she threaded me");
-        report1.setReason(ReportReason.THREAT);
+        report1.setReason(ReportReason.Threat);
         report1.setUser(player);
         report1.setSession(session);
 
@@ -152,13 +152,13 @@ class ReportRepositoryTest {
         assertEquals(found.get(0).getUser(), player);
         assertEquals(found.get(0).getSession(), session);
         assertEquals(found.get(0).getReportId(), report.getReportId());
-        assertEquals(found.get(0).getReason(), ReportReason.RACISM);
+        assertEquals(found.get(0).getReason(), ReportReason.Racism);
         assertEquals(found.get(0).getDescription(), "racist comment");
         assertEquals(found.get(0).getCreatedDate(), report.getCreatedDate());
         assertEquals(found.get(1).getUser(), player);
         assertEquals(found.get(1).getSession(), session);
         assertEquals(found.get(1).getReportId(), report1.getReportId());
-        assertEquals(found.get(1).getReason(), ReportReason.THREAT);
+        assertEquals(found.get(1).getReason(), ReportReason.Threat);
         assertEquals(found.get(1).getDescription(), "she threaded me");
         assertEquals(found.get(1).getCreatedDate(), report1.getCreatedDate());
     }

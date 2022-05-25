@@ -12,7 +12,7 @@ import java.util.Date;
  * the primary key
  */
 @Entity
-@Table(name = "Report")
+@Table(name = "REPORT")
 public class Report implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,21 +21,21 @@ public class Report implements Serializable {
     @GeneratedValue
     private Long reportId;
 
-    @ManyToOne
-    @JoinColumn(name = "sessionId", nullable = false)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "sessionId")
     private Session session;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
     private User user;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private ReportReason reason;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date createdDate = new Date();
 
     public Long getReportId() {
