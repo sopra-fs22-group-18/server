@@ -88,23 +88,23 @@ class ReportControllerTest {
         report.setReportId(2L);
         report.setSession(session);
         report.setUser(participant1);
-        report.setReason(ReportReason.THREAT);
+        report.setReason(ReportReason.Threat);
         report.setDescription("This is a test report");
 
         reportPostDTO.setUser(participant1);
         reportPostDTO.setDescription("This is a test report");
         reportPostDTO.setSession(session);
-        reportPostDTO.setReason(ReportReason.THREAT);
+        reportPostDTO.setReason(ReportReason.Threat);
     }
 
     @Test
     void givenSessionReport_whenGetSessionReports_thenReturnJsonArray() throws Exception {
         List<Report> allSessionReports = Collections.singletonList(report);
 
-        given(reportService.getSessionReports(1L)).willReturn(allSessionReports);
+        given(reportService.getSessionReports()).willReturn(allSessionReports);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get("/sessions/" + 1 +"/reports")
+        MockHttpServletRequestBuilder getRequest = get("/reports")
                 .contentType(MediaType.APPLICATION_JSON);
         // then
         mockMvc.perform(getRequest).andExpect(status().isOk())
@@ -121,7 +121,7 @@ class ReportControllerTest {
         given(reportService.createReport(Mockito.any())).willReturn(report);
 
         // when/then -> do the request + validate the result
-        MockHttpServletRequestBuilder postRequest = post("/sessions/1L/reports")
+        MockHttpServletRequestBuilder postRequest = post("/reports")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(reportPostDTO));
 

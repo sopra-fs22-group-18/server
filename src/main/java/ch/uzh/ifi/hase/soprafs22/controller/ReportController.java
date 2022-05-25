@@ -30,12 +30,12 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @GetMapping("/sessions/{sessionId}/reports")
+    @GetMapping("/reports")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<ReportGetDTO> getAllSessionReports(@PathVariable Long sessionId) {
+    public List<ReportGetDTO> getAllReports() {
         // fetch all sessions in the internal representation
-        List<Report> sessionReports = reportService.getSessionReports(sessionId);
+        List<Report> sessionReports = reportService.getSessionReports();
         List<ReportGetDTO> reportGetDTOs = new ArrayList<>();
 
         // convert each session to the API representation
@@ -46,17 +46,17 @@ public class ReportController {
 
     }
 
-    @GetMapping("/sessions/{sessionId}/reports/{reportId}")
+    @GetMapping("/reports/{reportId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ReportGetDTO getSessionReport(@PathVariable Long reportId) {
+    public ReportGetDTO getReportbyId(@PathVariable Long reportId) {
 
         Report report = reportService.getReport(reportId);
 
         return ReportDTOMapper.INSTANCE.convertEntityToReportGetDTO(report);
     }
 
-    @PostMapping("/sessions/{sessionId}/reports")
+    @PostMapping("/reports")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ReportGetDTO createReport(@RequestBody ReportPostDTO reportPostDTO) {

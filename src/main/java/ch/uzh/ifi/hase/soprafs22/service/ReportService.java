@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -47,15 +48,10 @@ public class ReportService {
     }
 
 
-    public List<Report> getSessionReports(Long sessionId) {
-        Session session = sessionRepository.findBySessionId(sessionId);
-        if (session != null) {
-            List<Report> sessionReports = this.reportRepository.findBySession(session);
+    public List<Report> getSessionReports() {
 
-            return sessionReports;
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There exists no session under this sessionId!");
-        }
+        List<Report> sessionReports = this.reportRepository.findAll();
+        return sessionReports;
     }
 
     public Report getReport(Long reportId) {
@@ -79,13 +75,13 @@ public class ReportService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(userErrorMessage,userId));
         } else {
             // set createdDate, session and comment
-            newReport.setCreatedDate(new java.util.Date());
+            newReport.setCreatedDate(new Date());
             newReport.setSession(session);
+            newReport.setUser(user);
 
             // save to repo and flush
             newReport = reportRepository.save(newReport);
-            sessionRepository.flush();
-
+            reportRepository.flush();
 
             log.debug("Created Information for Report: {}", newReport);
             return newReport;

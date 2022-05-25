@@ -61,7 +61,6 @@ public class SessionService {
     newSession.setSessionStatus(SessionStatus.CREATED);
     newSession.setCreatedDate(new Date());
 
-
     // create identifier
     newSession.setIdentifier(createRandomNumberString());
 
@@ -69,12 +68,10 @@ public class SessionService {
     String baseErrorMessage = "Host with id %x was not found";
     Long hostId = newSession.getHost().getUserId();
 
-
     User host = userRepository.findByUserId(hostId);
     if(host == null) {
         throw  new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,hostId));
     }
-
 
     // set host to user
     newSession.setHost(host);
