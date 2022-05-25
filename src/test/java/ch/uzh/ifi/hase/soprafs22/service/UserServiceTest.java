@@ -137,5 +137,30 @@ public class UserServiceTest {
 
     assertThrows(ResponseStatusException.class, () -> userService.checkAuthorization(testDTOUser, 2L));
   }
+  /* 
+  @Test
+  public void updateUserEverythingSuccess() {
+    Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
+    Mockito.when(userService.getUser(Mockito.anyLong())).thenReturn(testUser);
+
+    User updatedUser = new User();
+
+    updatedUser.setAvatarUrl("testUpUrl");
+    updatedUser.setUsername("testUpUsername");
+    updatedUser.setPassword("testUpPassword");
+    updatedUser.setBio("testUpBio");
+    updatedUser.setName("testUpName");
+
+    User updatedTestUser = userService.updateUser(updatedUser);
+    assertEquals(updatedUser.getAvatarUrl(), updatedTestUser.getAvatarUrl());
+  } */
+
+  @Test
+  public void updateUserNotFound() {
+    Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+    User updatedUser = new User();
+
+    assertThrows(ResponseStatusException.class, () -> userService.updateUser(updatedUser));
+  } 
 
 }

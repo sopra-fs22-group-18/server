@@ -108,7 +108,7 @@ public class CommentService {
         }
     }
 
-    public void createCommentFromSession(String commentText, Long userId, Long sessionId) {
+    public Comment createCommentFromSession(String commentText, Long userId, Long sessionId) {
         Comment comment = new Comment();
         comment.setCommentText(commentText);
         comment.setCreatedDate(new Date());
@@ -123,7 +123,6 @@ public class CommentService {
         commentRepository.flush();
         log.debug("Created Information for SessionComment: {}", comment);
 
+        return comment;
     }
-    
-
 }
