@@ -78,7 +78,7 @@ public class UserService {
         //if user that should be edited exists, get user and update it
         User databaseUser=getUser(inputUser.getUserId());
         if (userRepository.findByUsername(inputUser.getUsername())!=null){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username %d was not found", inputUser.getUsername()));}
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with username " + inputUser.getUsername() + " was not found"));}
 
         // if the username is not null or "", then update it!
         if (inputUser.getUsername()!=null && !inputUser.getUsername().equals("")) {
@@ -137,7 +137,7 @@ public class UserService {
     }
 
     public void checkAuthorization(UserPutDTO updatedUserPutDTO, Long id) {
-        if(updatedUserPutDTO.getUserId()!=id){
+        if(!updatedUserPutDTO.getUserId().equals(id)){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, String.format( "not authorized"));
         }
     }

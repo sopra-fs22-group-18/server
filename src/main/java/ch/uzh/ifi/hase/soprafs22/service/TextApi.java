@@ -40,7 +40,7 @@ public class TextApi {
 
     public static String moderateMessage(String comment_text) {
         String typeOfViolation = checkComment(comment_text);
-        if (typeOfViolation == "") {
+        if (typeOfViolation.equals("")) {
             return comment_text;
         } else {
             String languageWarning = "This comment contained inappropriate language (" + typeOfViolation + ") and will not be displayed.";
