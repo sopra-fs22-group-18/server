@@ -113,8 +113,7 @@ public class UserService {
         User databaseUser = getUser(inputUser.getUserId());
         databaseUser.setParticipatedSessions((inputUser.getParticipatedSessions()));
         databaseUser.setWonSessions(inputUser.getWonSessions());
-        User updatedUser = userRepository.save(databaseUser);
-        return updatedUser;
+        return userRepository.save(databaseUser);
     }
 
 

@@ -93,21 +93,8 @@ public class UserServiceTest {
     assertEquals(userList.size(), returnedList.size());
   }
 
-
-  @Test
-  public void returnGetUserSuccess() {
-    Optional<User> optionalUser = Optional.of(testUser);
-
-    Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
-
-    User returnedUser = userRepository.findByUserId(testUser.getUserId());
-
-    assertEquals(returnedUser, testUser);
-  }
-
   @Test
   public void checkingUserSuccess() {
-    Mockito.doNothing().when(userService).setUserOnlineStandard(testUser);
     Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(testUser);
 
     User returnedUser = userService.checkingUser(testUser);
@@ -117,7 +104,6 @@ public class UserServiceTest {
 
   @Test
   public void checkingUserFailureNull() {
-    Mockito.doNothing().when(userService).setUserOnlineStandard(testUser);
     Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(null);
 
     assertThrows(ResponseStatusException.class, () -> userService.checkingUser(testUser));
@@ -125,7 +111,6 @@ public class UserServiceTest {
 
   @Test
   public void checkingUserFailureWrongPassword() {
-    Mockito.doNothing().when(userService).setUserOnlineStandard(testUser);
     Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(testUser);
 
     assertThrows(ResponseStatusException.class, () -> userService.checkingUser(testUser2));
