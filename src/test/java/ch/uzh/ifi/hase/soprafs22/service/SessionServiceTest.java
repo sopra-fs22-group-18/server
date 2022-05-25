@@ -16,7 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SessionServiceTest {
 
@@ -117,6 +118,27 @@ public class SessionServiceTest {
      assertEquals(testSession.getParticipants(), joinedSession.getParticipants());
 
     }
+
+  @Test
+  public void joinSessionByIdentifier_invalidIdentifier() {
+     String testIdentifier = "123123";
+     Mockito.when(sessionRepository.findBySessionStatusAndIdentifier(SessionStatus.CREATED, testIdentifier)).thenReturn(null);
+
+     Throwable thrown = assertThrows(ResponseStatusException.class, () -> sessionService.joinSessionByIdentifier(participant.getUserId(), testIdentifier));
+     assertEquals("404 NOT_FOUND \"Session not found\"", thrown.getMessage());
+    }
+
+  @Test
+  public void joinSessionByIdentifier_invalidParticipant() {
+      String testIdentifier = "123123";
+      Mockito.when(sessionRepository.findBySessionStatusAndIdentifier(SessionStatus.CREATED, testIdentifier)).thenReturn(testSession);
+
+      participant.setUserId(5L);
+      Mockito.when(userRepository.findByUserId(5L)).thenReturn(null);
+
+      Throwable thrown = assertThrows(ResponseStatusException.class, () -> sessionService.joinSessionByIdentifier(participant.getUserId(), testIdentifier));
+      assertEquals("404 NOT_FOUND \"User with id 5 was not found\"", thrown.getMessage());
+    }
     
   @Test
   public void joinSession_invalid_userId() {
@@ -173,6 +195,21 @@ public class SessionServiceTest {
   }
 
   @Test
+  public void getAllSessions_valid() {
+
+        // make sure the sessionRepository returns the testSession
+        List<Session> testAllSessions = new ArrayList<Session>();
+        testAllSessions.add(testSession);
+        Mockito.when(sessionRepository.findAllBySessionStatus(SessionStatus.CREATED)).thenReturn(testAllSessions);
+        Mockito.when(sessionRepository.findAllBySessionStatus(SessionStatus.FINISHED)).thenReturn(null);
+        Mockito.when(sessionRepository.findAllBySessionStatus(SessionStatus.ONGOING)).thenReturn(null);
+
+        List<Session> returnedSessions = sessionService.getActiveSessions();
+
+        assertEquals(testAllSessions, returnedSessions);
+    }
+
+  @Test
   public void getOneSession_valid() {
 
       Session returnedSession = sessionService.getSession(testSession.getSessionId());
@@ -186,4 +223,13 @@ public class SessionServiceTest {
       SessionStatus returnedStatus = sessionService.checkSessionStatus(3L);
       assertEquals(SessionStatus.CREATED, returnedStatus);
   }
+
+  @Test
+  public void checkSessionStatus_invalidInput() {
+      testSession.setSessionId(6L);
+      Mockito.when(sessionRepository.findBySessionId(6L)).thenReturn(null);
+      Throwable thrown = assertThrows(ResponseStatusException.class, () -> sessionService.checkSessionStatus(6L));
+      assertEquals("404 NOT_FOUND \"Session with id 6 was not found\"", thrown.getMessage());
+  }
+
 }
