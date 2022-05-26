@@ -55,7 +55,7 @@ public class SessionController {
   @PostMapping("/sessions")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-      public SessionGetDTO createSession(@RequestBody SessionPostDTO sessionPostDTO) {
+  public SessionGetDTO createSession(@RequestBody SessionPostDTO sessionPostDTO) {
       // convert API session to internal representation
     Session sessionInput = SessionDTOMapper.INSTANCE.convertSessionPostDTOtoEntity(sessionPostDTO);
 

@@ -90,7 +90,7 @@ public class ReportServiceTest {
         testReport.setReportId(7L);
         testReport.setSession(testSession);
         testReport.setUser(participant);
-        testReport.setReason(ReportReason.THREAT);
+        testReport.setReason(ReportReason.Threat);
         testReport.setDescription("This is a test report");
 
         Mockito.when(reportRepository.save(Mockito.any())).thenReturn(testReport);

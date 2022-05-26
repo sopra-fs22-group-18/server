@@ -90,12 +90,12 @@ class CommentControllerTest {
         commentPostDTO.setSession(session);
 
         report.setReportId(1L);
-        report.setReason(ReportReason.THREAT);
+        report.setReason(ReportReason.Threat);
         report.setSession(session);
         report.setUser(participant1);
         report.setDescription("The user participant2 threated me");
 
-        reportPostDTO.setReason(ReportReason.THREAT);
+        reportPostDTO.setReason(ReportReason.Threat);
         reportPostDTO.setUser(participant1);
         reportPostDTO.setSession(session);
         reportPostDTO.setDescription("The user participant2 threated me");

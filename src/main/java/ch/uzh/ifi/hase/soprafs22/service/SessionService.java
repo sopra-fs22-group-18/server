@@ -17,8 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 
@@ -53,12 +51,8 @@ public class SessionService {
 
 
   public List<Session> getAllSessions() {
-    List<Session> activeSessions = this.sessionRepository.findAllBySessionStatus(SessionStatus.CREATED);
-    List<Session> finished = this.sessionRepository.findAllBySessionStatus(SessionStatus.FINISHED);
-    List<Session> ongoing = this.sessionRepository.findAllBySessionStatus(SessionStatus.ONGOING);
-    List<Session> newList = Stream.concat(activeSessions.stream(), finished.stream()).collect(Collectors.toList());
-    List<Session> newList2 = Stream.concat(newList.stream(), ongoing.stream()).collect(Collectors.toList());
-    return newList2;
+    List<Session> allSessions = this.sessionRepository.findAll();
+    return allSessions;
 }
 
 
@@ -67,7 +61,6 @@ public class SessionService {
     newSession.setSessionStatus(SessionStatus.CREATED);
     newSession.setCreatedDate(new Date());
 
-
     // create identifier
     newSession.setIdentifier(createRandomNumberString());
 
@@ -75,12 +68,10 @@ public class SessionService {
     String baseErrorMessage = "Host with id %x was not found";
     Long hostId = newSession.getHost().getUserId();
 
-
     User host = userRepository.findByUserId(hostId);
     if(host == null) {
         throw  new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage,hostId));
     }
-
 
     // set host to user
     newSession.setHost(host);
