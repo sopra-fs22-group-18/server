@@ -15,6 +15,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,11 +139,10 @@ public class UserServiceTest {
 
     assertThrows(ResponseStatusException.class, () -> userService.checkAuthorization(testDTOUser, 2L));
   }
-  /* 
+  
   @Test
   public void updateUserEverythingSuccess() {
     Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
-    Mockito.when(userService.getUser(Mockito.anyLong())).thenReturn(testUser);
 
     User updatedUser = new User();
 
@@ -150,10 +151,36 @@ public class UserServiceTest {
     updatedUser.setPassword("testUpPassword");
     updatedUser.setBio("testUpBio");
     updatedUser.setName("testUpName");
+    updatedUser.setUserId(1L);
 
     User updatedTestUser = userService.updateUser(updatedUser);
     assertEquals(updatedUser.getAvatarUrl(), updatedTestUser.getAvatarUrl());
-  } */
+    assertEquals(updatedUser.getUsername(), updatedTestUser.getUsername());
+    assertEquals(updatedUser.getPassword(), updatedTestUser.getPassword());
+    assertEquals(updatedUser.getBio(), updatedTestUser.getBio());
+    assertEquals(updatedUser.getName(), updatedTestUser.getName());
+  } 
+
+  @Test
+  public void updateUserEverythingFailureBlank() {
+    Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
+
+    User updatedUser = new User();
+
+    updatedUser.setAvatarUrl("");
+    updatedUser.setUsername("");
+    updatedUser.setPassword("");
+    updatedUser.setBio("");
+    updatedUser.setName("");
+    updatedUser.setUserId(1L);
+
+    User updatedTestUser = userService.updateUser(updatedUser);
+    assertEquals(updatedUser.getAvatarUrl(), updatedTestUser.getAvatarUrl());
+    assertEquals(updatedUser.getUsername(), updatedTestUser.getUsername());
+    assertEquals(updatedUser.getPassword(), updatedTestUser.getPassword());
+    assertEquals(updatedUser.getBio(), updatedTestUser.getBio());
+    assertEquals(updatedUser.getName(), updatedTestUser.getName());
+  } 
 
   @Test
   public void updateUserNotFound() {
