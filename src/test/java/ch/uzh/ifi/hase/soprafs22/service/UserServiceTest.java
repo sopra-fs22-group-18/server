@@ -165,6 +165,10 @@ public class UserServiceTest {
   public void updateUserEverythingFailureBlank() {
     Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
 
+    testUser.setAvatarUrl("testAv");
+    testUser.setBio("testBio");
+    testUser.setName("testName");
+
     User updatedUser = new User();
 
     updatedUser.setAvatarUrl("");
@@ -175,11 +179,11 @@ public class UserServiceTest {
     updatedUser.setUserId(1L);
 
     User updatedTestUser = userService.updateUser(updatedUser);
-    assertEquals(updatedUser.getAvatarUrl(), updatedTestUser.getAvatarUrl());
-    assertEquals(updatedUser.getUsername(), updatedTestUser.getUsername());
-    assertEquals(updatedUser.getPassword(), updatedTestUser.getPassword());
-    assertEquals(updatedUser.getBio(), updatedTestUser.getBio());
-    assertEquals(updatedUser.getName(), updatedTestUser.getName());
+    assertEquals(testUser.getAvatarUrl(), updatedTestUser.getAvatarUrl());
+    assertEquals(testUser.getUsername(), updatedTestUser.getUsername());
+    assertEquals(testUser.getPassword(), updatedTestUser.getPassword());
+    assertEquals(testUser.getBio(), updatedTestUser.getBio());
+    assertEquals(testUser.getName(), updatedTestUser.getName());
   } 
 
   @Test
