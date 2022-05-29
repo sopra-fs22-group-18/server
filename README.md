@@ -12,9 +12,9 @@ The host will decide at the end of the session which participant wins the game.
 - JSX, npm and React
 - HTTP/Rest
 - gradle, spring, java and mysql
+- github, sonarqube and heroku
 
 ## High-level components
-
 
 
 ## Launch & Deployment
