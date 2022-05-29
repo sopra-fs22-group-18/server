@@ -3,8 +3,13 @@
 ## Introduction
 
 ## Technologies
+- JSX, npm and React
+- HTTP/Rest
+- gradle, spring, java and mysql
 
 ## High-level components
+
+
 
 ## Launch & Deployment
 
