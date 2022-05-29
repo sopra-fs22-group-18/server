@@ -9,7 +9,6 @@ Other users can then join the roasting session as participants, and comment on t
 The host will decide at the end of the session which participant wins the game.
 
 ## Technologies
-- JSX, npm and React
 - HTTP/Rest
 - gradle, spring, java and mysql
 - github, sonarqube and heroku
